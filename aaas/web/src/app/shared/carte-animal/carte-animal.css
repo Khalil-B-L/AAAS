@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.carte {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--rounded-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Dégradé de remplacement tant que la photo charge ou manque (jamais décoratif). */
+.photo {
+  height: var(--size-card-photo);
+  background: linear-gradient(
+    135deg,
+    var(--color-photo-placeholder-start),
+    var(--color-photo-placeholder-end)
+  );
+}
+
+.photo-reserve {
+  filter: var(--filter-photo-reserve);
+}
+
+.photo-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carte-pastille {
+  position: absolute;
+  top: var(--spacing-2);
+  left: var(--spacing-2);
+}
+
+.infos {
+  padding: var(--spacing-3) var(--spacing-4) var(--spacing-4);
+}
+
+.nom {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+  line-height: var(--line-height-title-message);
+}
+
+.meta {
+  margin: var(--spacing-1) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-caption);
+  line-height: var(--line-height-caption);
+}
+
+@media (min-width: 1024px) {
+  .photo {
+    height: var(--size-card-photo-desktop);
+  }
+}

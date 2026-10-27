@@ -31,7 +31,20 @@
 
 <section class="pensionnaires" aria-labelledby="titre-pensionnaires">
   <h2 class="titre-section" id="titre-pensionnaires">Nos derniers pensionnaires</h2>
-  <!-- Emplacement : grille des 4 derniers animaux (epic 2, GET /api/animaux?limite=4). -->
+  @if (pensionnaires(); as pensionnaires) {
+    @if (pensionnaires.length > 0) {
+      <ul class="grille-animaux">
+        @for (animal of pensionnaires; track animal.id) {
+          <li><app-carte-animal [animal]="animal" /></li>
+        }
+      </ul>
+    } @else {
+      <p class="etat-vide">
+        Tous nos protégés ont trouvé une famille pour l'instant !
+        <a routerLink="/ils-ont-trouve-une-famille">Ils ont trouvé une famille</a>
+      </p>
+    }
+  }
   <div class="voir-tous">
     <a class="bouton-pilule bouton-contour" routerLink="/adopter">Voir tous les animaux →</a>
   </div>

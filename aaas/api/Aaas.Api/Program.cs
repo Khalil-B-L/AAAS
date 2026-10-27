@@ -3,6 +3,7 @@ using Aaas.Api.Common.Data;
 using Aaas.Api.Common.Email;
 using Aaas.Api.Common.Json;
 using Aaas.Api.Data;
+using Aaas.Api.Features.Animaux;
 using Aaas.Api.Features.Auth;
 using Aaas.Api.Features.Site;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,7 @@ app.UseAuthorization();
 
 app.MapSiteEndpoints();
 app.MapAuthEndpoints();
+app.MapAnimauxEndpoints();
 
 // En dernier : toute autre route sous /api → 404 { error }.
 app.MapApiFallback();

@@ -1,0 +1,24 @@
+:host {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--rounded-full);
+  font-size: var(--font-size-badge);
+  font-weight: var(--font-weight-badge);
+  line-height: var(--line-height-caption);
+  white-space: nowrap;
+}
+
+:host(.pastille-Disponible) {
+  background: var(--color-success);
+  color: var(--color-on-primary);
+}
+
+:host(.pastille-Reserve) {
+  background: var(--color-warning);
+  color: var(--color-on-primary);
+}
+
+:host(.pastille-Adopte) {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}

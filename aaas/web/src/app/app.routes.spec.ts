@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Router, provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { routes } from './app.routes';
+import { collection } from './testing/animaux';
 import { connecterEnTantQue } from './testing/session';
 
 describe('routes (contrats-api.md §7)', () => {
@@ -24,6 +25,8 @@ describe('routes (contrats-api.md §7)', () => {
   });
 
   afterEach(() => {
+    // L'accueil charge ses derniers pensionnaires : réponse vide pour toute navigation qui y mène.
+    http.match('/api/animaux?limite=4').forEach((requete) => requete.flush(collection([])));
     http.verify();
     localStorage.clear();
   });

@@ -113,6 +113,10 @@
   --size-paw: 52px;
   --size-paw-desktop: 100px;
   --size-social: var(--tap-min);
+  /* Carte animal (DESIGN.md § Carte animal) : hauteur de photo, désaturation d'un animal Réservé */
+  --size-card-photo: 128px;
+  --size-card-photo-desktop: 220px;
+  --filter-photo-reserve: saturate(65%);
   --width-band-buttons: 440px;
   --width-rule: 2px;
   --width-nav-rule: 4px;

@@ -1,0 +1,12 @@
+<a class="carte" [routerLink]="['/animaux', animal().id]">
+  <div class="photo" [class.photo-reserve]="animal().statut === 'Reserve'">
+    @if (animal().photoPrincipaleUrl; as url) {
+      <img class="photo-image" [src]="url" alt="" loading="lazy" />
+    }
+  </div>
+  <app-pastille-statut class="carte-pastille" [statut]="animal().statut" />
+  <div class="infos">
+    <h3 class="nom">{{ animal().nom }}</h3>
+    <p class="meta">{{ meta() }}</p>
+  </div>
+</a>
