@@ -45,6 +45,9 @@ using (var scope = app.Services.CreateScope())
 // Compte admin créé ou mis à jour depuis la configuration, après les migrations.
 await SeedAdmin.ExecuterAsync(app.Services);
 
+// Animaux de démonstration : Development seulement, et seulement si aucun animal n'existe.
+await DemoAnimaux.ExecuterAsync(app.Services);
+
 // Format d'erreur unique (AD-10) : en tête du pipeline.
 app.UseApiErrors();
 
