@@ -1,0 +1,63 @@
+<footer class="pied">
+  <div class="identite">
+    <img class="logo pied-logo" src="logo-aaas.jpg" alt="" width="70" height="70" />
+    <div>
+      <p class="nom">AAAS · Cap Bon (Nabeul)</p>
+      @if (site()?.telephone; as telephone) {
+        <a class="lien-telephone" [href]="'tel:' + telephone"
+          ><span aria-hidden="true">📞 </span
+          ><span class="telephone">{{ telephone | telephone }}</span></a
+        >
+      }
+    </div>
+  </div>
+
+  @if (site(); as site) {
+    @if (site.facebook || site.instagram) {
+      <ul class="reseaux">
+        @if (site.facebook) {
+          <li>
+            <a
+              class="reseau"
+              [href]="site.facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              ><span class="glyphe-facebook" aria-hidden="true">f</span></a
+            >
+          </li>
+        }
+        @if (site.instagram) {
+          <li>
+            <a
+              class="reseau"
+              [href]="site.instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              ><span class="glyphe-instagram" aria-hidden="true"></span
+            ></a>
+          </li>
+        }
+      </ul>
+    }
+  }
+
+  <nav class="aide" aria-label="Nous aider et contact">
+    <ul class="pilules">
+      <li><a class="bouton-pilule bouton-accent" routerLink="/nous-aider/dons">Dons</a></li>
+      <li>
+        <a class="bouton-pilule contour-blanc" routerLink="/nous-aider/benevolat">Bénévolat</a>
+      </li>
+      <li>
+        <a class="bouton-pilule contour-blanc" routerLink="/nous-aider/famille-accueil"
+          >Famille d'accueil</a
+        >
+      </li>
+      <li><a class="bouton-pilule contour-blanc" routerLink="/contact">Contact</a></li>
+    </ul>
+    <a class="lien-adoptes" routerLink="/ils-ont-trouve-une-famille">Ils ont trouvé une famille</a>
+  </nav>
+
+  <p class="mention">Association d'amitié et d'action sociale</p>
+</footer>

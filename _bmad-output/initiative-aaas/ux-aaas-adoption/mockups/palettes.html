@@ -1,0 +1,379 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Palettes AAAS</title>
+<style>
+/* 1 · Fidèle au logo — CLAIR
+   primary     #2E7D32
+   on-primary  #FFFFFF
+   accent      #F08A1C
+   on-accent   #2A1700
+   background  #FFFFFF
+   surface     #F5F9F3
+   text        #1E2A1C
+   text-muted  #55624F
+   border      #D5DECF
+   success     #2E7D32
+   warning     #B45309
+   info        #5B6770
+   danger      #C62828
+*/
+.v1-light{--primary:#2E7D32;--on-primary:#FFFFFF;--accent:#F08A1C;--on-accent:#2A1700;--background:#FFFFFF;--surface:#F5F9F3;--text:#1E2A1C;--text-muted:#55624F;--border:#D5DECF;--success:#2E7D32;--warning:#B45309;--info:#5B6770;--danger:#C62828;--paw:#3FA535;--ph1:#F9C98F;--ph2:#BFE3B4;}
+/* 1 · Fidèle au logo — SOMBRE
+   primary     #6CC463
+   on-primary  #0E1A0C
+   accent      #F5A04A
+   on-accent   #2A1700
+   background  #121812
+   surface     #1C241B
+   text        #E8EFE6
+   text-muted  #A9B5A6
+   border      #2F3B2D
+   success     #7FD173
+   warning     #F5B158
+   info        #A4B0B8
+   danger      #F28B82
+*/
+.v1-dark{--primary:#6CC463;--on-primary:#0E1A0C;--accent:#F5A04A;--on-accent:#2A1700;--background:#121812;--surface:#1C241B;--text:#E8EFE6;--text-muted:#A9B5A6;--border:#2F3B2D;--success:#7FD173;--warning:#F5B158;--info:#A4B0B8;--danger:#F28B82;--paw:#6CC463;--ph1:#5A3A16;--ph2:#24452A;}
+/* 2 · Orange chaleureux — CLAIR
+   primary     #B34D0A
+   on-primary  #FFFFFF
+   accent      #2F7D27
+   on-accent   #FFFFFF
+   background  #FFFBF6
+   surface     #FFFFFF
+   text        #2B1A0E
+   text-muted  #6B5545
+   border      #F0DCC8
+   success     #2F7D27
+   warning     #9A6700
+   info        #5F6B75
+   danger      #B42318
+*/
+.v2-light{--primary:#B34D0A;--on-primary:#FFFFFF;--accent:#2F7D27;--on-accent:#FFFFFF;--background:#FFFBF6;--surface:#FFFFFF;--text:#2B1A0E;--text-muted:#6B5545;--border:#F0DCC8;--success:#2F7D27;--warning:#9A6700;--info:#5F6B75;--danger:#B42318;--paw:#F08A1C;--ph1:#FFD2A8;--ph2:#FFE9B8;}
+/* 2 · Orange chaleureux — SOMBRE
+   primary     #FF9A4D
+   on-primary  #2A1200
+   accent      #7CCB6F
+   on-accent   #0F230B
+   background  #1A130E
+   surface     #261C15
+   text        #F6ECE3
+   text-muted  #C2AE9E
+   border      #3D2F24
+   success     #7CCB6F
+   warning     #F2C14E
+   info        #AEB8C0
+   danger      #FF8A80
+*/
+.v2-dark{--primary:#FF9A4D;--on-primary:#2A1200;--accent:#7CCB6F;--on-accent:#0F230B;--background:#1A130E;--surface:#261C15;--text:#F6ECE3;--text-muted:#C2AE9E;--border:#3D2F24;--success:#7CCB6F;--warning:#F2C14E;--info:#AEB8C0;--danger:#FF8A80;--paw:#FF9A4D;--ph1:#5C3214;--ph2:#4A3A12;}
+/* 3 · Doux et naturel — CLAIR
+   primary     #557552
+   on-primary  #FFFFFF
+   accent      #F2B48A
+   on-accent   #3A2516
+   background  #FBF7EF
+   surface     #FFFDF8
+   text        #33362F
+   text-muted  #64665B
+   border      #E7DFCF
+   success     #557552
+   warning     #9A5A24
+   info        #6B7278
+   danger      #A93C39
+*/
+.v3-light{--primary:#557552;--on-primary:#FFFFFF;--accent:#F2B48A;--on-accent:#3A2516;--background:#FBF7EF;--surface:#FFFDF8;--text:#33362F;--text-muted:#64665B;--border:#E7DFCF;--success:#557552;--warning:#9A5A24;--info:#6B7278;--danger:#A93C39;--paw:#9FB89A;--ph1:#F7D9C2;--ph2:#D9E6D3;}
+/* 3 · Doux et naturel — SOMBRE
+   primary     #A9C4A2
+   on-primary  #1B2419
+   accent      #E8A97F
+   on-accent   #2E1B0E
+   background  #1D1F1A
+   surface     #262922
+   text        #EDE9DF
+   text-muted  #B3B0A3
+   border      #3A3D34
+   success     #A9C4A2
+   warning     #E8B07F
+   info        #AFB5BA
+   danger      #E79A92
+*/
+.v3-dark{--primary:#A9C4A2;--on-primary:#1B2419;--accent:#E8A97F;--on-accent:#2E1B0E;--background:#1D1F1A;--surface:#262922;--text:#EDE9DF;--text-muted:#B3B0A3;--border:#3A3D34;--success:#A9C4A2;--warning:#E8B07F;--info:#AFB5BA;--danger:#E79A92;--paw:#A9C4A2;--ph1:#4A3628;--ph2:#33402F;}
+/* 4 · Contrasté moderne — CLAIR
+   primary     #0F5A2A
+   on-primary  #FFFFFF
+   accent      #FF7A00
+   on-accent   #111111
+   background  #FFFFFF
+   surface     #FFFFFF
+   text        #0B0F0C
+   text-muted  #4A524C
+   border      #E2E5E3
+   success     #127A3A
+   warning     #B54708
+   info        #475467
+   danger      #C4231A
+*/
+.v4-light{--primary:#0F5A2A;--on-primary:#FFFFFF;--accent:#FF7A00;--on-accent:#111111;--background:#FFFFFF;--surface:#FFFFFF;--text:#0B0F0C;--text-muted:#4A524C;--border:#E2E5E3;--success:#127A3A;--warning:#B54708;--info:#475467;--danger:#C4231A;--paw:#0F5A2A;--ph1:#FFC48A;--ph2:#A9D9B8;}
+/* 4 · Contrasté moderne — SOMBRE
+   primary     #34C26A
+   on-primary  #04140A
+   accent      #FF8A1F
+   on-accent   #111111
+   background  #0A0D0B
+   surface     #141916
+   text        #F5F7F5
+   text-muted  #A3ACA6
+   border      #27302A
+   success     #4ADE80
+   warning     #FDBA74
+   info        #98A2B3
+   danger      #F97066
+*/
+.v4-dark{--primary:#34C26A;--on-primary:#04140A;--accent:#FF8A1F;--on-accent:#111111;--background:#0A0D0B;--surface:#141916;--text:#F5F7F5;--text-muted:#A3ACA6;--border:#27302A;--success:#4ADE80;--warning:#FDBA74;--info:#98A2B3;--danger:#F97066;--paw:#34C26A;--ph1:#5C2F00;--ph2:#0F3A1F;}
+/* 5 · Méditerranéen (Cap Bon) — CLAIR
+   primary     #5B6B2E
+   on-primary  #FFFFFF
+   accent      #B5532A
+   on-accent   #FFFFFF
+   background  #F7F0E3
+   surface     #FFFBF4
+   text        #2E2A1F
+   text-muted  #665E4B
+   border      #E4D7BE
+   success     #5B6B2E
+   warning     #9A5F0E
+   info        #6A6F74
+   danger      #A3312A
+*/
+.v5-light{--primary:#5B6B2E;--on-primary:#FFFFFF;--accent:#B5532A;--on-accent:#FFFFFF;--background:#F7F0E3;--surface:#FFFBF4;--text:#2E2A1F;--text-muted:#665E4B;--border:#E4D7BE;--success:#5B6B2E;--warning:#9A5F0E;--info:#6A6F74;--danger:#A3312A;--paw:#C9A97A;--ph1:#E9B48F;--ph2:#E9DCC2;}
+/* 5 · Méditerranéen (Cap Bon) — SOMBRE
+   primary     #B5C27A
+   on-primary  #1C2010
+   accent      #E08A5E
+   on-accent   #2A130A
+   background  #1C1A14
+   surface     #27241C
+   text        #F1EADB
+   text-muted  #BDB39D
+   border      #3D382B
+   success     #B5C27A
+   warning     #E7B562
+   info        #B0B4B8
+   danger      #EE8F84
+*/
+.v5-dark{--primary:#B5C27A;--on-primary:#1C2010;--accent:#E08A5E;--on-accent:#2A130A;--background:#1C1A14;--surface:#27241C;--text:#F1EADB;--text-muted:#BDB39D;--border:#3D382B;--success:#B5C27A;--warning:#E7B562;--info:#B0B4B8;--danger:#EE8F84;--paw:#B5C27A;--ph1:#5A3020;--ph2:#4A4230;}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#ECEDEA;color:#1B1D1A}
+header.top{padding:28px 24px 8px;max-width:1500px;margin:0 auto}
+header.top h1{margin:0 0 6px;font-size:26px}
+header.top p{margin:0;color:#4A4D47;max-width:900px;line-height:1.5}
+section.var{max-width:1500px;margin:24px auto;padding:20px;background:#FFFFFF;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+section.var h2{margin:0;font-size:21px}
+section.var .reg{margin:4px 0 16px;color:#4A4D47;font-style:italic}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:1000px){.pair{grid-template-columns:1fr}}
+.pane{background:var(--background);color:var(--text);border:1px solid var(--border);border-radius:14px;padding:14px;overflow:hidden}
+.mode{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:10px}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-bottom:14px}
+.chip{display:flex;gap:8px;align-items:center;font-size:11.5px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 7px}
+.chip .sw{width:26px;height:26px;border-radius:6px;flex:none;border:1px solid rgba(127,127,127,.35)}
+.chip b{display:block;font-weight:600;color:var(--text)}
+.chip code{font-family:ui-monospace,Consolas,monospace;color:var(--text-muted)}
+.ui{border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--primary);color:var(--on-primary);padding:10px 14px}
+nav a{color:var(--on-primary);text-decoration:none;font-size:13.5px;font-weight:600;padding:4px 7px;border-radius:999px;opacity:.95}
+nav a.on{border-bottom:2px solid var(--on-primary);border-radius:0}
+nav .logo{font-weight:800;letter-spacing:.06em;display:flex;align-items:center;gap:3px;margin-right:6px}
+nav .dot{width:11px;height:11px;border-radius:50%;display:inline-block;border:1.5px solid var(--on-primary)}
+nav .dot.g{background:#3FA535}nav .dot.o{background:#F08A1C;margin-right:5px}
+nav .links{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+nav .login{background:var(--accent);color:var(--on-accent);padding:6px 12px;border-radius:999px}
+.content{position:relative;background:var(--background);padding:18px 16px 16px}
+.pawmark{position:absolute;font-size:60px;opacity:.10;color:var(--paw);pointer-events:none;filter:grayscale(0)}
+.pawmark.p1{top:4px;right:18px;transform:rotate(18deg)}.pawmark.p2{bottom:40px;left:-6px;transform:rotate(-20deg)}
+h3.sect{display:flex;align-items:center;gap:12px;margin:0 0 4px;font-size:19px;color:var(--primary);text-align:center}
+h3.sect::before,h3.sect::after{content:"";flex:1;height:2px;background:var(--primary);opacity:.6}
+.intro{text-align:center;margin:0 0 14px;color:var(--text-muted);font-size:13px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.10)}
+.photo{height:110px;display:flex;align-items:center;justify-content:center;font-size:52px;background:linear-gradient(135deg,var(--ph1),var(--ph2))}
+.cbody{padding:10px 12px 12px}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.card h4{margin:0;font-size:17px;color:var(--text)}
+.meta{margin:2px 0 10px;font-size:12.5px;color:var(--text-muted)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;border:1.5px solid currentColor;background:var(--surface)}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-ok{color:var(--success)}.s-warn{color:var(--warning)}.s-info{color:var(--info)}.s-danger{color:var(--danger)}
+.btn{display:block;text-align:center;font-weight:700;font-size:13px;padding:8px 10px;border-radius:999px;background:var(--accent);color:var(--on-accent);text-decoration:none;border:2px solid var(--accent)}
+.btn-ghost{background:transparent;color:var(--primary);border-color:var(--primary)}
+.btn-sec{display:inline-block;background:var(--primary);color:var(--on-primary);border-color:var(--primary);margin-left:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px;padding:8px 10px;background:var(--surface);border:1px dashed var(--border);border-radius:10px}
+.legend .badge{background:var(--background)}
+@media (max-width:560px){.cards{grid-template-columns:1fr}}
+</style></head><body>
+<header class="top"><h1>AAAS — 5 palettes issues du logo</h1><p>Toutes dérivent du vert (#3FA535) et de l'orange (#F08A1C) des deux mains du logo. Chaque variation change de registre, pas seulement de teinte. Clair et sombre côte à côte ; textes vérifiés au contraste AA (≥ 4,5:1). Les valeurs hexadécimales sont aussi en commentaires dans le &lt;style&gt;.</p></header>
+<section class="var"><h2>1 · Fidèle au logo</h2><p class="reg">Rassurant et institutionnel : le vert des mains guide, l’orange sourit aux bons endroits.</p><div class="pair"><div class="pane v1-light">
+  <div class="mode">Mode clair</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#2E7D32</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#F08A1C</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#2A1700</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#F5F9F3</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#1E2A1C</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#55624F</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#D5DECF</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#2E7D32</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#B45309</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#5B6770</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#C62828</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div><div class="pane v1-dark">
+  <div class="mode">Mode sombre</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#6CC463</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#0E1A0C</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#F5A04A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#2A1700</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#121812</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#1C241B</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#E8EFE6</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#A9B5A6</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#2F3B2D</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#7FD173</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#F5B158</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#A4B0B8</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#F28B82</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div></div></section>
+<section class="var"><h2>2 · Orange chaleureux</h2><p class="reg">Accueillant et énergique : le foyer, la chaleur d’un panier au soleil ; le vert stabilise.</p><div class="pair"><div class="pane v2-light">
+  <div class="mode">Mode clair</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#B34D0A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#2F7D27</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#FFFBF6</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#2B1A0E</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#6B5545</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#F0DCC8</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#2F7D27</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#9A6700</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#5F6B75</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#B42318</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div><div class="pane v2-dark">
+  <div class="mode">Mode sombre</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#FF9A4D</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#2A1200</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#7CCB6F</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#0F230B</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#1A130E</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#261C15</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#F6ECE3</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#C2AE9E</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#3D2F24</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#7CCB6F</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#F2C14E</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#AEB8C0</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#FF8A80</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div></div></section>
+<section class="var"><h2>3 · Doux et naturel</h2><p class="reg">Apaisé et tendre : vert sauge, pêche atténuée, fond crème — on prend le temps de faire connaissance.</p><div class="pair"><div class="pane v3-light">
+  <div class="mode">Mode clair</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#557552</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#F2B48A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#3A2516</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#FBF7EF</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#FFFDF8</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#33362F</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#64665B</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#E7DFCF</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#557552</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#9A5A24</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#6B7278</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#A93C39</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div><div class="pane v3-dark">
+  <div class="mode">Mode sombre</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#A9C4A2</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#1B2419</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#E8A97F</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#2E1B0E</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#1D1F1A</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#262922</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#EDE9DF</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#B3B0A3</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#3A3D34</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#A9C4A2</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#E8B07F</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#AFB5BA</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#E79A92</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div></div></section>
+<section class="var"><h2>4 · Contrasté moderne</h2><p class="reg">Net et affirmé : vert profond, orange vif, beaucoup de blanc — direct, lisible, efficace.</p><div class="pair"><div class="pane v4-light">
+  <div class="mode">Mode clair</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#0F5A2A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#FF7A00</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#111111</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#0B0F0C</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#4A524C</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#E2E5E3</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#127A3A</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#B54708</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#475467</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#C4231A</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div><div class="pane v4-dark">
+  <div class="mode">Mode sombre</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#34C26A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#04140A</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#FF8A1F</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#111111</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#0A0D0B</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#141916</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#F5F7F5</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#A3ACA6</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#27302A</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#4ADE80</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#FDBA74</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#98A2B3</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#F97066</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div></div></section>
+<section class="var"><h2>5 · Méditerranéen (Cap Bon)</h2><p class="reg">Solaire et enraciné : olive, terre cuite de Nabeul et sable chaud — l’association chez elle.</p><div class="pair"><div class="pane v5-light">
+  <div class="mode">Mode clair</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#5B6B2E</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#B5532A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#FFFFFF</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#F7F0E3</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#FFFBF4</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#2E2A1F</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#665E4B</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#E4D7BE</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#5B6B2E</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#9A5F0E</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#6A6F74</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#A3312A</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div><div class="pane v5-dark">
+  <div class="mode">Mode sombre</div>
+  <div class="chips"><div class="chip"><span class="sw" style="background:var(--primary)"></span><span><b>primary</b><code>#B5C27A</code></span></div><div class="chip"><span class="sw" style="background:var(--on-primary)"></span><span><b>on-primary</b><code>#1C2010</code></span></div><div class="chip"><span class="sw" style="background:var(--accent)"></span><span><b>secondary / accent</b><code>#E08A5E</code></span></div><div class="chip"><span class="sw" style="background:var(--on-accent)"></span><span><b>on-accent</b><code>#2A130A</code></span></div><div class="chip"><span class="sw" style="background:var(--background)"></span><span><b>background</b><code>#1C1A14</code></span></div><div class="chip"><span class="sw" style="background:var(--surface)"></span><span><b>surface</b><code>#27241C</code></span></div><div class="chip"><span class="sw" style="background:var(--text)"></span><span><b>text</b><code>#F1EADB</code></span></div><div class="chip"><span class="sw" style="background:var(--text-muted)"></span><span><b>text-muted</b><code>#BDB39D</code></span></div><div class="chip"><span class="sw" style="background:var(--border)"></span><span><b>border</b><code>#3D382B</code></span></div><div class="chip"><span class="sw" style="background:var(--success)"></span><span><b>success · Disponible</b><code>#B5C27A</code></span></div><div class="chip"><span class="sw" style="background:var(--warning)"></span><span><b>warning · Réservé</b><code>#E7B562</code></span></div><div class="chip"><span class="sw" style="background:var(--info)"></span><span><b>info · Adopté</b><code>#B0B4B8</code></span></div><div class="chip"><span class="sw" style="background:var(--danger)"></span><span><b>danger</b><code>#EE8F84</code></span></div></div>
+  <div class="ui">
+    <nav><span class="logo"><span class="dot g"></span><span class="dot o"></span>A.A.A.S</span><span class="links"><a class="on">Accueil</a><a>Adopter</a><a>Actualités</a><a>Nous aider</a><a>Contact</a></span><a class="login">Connexion</a></nav>
+    <div class="content">
+      <span class="pawmark p1">🐾</span><span class="pawmark p2">🐾</span>
+      <h3 class="sect"><span>Chats à l'adoption</span></h3>
+      <p class="intro">Ils attendent une famille au Cap Bon (Nabeul).</p>
+      <div class="cards">
+        <article class="card"><div class="photo">🐱</div><div class="cbody"><div class="crow"><h4>Caramel</h4><span class="badge s-ok">Disponible</span></div><p class="meta">Chat · 2 ans · Femelle</p><a class="btn ">Miaou ! Je veux l’adopter</a></div></article>
+        <article class="card"><div class="photo">🐈</div><div class="cbody"><div class="crow"><h4>Pistache</h4><span class="badge s-warn">Réservé</span></div><p class="meta">Chat · 8 mois · Mâle</p><a class="btn btn-ghost">Voir sa fiche</a></div></article>
+      </div>
+      <div class="legend"><span class="badge s-ok">Disponible</span><span class="badge s-warn">Réservé</span><span class="badge s-info">Adopté</span><span class="badge s-danger">Soins urgents</span><a class="btn btn-sec">Wouf ! Voir les chiens</a></div>
+    </div>
+  </div>
+</div></div></section>
+</body></html>

@@ -1,0 +1,81 @@
+# tickets.toml — stories de l'epic « Socle et comptes », dans l'ordre de build.
+
+[[entry]]
+id = 1
+type = "story"
+title = "Squelette API, web et tests de bout en bout"
+description = "Crée aaas/api (Aaas.Api + Aaas.Api.Tests xunit.v3) et aaas/web (ng new 22), le proxy, un AppDbContext vide avec migration appliquée au démarrage, TimeProvider en DI, GET /api/site lu depuis la config (placeholders marqués) et core/SiteService affichant le numéro dans un pied de page minimal ; harnais de tests (WebApplicationFactory, LocalDB jetable, environnement Testing, FakeTimeProvider) et Vitest."
+verify = "ng serve affiche le numéro venu de /api/site via le proxy ; dotnet test et ng test passent sur une base LocalDB jetable."
+covers = ["E1"]
+after = []
+hitl = true
+risk = "medium"
+references = ["architecture-aaas-adoption/architecture-aaas-adoption.md#stack", "architecture-aaas-adoption/architecture-aaas-adoption.md#structural-seed"]
+notes = []
+
+[[entry]]
+id = 2
+type = "story"
+title = "Briques communes backend"
+description = "Ajoute ICommandHandler/IQueryHandler avec enregistrement DI, Result<T> et ToHttpResult, ApiErrors avec MapFallback 404 et 500 du gestionnaire d'exceptions, TransactionRunner, conventions DateTimeOffset UTC, convertisseur JSON Z, JsonStringEnumConverter global et Common/LiensFront."
+verify = "Tests d'intégration : format d'erreur 404 et 500, suffixe Z et énumération en texte prouvés via un endpoint déclaré uniquement dans la factory de tests."
+covers = ["E1"]
+after = [1]
+hitl = false
+risk = "low"
+
+[[entry]]
+id = 3
+type = "story"
+title = "Comptes côté API"
+description = "Ajoute l'entité User (téléphone E.164 obligatoire), POST inscription et connexion, GET /api/auth/moi, JWT avec claims sub et role (MapInboundClaims=false, RoleClaimType), ClaimsPrincipalExtensions.UserId(), policy Admin, OnChallenge 401 et OnForbidden 403 au format ApiErrors, et le seed admin depuis la configuration."
+verify = "Tests : inscription sans téléphone refusée, connexion, 400 identifiants-invalides, 401 sur /moi sans jeton, 403 d'un Membre sur une route admin ajoutée uniquement par la factory de tests, admin seedé connecté."
+covers = ["CAP-1"]
+after = [2]
+hitl = true
+risk = "medium"
+
+[[entry]]
+id = 4
+type = "story"
+title = "Envoi d'emails"
+description = "Ajoute IEmailSender avec MailKit 4.18.1 en StartTls sur 587, les modes Smtp et Journal par configuration, l'environnement Testing forcé en Journal."
+verify = "Un test vérifie l'email écrit en mode Journal ; un email de test réel arrive via Gmail en mode Smtp."
+covers = ["E1"]
+after = [3]
+hitl = true
+risk = "medium"
+
+[[entry]]
+id = 5
+type = "story"
+title = "Habillage Angular"
+description = "Reprend core/SiteService et pose le layout en-tête et pied de page conformes à mockups/accueil.html, les jetons CSS de DESIGN.md en variables, le menu burger, les routes Angular de contrats-api §7 en pages vides, le pipe téléphone et le bouton d'appel, LOCALE_ID fr-FR et le pipe de date partagé, et l'accueil avec ses emplacements de sections."
+verify = "Tests Vitest des pipes et du layout ; revue visuelle sur téléphone et ordinateur face à mockups/accueil.html."
+covers = ["E1"]
+after = [1]
+hitl = false
+risk = "low"
+references = ["ux-aaas-adoption/DESIGN.md", "ux-aaas-adoption/mockups/accueil.html"]
+
+[[entry]]
+id = 6
+type = "story"
+title = "Comptes côté site"
+description = "Ajoute les pages Connexion et Inscription, AuthService à signals avec localStorage, l'intercepteur (ignore /api/auth/*), la restauration de session via /moi, les guards membre et admin avec returnUrl, la page /acces-refuse, le bouton Connexion qui devient le menu membre (Mes réservations, Mes favoris, Déconnexion), les liens admin avec la pastille Admin et un espace admin vide."
+verify = "Tests Vitest ; parcours manuel : inscription, rechargement avec session conservée, déconnexion, membre refusé sur /admin, admin seedé connecté qui ouvre /admin."
+covers = ["CAP-1"]
+after = [3, 5]
+hitl = false
+risk = "medium"
+
+[[entry]]
+id = 7
+type = "story"
+title = "Refactor sweep"
+description = "Nettoyage de l'epic ; portée fixée au démarrage à partir des plans et des constats de revue différés."
+verify = "dotnet test et ng test passent ; les constats différés retenus sont traités."
+covers = ["E1"]
+after = [2, 3, 4, 5, 6]
+hitl = false
+risk = "low"

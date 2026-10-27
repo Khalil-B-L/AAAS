@@ -1,0 +1,28 @@
+# tickets.toml — epics de l'initiative AAAS, dans l'ordre de build.
+
+[[epic]]
+id = 1
+slug = "epic-socle-comptes"
+title = "Socle et comptes"
+covers = ["CAP-1"]
+
+[[epic]]
+id = 2
+slug = "epic-catalogue-animaux"
+title = "Catalogue, gestion des animaux et adoptés"
+covers = ["CAP-2", "CAP-3", "CAP-7", "CAP-11"]
+after = [{ epic = 1, needs = "projet, Common, auth admin, shell Angular, harnais de tests" }]
+
+[[epic]]
+id = 3
+slug = "epic-reservations"
+title = "Réservation à durée limitée"
+covers = ["CAP-4", "CAP-5", "CAP-6"]
+after = [{ epic = 1, needs = "IEmailSender, auth membre" }, { epic = 2, needs = "Animal et ses transitions, entité Réservation, Common/Disponibilite, fiche animal" }]
+
+[[epic]]
+id = 4
+slug = "epic-contenus-engagement"
+title = "Actualités, favoris et contact"
+covers = ["CAP-8", "CAP-9", "CAP-10", "CAP-12"]
+after = [{ epic = 1, needs = "IEmailSender, shell Angular" }, { epic = 2, needs = "AnimalCarteDto, IFileStorage, fiche animal" }, { epic = 3, needs = "statut effectif complet, fiche avec bouton réserver" }]

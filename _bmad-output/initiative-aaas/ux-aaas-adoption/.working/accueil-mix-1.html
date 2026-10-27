@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAAS — Accueil fusionné</title>
+<style>
+/* Palette : variation 4 « Contrasté moderne » (color-themes-1.html)
+   CLAIR (défaut)                         SOMBRE
+   primary     #0F5A2A  on-primary #FFFFFF   primary     #34C26A  on-primary #04140A
+   accent      #FF7A00  on-accent  #111111   accent      #FF8A1F  on-accent  #111111
+   background  #FFFFFF  surface    #FFFFFF   background  #0A0D0B  surface    #141916
+   text        #0B0F0C  text-muted #4A524C   text        #F5F7F5  text-muted #A3ACA6
+   border      #E2E5E3                       border      #27302A
+   success     #127A3A  warning    #B54708   success     #4ADE80  warning    #FDBA74
+   info        #475467  danger     #C4231A   info        #98A2B3  danger     #F97066
+   paw         #0F5A2A                       paw         #34C26A
+   photos simulées #FFC48A → #A9D9B8         photos simulées #5C2F00 → #0F3A1F
+   Structure = direction A (bandeau compact + grille des derniers animaux).
+   Style     = direction B (gros titres épais, aéré, pattes en filigrane, titres à filets, cartes arrondies ombrées). */
+:root{--primary:#0F5A2A;--on-primary:#FFFFFF;--accent:#FF7A00;--on-accent:#111111;--bg:#FFFFFF;--surface:#FFFFFF;--text:#0B0F0C;--muted:#4A524C;--border:#E2E5E3;--success:#127A3A;--warning:#B54708;--info:#475467;--danger:#C4231A;--paw:#0F5A2A;--ph1:#FFC48A;--ph2:#A9D9B8;
+  --shadow:0 8px 20px rgba(15,90,42,.16);--soft:#F1F3F2;/* soft = fond neutre clair */--badge-txt:#FFFFFF;}
+.dark{--primary:#34C26A;--on-primary:#04140A;--accent:#FF8A1F;--on-accent:#111111;--bg:#0A0D0B;--surface:#141916;--text:#F5F7F5;--muted:#A3ACA6;--border:#27302A;--success:#4ADE80;--warning:#FDBA74;--info:#98A2B3;--danger:#F97066;--paw:#34C26A;--ph1:#5C2F00;--ph2:#0F3A1F;
+  --shadow:0 8px 20px rgba(0,0,0,.55);--soft:#1C231F;/* soft sombre #1C231F */--badge-txt:#04140A;}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#ECEDEA;color:#1B1D1A}
+header.top{max-width:1500px;margin:0 auto;padding:28px 20px 8px}
+header.top h1{margin:0 0 6px;font-size:26px}
+header.top p{margin:0;color:#4A4D47;max-width:980px;line-height:1.5}
+.row{max-width:1500px;margin:20px auto 40px;padding:0 20px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.cap{font-size:13px;color:#4A4D47;margin:10px 0 0;text-align:center;max-width:375px}
+.cap b{color:#1B1D1A}
+.note{margin:10px auto 0;max-width:375px;border:2px dashed #C9CEC9;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#4A524C;background:#F7F8F7;line-height:1.45}
+
+/* ---------- cadres ---------- */
+.phone{width:375px;max-width:100%;height:780px;border:10px solid #1B1D1A;border-radius:40px;overflow:hidden;background:var(--bg);position:relative;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.scr{height:100%;overflow-y:auto;overflow-x:hidden;position:relative;color:var(--text);background:var(--bg)}
+.notch{height:22px;background:#1B1D1A;width:120px;margin:0 auto;border-radius:0 0 14px 14px;position:sticky;top:0;z-index:5}
+.deskwrap{width:620px;max-width:100%;height:780px;overflow:hidden;border:8px solid #2B2E2A;border-radius:12px;background:var(--bg);box-shadow:0 10px 30px rgba(0,0,0,.14);position:relative}
+.desk{width:1240px;transform:scale(.5);transform-origin:top left;color:var(--text);position:relative;background:var(--bg)}
+
+/* ---------- éléments partagés ---------- */
+.logo{display:block;object-fit:contain;background:#FFFFFF;border-radius:50%}
+.burger{width:42px;height:42px;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 10px;border-radius:12px;color:var(--primary)}
+.burger i{display:block;height:3px;border-radius:2px;background:currentColor}
+.soc{display:inline-flex;gap:10px;align-items:center}
+.soc span{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.ig b{width:16px;height:16px;border:2px solid currentColor;border-radius:5px;display:block;position:relative;box-sizing:border-box}
+.ig b:after{content:"";position:absolute;width:5px;height:5px;border:2px solid currentColor;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);box-sizing:content-box}
+.ph{background:linear-gradient(135deg,var(--ph1),var(--ph2));display:flex;align-items:center;justify-content:center;position:relative}
+.badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;color:var(--badge-txt)}
+.b-dispo{background:var(--success)}
+.b-resa{background:var(--warning)}
+.paws{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.paws span{position:absolute;opacity:.07;color:var(--paw);font-size:52px;transform:rotate(-20deg)}
+.dark .paws span{opacity:.10}
+.z{position:relative;z-index:1}
+.muted{color:var(--muted)}
+
+/* ---------- header ---------- */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg);border-bottom:4px solid var(--primary);position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--primary);font-size:19px;letter-spacing:.5px}
+.links{display:flex;gap:28px;align-items:center;font-weight:800;font-size:17px;color:var(--primary)}
+.links .on{border-bottom:3px solid var(--accent);padding-bottom:2px}
+.links .login{background:var(--accent);color:var(--on-accent);padding:7px 18px;border-radius:999px}
+
+/* ---------- bandeau compact (structure A, style B) ---------- */
+.band{display:flex;align-items:center;gap:14px;padding:22px 20px 6px}
+.band h1{font-size:25px;font-weight:800;line-height:1.12;margin:0 0 6px}
+.band h1 em{font-style:normal;color:var(--accent)}
+.band p{margin:0;font-size:14px;line-height:1.4}
+.ctas{display:flex;gap:12px;padding:16px 20px 4px}
+.btn{flex:1;text-align:center;padding:14px 8px;border-radius:999px;font-weight:800;font-size:18px;box-shadow:var(--shadow)}
+.btn small{display:block;font-size:11.5px;font-weight:600;opacity:.85;margin-top:1px}
+.btn.cat{background:var(--accent);color:var(--on-accent)}
+.btn.dog{background:var(--primary);color:var(--on-primary)}
+
+/* ---------- titres à filets ---------- */
+.tt{display:flex;align-items:center;gap:10px;margin:28px 20px 16px;color:var(--primary);font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:1px;text-align:center}
+.tt:before,.tt:after{content:"";flex:1;height:2px;background:var(--primary);min-width:18px}
+
+/* ---------- grille de cartes ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px}
+.card{border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--surface)}
+.card .ph{height:128px;font-size:56px}
+.card .in{padding:10px 12px 13px}
+.card b{display:block;font-size:19px;font-weight:800}
+.card small{font-size:12.5px;color:var(--muted)}
+.card.resa .ph{filter:saturate(.65)}
+.more{display:flex;justify-content:center;padding:18px 20px 4px}
+.more span{display:inline-block;padding:11px 22px;border-radius:999px;border:2px solid var(--primary);color:var(--primary);font-weight:800;font-size:15px;background:var(--surface)}
+
+/* ---------- actualités ---------- */
+.news{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+.new{display:flex;gap:12px;border-radius:18px;box-shadow:var(--shadow);overflow:hidden;background:var(--surface)}
+.new .ph{width:88px;flex:none;font-size:32px}
+.new .t{padding:12px 12px 12px 0}
+.new b{font-size:15px;display:block;font-weight:800;margin-bottom:2px}
+.new small{font-size:12.5px;color:var(--muted);line-height:1.35;display:block}
+
+/* ---------- pied de page ---------- */
+.foot{margin-top:30px;padding:24px 20px 26px;background:var(--primary);color:var(--on-primary);text-align:center;font-size:14px;line-height:1.55;position:relative;z-index:1}
+.foot .logo{margin:0 auto 8px}
+.foot .name{font-weight:800;font-size:17px}
+.foot .soc{margin:12px 0 14px}
+.foot .soc span{background:var(--on-primary);color:var(--primary)}
+.foot .help{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.foot .help span{padding:7px 13px;border-radius:999px;font-weight:800;font-size:13px;background:var(--accent);color:var(--on-accent)}
+.foot .help span.alt{background:transparent;color:var(--on-primary);border:2px solid var(--on-primary)}
+.foot .copy{margin-top:14px;font-size:11.5px;opacity:.8}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>AAAS — L'accueil fusionné</h1>
+  <p>La structure de la direction A (bandeau compact puis tout de suite les animaux) habillée du style de la direction B (gros titres épais, beaucoup d'air, pattes en filigrane, titres à filets, cartes rondes et ombrées). Mode clair par défaut, mode sombre disponible. Pas de grande photo plein écran : les pensionnaires sont visibles dès le premier écran du téléphone. Faites défiler dans chaque cadre pour voir toute la page.</p>
+</header>
+
+<div class="row">
+
+<!-- ================================================================ 1 · TÉLÉPHONE CLAIR -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="paws"><span style="top:150px;right:12px">🐾</span><span style="top:430px;left:6px">🐾</span><span style="top:700px;right:30px">🐾</span><span style="top:960px;left:130px">🐾</span><span style="top:1180px;right:14px">🐾</span></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="band">
+        <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="70" height="70" style="flex:none;border:2px solid var(--border)">
+        <div>
+          <h1>Une truffe vous attend <em>au Cap Bon</em> !</h1>
+          <p class="muted">Chats et chiens sauvés près de Nabeul, prêts à rejoindre une famille.</p>
+        </div>
+      </div>
+      <div class="ctas">
+        <div class="btn cat">🐱 Miaou !<small>Les chats</small></div>
+        <div class="btn dog">🐶 Wouf !<small>Les chiens</small></div>
+      </div>
+      <div class="tt">Nos derniers pensionnaires</div>
+      <div class="grid">
+        <div class="card"><div class="ph">🐱<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Caramel</b><small>Chatte · 2 ans</small></div></div>
+        <div class="card resa"><div class="ph">🐶<span class="badge b-resa">Réservé</span></div><div class="in"><b>Rex</b><small>Chien · 4 ans · mâle</small></div></div>
+        <div class="card"><div class="ph">🐈<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Mimi</b><small>Chat · 6 mois</small></div></div>
+        <div class="card"><div class="ph" style="background:linear-gradient(135deg,var(--ph2),var(--ph1))">🐕<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Filou</b><small>Chien · 1 an · mâle</small></div></div>
+      </div>
+      <div class="more"><span>Voir tous les animaux →</span></div>
+      <div class="tt">Actualités</div>
+      <div class="news">
+        <div class="new"><div class="ph">🐈</div><div class="t"><b>Mimi cherche son premier foyer</b><small>12 octobre · 6 mois, joueuse et câline</small></div></div>
+        <div class="new"><div class="ph">💉</div><div class="t"><b>Journée vaccins à Nabeul</b><small>3 octobre · 14 animaux vaccinés, merci !</small></div></div>
+      </div>
+    </div>
+    <div class="foot">
+      <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="52" height="52">
+      <div class="name">AAAS · Cap Bon (Nabeul)</div>
+      <div>📞 +216 72 000 000</div>
+      <div class="soc"><span aria-label="Facebook">f</span><span class="ig" aria-label="Instagram"><b></b></span></div>
+      <div class="help"><span>Dons</span><span class="alt">Bénévolat</span><span class="alt">Famille d'accueil</span></div>
+      <div class="copy">Association d'amitié et d'action sociale</div>
+    </div>
+  </div></div>
+  <p class="cap"><b>1 · Téléphone, mode clair (défaut)</b> — bandeau compact, puis les pensionnaires dès le premier écran ; Actualités présentes (2).</p>
+</div>
+
+<!-- ================================================================ 2 · TÉLÉPHONE SOMBRE -->
+<div>
+  <div class="phone dark"><div class="scr">
+    <div class="notch"></div>
+    <div class="paws"><span style="top:150px;right:12px">🐾</span><span style="top:430px;left:6px">🐾</span><span style="top:700px;right:30px">🐾</span><span style="top:960px;left:130px">🐾</span></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="band">
+        <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="70" height="70" style="flex:none;border:2px solid var(--border)">
+        <div>
+          <h1>Une truffe vous attend <em>au Cap Bon</em> !</h1>
+          <p class="muted">Chats et chiens sauvés près de Nabeul, prêts à rejoindre une famille.</p>
+        </div>
+      </div>
+      <div class="ctas">
+        <div class="btn cat">🐱 Miaou !<small>Les chats</small></div>
+        <div class="btn dog">🐶 Wouf !<small>Les chiens</small></div>
+      </div>
+      <div class="tt">Nos derniers pensionnaires</div>
+      <div class="grid">
+        <div class="card"><div class="ph">🐱<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Caramel</b><small>Chatte · 2 ans</small></div></div>
+        <div class="card resa"><div class="ph">🐶<span class="badge b-resa">Réservé</span></div><div class="in"><b>Rex</b><small>Chien · 4 ans · mâle</small></div></div>
+        <div class="card"><div class="ph">🐈<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Mimi</b><small>Chat · 6 mois</small></div></div>
+        <div class="card"><div class="ph" style="background:linear-gradient(135deg,var(--ph2),var(--ph1))">🐕<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Filou</b><small>Chien · 1 an · mâle</small></div></div>
+      </div>
+      <div class="more"><span>Voir tous les animaux →</span></div>
+      <!-- Section Actualités volontairement absente : aucune actualité publiée -->
+    </div>
+    <div class="foot">
+      <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="52" height="52">
+      <div class="name">AAAS · Cap Bon (Nabeul)</div>
+      <div>📞 +216 72 000 000</div>
+      <div class="soc"><span aria-label="Facebook">f</span><span class="ig" aria-label="Instagram"><b></b></span></div>
+      <div class="help"><span>Dons</span><span class="alt">Bénévolat</span><span class="alt">Famille d'accueil</span></div>
+      <div class="copy">Association d'amitié et d'action sociale</div>
+    </div>
+  </div></div>
+  <p class="cap"><b>2 · Téléphone, mode sombre</b> — même page, palette sombre de la variation 4.</p>
+  <div class="note"><b>État vide illustré :</b> aucune actualité publiée, donc la section « Actualités » disparaît entièrement (ni titre, ni message « rien pour l'instant »). La page passe directement des pensionnaires au pied de page.</div>
+</div>
+
+<!-- ================================================================ 3 · ORDINATEUR CLAIR -->
+<div>
+  <div class="deskwrap"><div class="desk">
+    <div class="paws"><span style="top:240px;left:50px;font-size:100px">🐾</span><span style="top:640px;right:60px;font-size:100px">🐾</span><span style="top:1080px;left:300px;font-size:100px">🐾</span></div>
+    <div class="nav" style="padding:16px 56px">
+      <div class="brand" style="font-size:26px"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="60" height="60">A.A.A.S</div>
+      <div class="links"><span class="on">Accueil</span><span>Adopter</span><span>Actualités</span><span>Nous aider</span><span>Contact</span><span class="login">Connexion</span></div>
+    </div>
+    <div class="z">
+      <div class="band" style="padding:40px 56px 10px;gap:28px">
+        <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="120" height="120" style="flex:none;border:2px solid var(--border)">
+        <div style="flex:1">
+          <h1 style="font-size:44px">Une truffe vous attend <em>au Cap Bon</em> !</h1>
+          <p class="muted" style="font-size:18px">Chats et chiens sauvés près de Nabeul, prêts à rejoindre une famille.</p>
+        </div>
+        <div class="ctas" style="width:440px;padding:0;gap:16px">
+          <div class="btn cat" style="font-size:22px;padding:18px 8px">🐱 Miaou !<small style="font-size:13px">Les chats</small></div>
+          <div class="btn dog" style="font-size:22px;padding:18px 8px">🐶 Wouf !<small style="font-size:13px">Les chiens</small></div>
+        </div>
+      </div>
+      <div class="tt" style="margin:44px 220px 24px;font-size:24px">Nos derniers pensionnaires</div>
+      <div class="grid" style="grid-template-columns:repeat(4,1fr);padding:0 56px;gap:26px">
+        <div class="card"><div class="ph" style="height:220px;font-size:90px">🐱<span class="badge b-dispo">Disponible</span></div><div class="in" style="padding:14px 18px 18px"><b style="font-size:24px">Caramel</b><small style="font-size:15px">Chatte · 2 ans</small></div></div>
+        <div class="card resa"><div class="ph" style="height:220px;font-size:90px">🐶<span class="badge b-resa">Réservé</span></div><div class="in" style="padding:14px 18px 18px"><b style="font-size:24px">Rex</b><small style="font-size:15px">Chien · 4 ans · mâle</small></div></div>
+        <div class="card"><div class="ph" style="height:220px;font-size:90px">🐈<span class="badge b-dispo">Disponible</span></div><div class="in" style="padding:14px 18px 18px"><b style="font-size:24px">Mimi</b><small style="font-size:15px">Chat · 6 mois</small></div></div>
+        <div class="card"><div class="ph" style="height:220px;font-size:90px;background:linear-gradient(135deg,var(--ph2),var(--ph1))">🐕<span class="badge b-dispo">Disponible</span></div><div class="in" style="padding:14px 18px 18px"><b style="font-size:24px">Filou</b><small style="font-size:15px">Chien · 1 an · mâle</small></div></div>
+      </div>
+      <div class="more" style="padding-top:28px"><span style="font-size:18px;padding:14px 30px">Voir tous les animaux →</span></div>
+      <div class="tt" style="margin:44px 220px 24px;font-size:24px">Actualités</div>
+      <div class="news" style="flex-direction:row;padding:0 56px;gap:26px">
+        <div class="new" style="flex:1"><div class="ph" style="width:140px;font-size:48px">🐈</div><div class="t" style="padding:18px 18px 18px 0"><b style="font-size:20px">Mimi cherche son premier foyer</b><small style="font-size:15px">12 octobre · 6 mois, joueuse et câline</small></div></div>
+        <div class="new" style="flex:1"><div class="ph" style="width:140px;font-size:48px">💉</div><div class="t" style="padding:18px 18px 18px 0"><b style="font-size:20px">Journée vaccins à Nabeul</b><small style="font-size:15px">3 octobre · 14 animaux vaccinés, merci !</small></div></div>
+      </div>
+    </div>
+    <div class="foot" style="margin-top:56px;padding:34px 56px;display:flex;align-items:center;justify-content:space-between;text-align:left;font-size:16px">
+      <div style="display:flex;align-items:center;gap:16px"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="70" height="70" style="margin:0"><div><div class="name" style="font-size:20px">AAAS · Cap Bon (Nabeul)</div><div>📞 +216 72 000 000</div></div></div>
+      <div class="soc" style="margin:0"><span aria-label="Facebook">f</span><span class="ig" aria-label="Instagram"><b></b></span></div>
+      <div class="help" style="justify-content:flex-end"><span style="font-size:15px">Dons</span><span class="alt" style="font-size:15px">Bénévolat</span><span class="alt" style="font-size:15px">Famille d'accueil</span></div>
+    </div>
+  </div></div>
+  <p class="cap" style="max-width:620px"><b>3 · Ordinateur, mode clair (réduit 50 %)</b> — menu complet en haut, bandeau sur une ligne avec Miaou ! / Wouf ! à droite, grille de 4, actualités côte à côte.</p>
+</div>
+
+</div>
+</body>
+</html>

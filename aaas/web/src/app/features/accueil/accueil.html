@@ -1,0 +1,45 @@
+<section class="bandeau">
+  <div class="accroche">
+    <img class="logo bandeau-logo" src="logo-aaas.jpg" alt="" width="120" height="120" />
+    <div>
+      <h1 class="titre">Une truffe vous attend <em>au Cap Bon</em> !</h1>
+      <p class="sous-titre">
+        Chats et chiens sauvés près de Nabeul, prêts à rejoindre une famille.
+      </p>
+    </div>
+  </div>
+
+  <div class="especes">
+    <a
+      class="bouton-pilule bouton-accent bouton-gros espece"
+      routerLink="/adopter"
+      [queryParams]="{ espece: 'Chat' }"
+    >
+      <span><span aria-hidden="true">🐱 </span>Miaou !</span>
+      <small>Les chats</small>
+    </a>
+    <a
+      class="bouton-pilule bouton-primaire bouton-gros espece"
+      routerLink="/adopter"
+      [queryParams]="{ espece: 'Chien' }"
+    >
+      <span><span aria-hidden="true">🐶 </span>Wouf !</span>
+      <small>Les chiens</small>
+    </a>
+  </div>
+</section>
+
+<section class="pensionnaires" aria-labelledby="titre-pensionnaires">
+  <h2 class="titre-section" id="titre-pensionnaires">Nos derniers pensionnaires</h2>
+  <!-- Emplacement : grille des 4 derniers animaux (epic 2, GET /api/animaux?limite=4). -->
+  <div class="voir-tous">
+    <a class="bouton-pilule bouton-contour" routerLink="/adopter">Voir tous les animaux →</a>
+  </div>
+</section>
+
+@if (actualites().length > 0) {
+  <section class="actualites" aria-labelledby="titre-actualites">
+    <h2 class="titre-section" id="titre-actualites">Actualités</h2>
+    <!-- Emplacement : cartes d'actualité (epic 4, GET /api/actualites). -->
+  </section>
+}

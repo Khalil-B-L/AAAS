@@ -1,0 +1,166 @@
+# tickets.toml — stories de l'epic « Catalogue, gestion des animaux et adoptés », dans l'ordre de build.
+
+[[entry]]
+id = 1
+type = "story"
+title = "Outillage de tests partagé"
+description = "Extrait les helpers de test dupliqués de l'epic 1 (API : validation de démarrage, redémarrage d'hôte, requêtes et assertions d'erreur, faux serveur SMTP dans son propre fichier, AuthTests scindé ; front : fixtures utilisateur et « connecter comme ») et ramène les gardes de démarrage à un seul style, sans changer aucun comportement testé."
+verify = "dotnet test et ng test passent avec le même nombre de tests ; plus aucun helper dupliqué entre classes ou specs ; une seule façon de déclarer une garde de démarrage."
+covers = []
+after = []
+hitl = false
+risk = "low"
+
+[[entry]]
+id = 2
+type = "story"
+title = "Animal, transitions et derniers pensionnaires"
+description = "Ajoute l'entité Animal (énums §1, santé, ententes, Statut à setter privé et ses quatre transitions AD-4, CreeLe, AdopteLe, RowVersion) et sa migration, AnimalCarteDto (photoPrincipaleUrl à null jusqu'à l'entrée 6) et sa projection dans Contrats/, GET /api/animaux?limite= (statut stocké, Adoptés exclus, tri creeLe décroissant), le jeu de données de test « animal » partagé, shared/libelles.ts, et la carte animal (lien vers /animaux/:id, construit par l'entrée 8) et la pastille de statut partagées affichées dans « Nos derniers pensionnaires » de l'accueil (photo désaturée si Réservé, dégradé sans photo, état vide)."
+verify = "Tests unitaires des transitions (TransitionInterditeException) ; un animal inséré par un test apparaît dans GET /api/animaux?limite=4 et la carte s'affiche sur l'accueil (Vitest)."
+covers = ["CAP-2"]
+after = [1]
+hitl = false
+risk = "medium"
+
+[[entry]]
+id = 3
+type = "story"
+title = "Animaux de démonstration (Development)"
+description = "Ajoute un jeu de démonstration de 4 chats et 4 chiens (âges, tailles, sexes et ententes variés, dont 2 Adoptés via ForcerStatut) créé au démarrage en Development seulement, uniquement si aucun animal n'existe ; sans photo ici, l'entrée 7 leur en ajoute ; une personne lance l'API en Development pour constater l'accueil rempli."
+verify = "dotnet run en Development puis ng serve : l'accueil montre les pensionnaires de démonstration (vérification humaine) ; un test prouve qu'aucun animal de démonstration n'est créé en Testing ni quand un animal existe déjà."
+covers = []
+after = [2]
+hitl = true
+risk = "low"
+
+[[entry]]
+id = 4
+type = "story"
+title = "Réservation et statut effectif"
+description = "Ajoute l'entité Reservation (index unique filtré EnAttente, RowVersion, Restrict vers Animal et User) et sa migration, Common/Disponibilite (ReservationRules.EstActive, StatutEffectif ; AnimalRules.StatutEffectif, dont l'effectif Adopte utilisé par la page des adoptés) traduisibles en SQL, le jeu de données de test « réservation » (active, échue) partagé, et fait projeter le statut effectif par GET /api/animaux."
+verify = "Tests du statut effectif avec FakeTimeProvider (réservation active, échue, Réservé sans réservation → Disponible) exécutés en SQL sur LocalDB."
+covers = ["CAP-2", "CAP-11"]
+after = [2]
+hitl = false
+risk = "high"
+
+[[entry]]
+id = 5
+type = "story"
+title = "Catalogue filtré"
+description = "Ajoute les filtres §2 à GET /api/animaux (espèce, sexe, âge, taille, ententes Oui ou AVoir, valeur inconnue → 400) sur le statut effectif, et la page /adopter : puces de filtre en query params, compteur, « Effacer les filtres », états « aucun résultat » et catalogue vide, lien vers « Ils ont trouvé une famille »."
+verify = "Tests d'intégration de chaque filtre seul et combinés, jamais d'Adopté ; Vitest de la page (query params, compteur, états vides)."
+covers = ["CAP-2"]
+after = [4]
+hitl = false
+risk = "medium"
+
+[[entry]]
+id = 6
+type = "story"
+title = "Stockage des photos"
+description = "Ajoute IFileStorage (disque, Storage:PhotosPath, dossier temporaire par exécution de tests), GET /fichiers/:cle, RegleFichier (JPEG/PNG/WebP, signature, 5 Mo, 10 par animal), l'entité PhotoAnimal (Cascade, Ordre) et sa migration, POST/DELETE /api/admin/animaux/:id/photos, et remplit photoPrincipaleUrl dans AnimalCarteDto ; une personne configure Storage:PhotosPath sur son poste."
+verify = "Tests : upload valide → 201 PhotoDto et fichier servi par /fichiers, refus de type, signature, taille et 11e photo en 400 errors.fichier, fichier supprimé après commit."
+covers = ["CAP-3", "CAP-7"]
+after = [3, 5, "1.3"]
+hitl = true
+risk = "medium"
+
+[[entry]]
+id = 7
+type = "story"
+title = "Photos de démonstration"
+description = "Ajoute des illustrations de démonstration générées par le build (silhouettes de chats et de chiens, JPEG ou PNG, versionnées dans le dépôt) et les attache, via IFileStorage et RegleFichier, aux animaux de démonstration qui n'ont aucune photo, en Development seulement ; une personne vérifie l'accueil."
+verify = "En Development, les cartes de l'accueil montrent leur photo (vérification humaine) ; un test prouve que les illustrations passent RegleFichier et qu'un animal ayant déjà une photo n'en reçoit pas."
+covers = []
+after = [6]
+hitl = true
+risk = "low"
+
+[[entry]]
+id = 8
+type = "story"
+title = "Fiche animal"
+description = "Ajoute AnimalDetailDto et sa projection dans Contrats/ (propriétaire), GET /api/animaux/:id (tout statut, statut effectif, 404) et la page /animaux/:id : galerie (vignettes, points, compteur, texte alternatif « Photo n de [prénom] »), puces, cases santé, lignes d'entente, retour « ← Les chats / ← Les chiens », états Réservé (« Déjà réservé » désactivé) et Adopté (« A trouvé une famille ») ; emplacements vides pour le bouton « Je veux l'adopter » (Disponible) et le cœur favori ; la carte de l'entrée 2 y mène et l'entrée 9 réutilise son AnimalDetailDto."
+verify = "Tests d'intégration du DTO et du 404 ; Vitest de la galerie et des états Disponible, Réservé et Adopté."
+covers = ["CAP-3"]
+after = [6]
+hitl = false
+risk = "medium"
+
+[[entry]]
+id = 14
+type = "story"
+title = "Ils ont trouvé une famille"
+description = "Ajoute GET /api/animaux/adoptes (statut effectif Adopte, tri adopteLe décroissant) sur le statut effectif de l'entrée 4, et la page /ils-ont-trouve-une-famille (cible du lien du catalogue de l'entrée 5) dont les cartes ouvrent la fiche."
+verify = "Tests d'intégration : seuls les Adoptés (passés Adopté par Animal.ForcerStatut), tri adopteLe ; Vitest de la page."
+covers = ["CAP-11"]
+after = [8]
+hitl = false
+risk = "low"
+
+[[entry]]
+id = 9
+type = "story"
+title = "Gestion des animaux côté API"
+description = "Ajoute GET/POST/PUT/DELETE /api/admin/animaux dans le groupe admin (AnimalEcritureDto sans statut, création en Disponible, réutilise AnimalDetailDto, suppression refusée en 409 animal-a-des-reservations, photos et fichiers supprimés après commit) ; attend l'entrée 14 parce qu'il partage avec elle le fichier des endpoints Animaux."
+verify = "Tests d'intégration du CRUD, 403 d'un Membre, 409 animal-a-des-reservations, fichiers supprimés après suppression."
+covers = ["CAP-7"]
+after = [14]
+hitl = false
+risk = "medium"
+
+[[entry]]
+id = 10
+type = "story"
+title = "Forcer le statut d'un animal (API)"
+description = "Ajoute POST /api/admin/animaux/:id/statut { statut, statutAttendu } sur Animal.ForcerStatut : Reserve refusé en 400, 409 reservation-active si une réservation est active, 409 modifie-ailleurs si le statut effectif diffère de statutAttendu ou sur conflit RowVersion."
+verify = "Tests : forcer Adopté puis Disponible (AdopteLe posé puis effacé), 400 pour Reserve, 409 reservation-active, 409 modifie-ailleurs sur statutAttendu périmé et sur conflit RowVersion."
+covers = ["CAP-7"]
+after = [9]
+hitl = false
+risk = "high"
+
+[[entry]]
+id = 11
+type = "story"
+title = "Admin animaux : liste et suppression"
+description = "Ajoute la page /admin/animaux (liste de tous les statuts, accès au formulaire) et crée le dialogue de confirmation partagé (focus sur « Retour », piégé, Échap) utilisé pour supprimer un animal, avec le message du 409 animal-a-des-reservations ; une personne fait le parcours sur téléphone et ordinateur."
+verify = "Vitest de la liste et du dialogue (focus, Échap, confirmation) ; parcours manuel téléphone et ordinateur : supprimer un animal créé pour l'essai."
+covers = ["CAP-7"]
+after = [9, "1.6"]
+hitl = true
+risk = "medium"
+
+[[entry]]
+id = 12
+type = "story"
+title = "Admin animaux : formulaire et photos"
+description = "Ajoute le formulaire d'ajout et de modification d'un animal (une colonne, choix segmentés, listes âge et taille, cases santé, suppression via le dialogue de l'entrée 11) et la zone d'ajout photo (appareil ou galerie, sélection multiple, envoi une à une dans l'ordre, chaque échec signalé et renvoyable seul, retrait ×, la première marquée Principale) ; une personne fait le parcours sur téléphone et ordinateur."
+verify = "Vitest du formulaire, des erreurs de champ et de l'envoi séquentiel des photos ; parcours manuel téléphone et ordinateur : créer un animal avec 3 photos puis le modifier."
+covers = ["CAP-7"]
+after = [11]
+hitl = true
+risk = "medium"
+
+[[entry]]
+id = 13
+type = "story"
+title = "Admin animaux : statut forcé"
+description = "Ajoute au formulaire le choix segmenté Disponible / Réservé / Adopté qui appelle POST …/statut avec statutAttendu, et le rechargement du formulaire sur 409 reservation-active ou modifie-ailleurs avec son message ; une personne vérifie le parcours."
+verify = "Vitest du choix de statut et des 409 ; parcours manuel : forcer un animal Adopté, le voir quitter le catalogue et apparaître dans « Ils ont trouvé une famille »."
+covers = ["CAP-7"]
+after = [10, 12]
+hitl = true
+risk = "medium"
+
+[[entry]]
+id = 15
+type = "story"
+title = "Refactor sweep"
+description = "Nettoyage de l'epic ; portée fixée au démarrage à partir des plans et des constats de revue différés."
+verify = "dotnet test et ng test passent ; les constats différés retenus sont traités."
+covers = ["CAP-2", "CAP-3", "CAP-7", "CAP-11"]
+after = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+hitl = false
+risk = "low"

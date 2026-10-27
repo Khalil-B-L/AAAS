@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+.bouton-appel {
+  display: flex;
+  width: 100%;
+}

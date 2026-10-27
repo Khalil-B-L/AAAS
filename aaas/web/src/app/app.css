@@ -1,0 +1,59 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.principal {
+  position: relative;
+  flex: 1;
+}
+
+/* Pattes en filigrane : sous le contenu, jamais cliquables */
+.pattes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.patte {
+  position: absolute;
+  color: var(--color-paw);
+  font-size: var(--size-paw);
+  line-height: 1;
+  opacity: var(--opacity-paw);
+  transform: rotate(-20deg);
+}
+
+.patte-1 {
+  top: 12%;
+  right: 3%;
+}
+
+.patte-2 {
+  top: 38%;
+  left: 2%;
+}
+
+.patte-3 {
+  top: 62%;
+  right: 8%;
+}
+
+.patte-4 {
+  top: 86%;
+  left: 35%;
+}
+
+.contenu {
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .patte {
+    font-size: var(--size-paw-desktop);
+  }
+}

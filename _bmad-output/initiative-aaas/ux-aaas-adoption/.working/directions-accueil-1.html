@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAAS — Directions accueil</title>
+<style>
+/* Palette commune : variation 4 « Contrasté moderne » — CLAIR (color-themes-1.html)
+   primary     #0F5A2A   on-primary #FFFFFF
+   accent      #FF7A00   on-accent  #111111
+   background  #FFFFFF   surface    #FFFFFF
+   text        #0B0F0C   text-muted #4A524C
+   border      #E2E5E3
+   success     #127A3A   warning    #B54708
+   info        #475467   danger     #C4231A
+   paw (filigrane) #0F5A2A   photos simulées #FFC48A → #A9D9B8
+   Les 4 directions partagent ces hex ; elles diffèrent par densité, poids typographique et structure du haut de page. */
+:root{--primary:#0F5A2A;--on-primary:#FFFFFF;--accent:#FF7A00;--on-accent:#111111;--bg:#FFFFFF;--surface:#FFFFFF;--text:#0B0F0C;--muted:#4A524C;--border:#E2E5E3;--success:#127A3A;--warning:#B54708;--info:#475467;--danger:#C4231A;--paw:#0F5A2A;--ph1:#FFC48A;--ph2:#A9D9B8;}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#ECEDEA;color:#1B1D1A}
+header.top{max-width:1400px;margin:0 auto;padding:28px 20px 8px}
+header.top h1{margin:0 0 6px;font-size:26px}
+header.top p{margin:0;color:#4A4D47;max-width:900px;line-height:1.5}
+section.dir{max-width:1400px;margin:24px auto;padding:22px;background:#FFFFFF;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+section.dir h2{margin:0 0 4px;font-size:22px}
+section.dir .why{margin:0 0 6px;color:#3A3D37;line-height:1.55;max-width:980px}
+section.dir .state{display:inline-block;margin:6px 0 16px;padding:4px 10px;border-radius:8px;background:#F3F4F2;color:#3A3D37;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.cap{font-size:12px;color:#6A6D67;margin:8px 0 0;text-align:center}
+
+/* ---------- cadre téléphone ---------- */
+.phone{width:375px;max-width:100%;height:760px;border:10px solid #1B1D1A;border-radius:40px;overflow:hidden;background:var(--bg);position:relative;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.phone .scr{height:100%;overflow-y:auto;overflow-x:hidden;position:relative;color:var(--text)}
+.notch{height:22px;background:#1B1D1A;width:120px;margin:0 auto;border-radius:0 0 14px 14px;position:sticky;top:0;z-index:5}
+
+/* ---------- aperçu ordinateur réduit ---------- */
+.deskwrap{width:560px;max-width:100%;height:420px;overflow:hidden;border:8px solid #2B2E2A;border-radius:12px;background:var(--bg);box-shadow:0 10px 30px rgba(0,0,0,.14);position:relative}
+.desk{width:1120px;transform:scale(.5);transform-origin:top left;color:var(--text);position:relative}
+
+/* ---------- éléments partagés ---------- */
+.logo{display:block;object-fit:contain;background:#fff;border-radius:50%}
+.burger{width:40px;height:40px;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 9px;border-radius:10px}
+.burger i{display:block;height:3px;border-radius:2px;background:currentColor}
+.soc{display:inline-flex;gap:8px;align-items:center}
+.soc span{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:16px}
+.ig{position:relative}
+.ig b{width:15px;height:15px;border:2px solid currentColor;border-radius:5px;display:block;position:relative}
+.ig b{box-sizing:border-box}
+.ig b:after{content:"";position:absolute;width:5px;height:5px;border:2px solid currentColor;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);box-sizing:content-box}
+.ph{background:linear-gradient(135deg,var(--ph1),var(--ph2));display:flex;align-items:center;justify-content:center;position:relative}
+.badge{position:absolute;top:8px;left:8px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
+.b-dispo{background:#127A3A;color:#FFFFFF}  /* success */
+.b-resa{background:#B54708;color:#FFFFFF}   /* warning */
+.paws{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.paws span{position:absolute;opacity:.07;color:var(--paw);font-size:46px;transform:rotate(-20deg)}
+.muted{color:var(--muted)}
+.ghostnote{border:2px dashed #C9CEC9;border-radius:12px;padding:10px;font-size:12px;color:#4A524C;background:#F7F8F7;text-align:center}
+
+/* =========================================================
+   A · BANDEAU COMPACT — sobre, dense, poids léger (400/600)
+   ========================================================= */
+.da .nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--primary);color:#FFFFFF}
+.da .nav .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.da .band{padding:14px 16px 12px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center}
+.da .band h1{font-size:18px;font-weight:600;margin:0 0 2px;line-height:1.25}
+.da .band p{margin:0;font-size:12.5px}
+.da .ctas{display:flex;gap:8px;padding:12px 16px}
+.da .btn{flex:1;text-align:center;padding:11px 8px;border-radius:10px;font-weight:600;font-size:15px}
+.da .btn.cat{background:var(--accent);color:var(--on-accent)}
+.da .btn.dog{background:var(--primary);color:var(--on-primary)}
+.da .sect{display:flex;align-items:baseline;justify-content:space-between;padding:6px 16px 8px}
+.da .sect h2{font-size:15px;font-weight:600;margin:0}
+.da .sect a{font-size:13px;color:var(--primary);font-weight:600}
+.da .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 14px}
+.da .card{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+.da .card .ph{height:120px;font-size:46px}
+.da .card .in{padding:8px 10px}
+.da .card b{font-size:14px;font-weight:600;display:block}
+.da .card small{font-size:12px;color:var(--muted)}
+.da .foot{padding:14px 16px;background:#F6F7F6;border-top:1px solid var(--border);font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
+
+/* =========================================================
+   B · PORTES D'ENTRÉE — généreux, ludique, poids fort (800)
+   ========================================================= */
+.db .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg);border-bottom:4px solid var(--primary)}
+.db .nav .brand{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--primary);font-size:18px;letter-spacing:.5px}
+.db .hello{text-align:center;padding:22px 20px 8px;position:relative}
+.db .hello h1{font-size:26px;font-weight:800;line-height:1.15;margin:0 0 8px}
+.db .hello h1 em{font-style:normal;color:var(--accent)}
+.db .hello p{margin:0;font-size:14px}
+.db .tt{display:flex;align-items:center;gap:10px;margin:20px 20px 12px;color:var(--primary);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:1px}
+.db .tt:before,.db .tt:after{content:"";flex:1;height:2px;background:var(--primary)}
+.db .doors{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px}
+.db .door{border-radius:22px;overflow:hidden;box-shadow:0 8px 20px rgba(15,90,42,.18);background:var(--surface)}
+.db .door .ph{height:130px;font-size:58px}
+.db .door .lab{padding:10px 12px 12px;text-align:center}
+.db .door .lab b{display:block;font-size:20px;font-weight:800}
+.db .door .pill{display:inline-block;margin-top:6px;padding:6px 14px;border-radius:999px;font-weight:800;font-size:14px}
+.db .door.asso{grid-column:1 / -1;display:flex;align-items:center}
+.db .door.asso .ph{width:120px;height:110px;flex:none;font-size:46px}
+.db .door.asso .lab{text-align:left}
+.db .news{padding:0 20px 8px;display:flex;flex-direction:column;gap:10px}
+.db .new{display:flex;gap:10px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.08);overflow:hidden;background:var(--surface)}
+.db .new .ph{width:86px;flex:none;font-size:30px}
+.db .new div.t{padding:10px 10px 10px 0}
+.db .new b{font-size:14px;display:block;font-weight:800}
+.db .new small{font-size:12px;color:var(--muted)}
+.db .foot{margin-top:18px;padding:18px 20px;background:var(--primary);color:#FFFFFF;text-align:center;font-size:13px}
+
+/* =========================================================
+   C · CATALOGUE D'ABORD — utilitaire, compact, petit corps (13px)
+   ========================================================= */
+.dc .nav{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-bottom:1px solid var(--border)}
+.dc .nav .brand{font-weight:700;font-size:14px;flex:1;display:flex;align-items:center;gap:6px}
+.dc .search{margin:10px 12px 6px;display:flex;align-items:center;gap:8px;border:2px solid var(--primary);border-radius:12px;padding:9px 12px;font-size:14px;color:var(--muted)}
+.dc .chips{display:flex;gap:6px;padding:4px 12px 8px;overflow-x:auto;white-space:nowrap}
+.dc .chip{padding:6px 11px;border-radius:999px;border:1px solid var(--border);font-size:13px;font-weight:600;flex:none}
+.dc .chip.on{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.dc .chip.more{border-style:dashed}
+.dc .count{padding:2px 12px 8px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+.dc .list{padding:0 12px;display:flex;flex-direction:column;gap:8px}
+.dc .item{display:flex;gap:10px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface);align-items:stretch}
+.dc .item .ph{width:104px;min-height:96px;flex:none;font-size:40px}
+.dc .item .t{padding:8px 8px 8px 0;flex:1;font-size:13px}
+.dc .item b{font-size:15px}
+.dc .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.dc .tags span{font-size:11px;padding:2px 7px;border-radius:6px;background:#F1F3F2;color:var(--info)}
+.dc .heart{align-self:flex-start;padding:8px 10px 0 0;font-size:18px;color:var(--accent)}
+.dc .asso{margin:16px 12px 0;padding:14px;border-radius:12px;background:#F6F7F6;font-size:13px;display:flex;gap:10px;align-items:center}
+.dc .foot{padding:12px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+
+/* =========================================================
+   D · HISTOIRE ET CONFIANCE — éditorial, chaleureux, titres serif
+   ========================================================= */
+.dd .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+.dd .nav .brand{display:flex;align-items:center;gap:8px;font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:17px;color:var(--primary)}
+.dd .intro{padding:12px 20px 4px}
+.dd .intro h1{font-family:Georgia,"Times New Roman",serif;font-size:27px;line-height:1.2;margin:0 0 8px;font-weight:700}
+.dd .intro p{margin:0;font-size:14px;line-height:1.5}
+.dd .counter{margin:16px 20px;padding:16px;border-radius:18px;background:var(--primary);color:#FFFFFF;display:flex;align-items:center;gap:14px}
+.dd .counter .n{font-family:Georgia,"Times New Roman",serif;font-size:44px;font-weight:700;color:#FFC48A;line-height:1}
+.dd .counter span{font-size:14px;line-height:1.35}
+.dd .tt{font-family:Georgia,"Times New Roman",serif;font-size:20px;margin:18px 20px 10px;display:flex;justify-content:space-between;align-items:baseline}
+.dd .tt a{font-family:system-ui,sans-serif;font-size:13px;color:var(--primary);font-weight:700}
+.dd .carousel{display:flex;gap:12px;overflow-x:auto;padding:0 20px 6px;scroll-snap-type:x mandatory}
+.dd .story{flex:none;width:220px;border-radius:18px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.10);scroll-snap-align:start;background:var(--surface)}
+.dd .story .ph{height:130px;font-size:52px}
+.dd .story .t{padding:10px 12px;font-size:13px;line-height:1.4}
+.dd .story q{font-style:italic}
+.dd .dots{display:flex;gap:5px;justify-content:center;margin:6px 0 0}
+.dd .dots i{width:7px;height:7px;border-radius:50%;background:var(--border)}
+.dd .dots i.on{background:var(--accent);width:18px;border-radius:4px}
+.dd .adopt{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+.dd .big{border-radius:18px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.08);background:var(--surface)}
+.dd .big .ph{height:150px;font-size:60px}
+.dd .big .t{padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+.dd .big b{font-family:Georgia,"Times New Roman",serif;font-size:19px}
+.dd .btn{padding:9px 14px;border-radius:999px;font-weight:700;font-size:14px;background:var(--accent);color:var(--on-accent)}
+.dd .btn.off{background:#F1F3F2;color:var(--muted)}
+.dd .foot{margin-top:18px;padding:18px 20px;border-top:1px solid var(--border);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>AAAS — 4 directions pour l'écran d'accueil</h1>
+  <p>Même palette (« Contrasté moderne », mode clair), même contenu réel, quatre personnalités différentes. Aucune ne s'ouvre sur une grande photo plein écran. Chaque maquette est pensée d'abord pour le téléphone (375 px), avec un aperçu réduit sur ordinateur à côté. Les photos sont simulées par des dégradés + emoji. Faites défiler dans le téléphone pour voir toute la page.</p>
+</header>
+
+<!-- ================================================================ A -->
+<section class="dir">
+  <h2>A · Bandeau compact</h2>
+  <p class="why">Le haut de page tient en une bande : logo, une phrase d'accroche et deux gros boutons Chats / Chiens. Dès le premier écran du téléphone, on voit déjà les premiers animaux : idéal pour quelqu'un qui arrive d'une publication Facebook et veut tout de suite « voir les bêtes ». Poids typographique léger, cartes fines, beaucoup d'animaux par écran.</p>
+  <span class="state">État montré : badge <b>Réservé</b> sur Rex · section Actualités <b>absente</b> (aucune actualité publiée)</span>
+  <div class="row">
+    <div>
+      <div class="phone da"><div class="scr">
+        <div class="notch"></div>
+        <div class="nav">
+          <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="30" height="30">AAAS</div>
+          <div class="burger" style="color:#FFFFFF" aria-label="Menu"><i></i><i></i><i></i></div>
+        </div>
+        <div class="band">
+          <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="58" height="58" style="border:1px solid #E2E5E3">
+          <div>
+            <h1>Ils attendent une famille au Cap Bon</h1>
+            <p class="muted">Chats et chiens à adopter près de Nabeul</p>
+          </div>
+        </div>
+        <div class="ctas">
+          <div class="btn cat">🐱 Miaou !</div>
+          <div class="btn dog">🐶 Wouf !</div>
+        </div>
+        <div class="sect"><h2>Derniers arrivés</h2><a>Tout voir →</a></div>
+        <div class="grid">
+          <div class="card"><div class="ph">🐱<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Caramel</b><small>Chatte · 2 ans</small></div></div>
+          <div class="card"><div class="ph" style="filter:saturate(.7)">🐶<span class="badge b-resa">Réservé</span></div><div class="in"><b>Rex</b><small>Chien · 4 ans · mâle</small></div></div>
+          <div class="card"><div class="ph">🐈<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Mimi</b><small>Chat · 6 mois</small></div></div>
+          <div class="card" style="display:flex;align-items:center;justify-content:center;text-align:center;border-style:dashed;min-height:170px"><div class="in"><b style="color:#0F5A2A">Voir tous les animaux</b><small>Filtrer par âge, taille…</small></div></div>
+        </div>
+        <div style="padding:0 16px 14px"><div class="ghostnote">Section « Actualités » masquée : aucune actualité pour l'instant</div></div>
+        <div class="foot">
+          <span>📍 Cap Bon, Nabeul</span>
+          <span class="soc"><span style="background:#0F5A2A;color:#fff">f</span><span class="ig" style="background:#FF7A00;color:#111"><b></b></span></span>
+        </div>
+      </div></div>
+      <p class="cap">Téléphone — haut de page en une bande, animaux visibles sans défiler</p>
+    </div>
+    <div>
+      <div class="deskwrap da"><div class="desk">
+        <div class="nav" style="padding:14px 40px">
+          <div class="brand" style="font-size:20px"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="44" height="44">AAAS · Cap Bon</div>
+          <div style="display:flex;gap:28px;font-weight:600;font-size:16px"><span>Accueil</span><span>Adopter</span><span>Actualités</span><span>Nous aider</span><span>Contact</span><span style="background:#FF7A00;color:#111;padding:4px 14px;border-radius:8px">Connexion</span></div>
+        </div>
+        <div class="band" style="padding:22px 40px">
+          <img class="logo" src="../imports/logo-aaas.jpg" alt="" width="80" height="80">
+          <div style="flex:1"><h1 style="font-size:28px">Ils attendent une famille au Cap Bon</h1><p class="muted" style="font-size:16px">Chats et chiens à adopter près de Nabeul</p></div>
+          <div class="ctas" style="width:380px"><div class="btn cat">🐱 Miaou !</div><div class="btn dog">🐶 Wouf !</div></div>
+        </div>
+        <div class="sect" style="padding:16px 40px 10px"><h2 style="font-size:20px">Derniers arrivés</h2><a>Tout voir →</a></div>
+        <div class="grid" style="grid-template-columns:repeat(4,1fr);padding:0 40px;gap:18px">
+          <div class="card"><div class="ph" style="height:200px">🐱<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Caramel</b><small>Chatte · 2 ans</small></div></div>
+          <div class="card"><div class="ph" style="height:200px;filter:saturate(.7)">🐶<span class="badge b-resa">Réservé</span></div><div class="in"><b>Rex</b><small>Chien · 4 ans · mâle</small></div></div>
+          <div class="card"><div class="ph" style="height:200px">🐈<span class="badge b-dispo">Disponible</span></div><div class="in"><b>Mimi</b><small>Chat · 6 mois</small></div></div>
+          <div class="card" style="display:flex;align-items:center;justify-content:center;border-style:dashed"><div class="in"><b style="color:#0F5A2A">Voir tous les animaux</b></div></div>
+        </div>
+      </div></div>
+      <p class="cap">Ordinateur (réduit 50 %) — bandeau sur une ligne, grille de 4</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ B -->
+<section class="dir">
+  <h2>B · Portes d'entrée</h2>
+  <p class="why">Une accroche courte et chaleureuse, puis trois grosses tuiles photo arrondies : Chats, Chiens, L'association, chacune avec son bouton ludique. C'est la direction la plus proche de l'inspiration : pattes en filigrane, titres encadrés de filets, ombres douces. Lettrage épais, beaucoup d'air, ambiance « on joue ensemble ».</p>
+  <span class="state">État montré : section Actualités <b>présente</b> (2 actualités, la plus récente en haut)</span>
+  <div class="row">
+    <div>
+      <div class="phone db"><div class="scr">
+        <div class="notch"></div>
+        <div class="paws"><span style="top:120px;left:14px">🐾</span><span style="top:300px;right:10px">🐾</span><span style="top:560px;left:150px">🐾</span><span style="top:820px;right:40px">🐾</span><span style="top:1050px;left:20px">🐾</span></div>
+        <div class="nav">
+          <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+          <div class="burger" style="color:#0F5A2A" aria-label="Menu"><i></i><i></i><i></i></div>
+        </div>
+        <div class="hello">
+          <h1>Un compagnon vous attend <em>au Cap Bon</em> !</h1>
+          <p class="muted">Chats et chiens sauvés à Nabeul, prêts à rejoindre une famille.</p>
+          <div class="soc" style="margin-top:12px"><span style="background:#0F5A2A;color:#fff">f</span><span class="ig" style="background:#0F5A2A;color:#fff"><b></b></span></div>
+        </div>
+        <div class="tt">Adopter</div>
+        <div class="doors">
+          <div class="door"><div class="ph">🐱</div><div class="lab"><b>Chats</b><span class="pill" style="background:#FF7A00;color:#111">Miaou !</span></div></div>
+          <div class="door"><div class="ph" style="background:linear-gradient(135deg,#A9D9B8,#FFC48A)">🐶</div><div class="lab"><b>Chiens</b><span class="pill" style="background:#0F5A2A;color:#fff">Wouf !</span></div></div>
+          <div class="door asso"><div class="ph" style="background:#fff"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="84" height="84"></div><div class="lab"><b>L'association</b><span class="muted" style="font-size:13px">Qui sommes-nous, comment aider</span><br><span class="pill" style="background:#F1F3F2;color:#0F5A2A">Découvrir →</span></div></div>
+        </div>
+        <div class="tt">Actualités</div>
+        <div class="news">
+          <div class="new"><div class="ph">🐈</div><div class="t"><b>Mimi cherche son premier foyer</b><small>12 octobre · 6 mois, joueuse et câline</small></div></div>
+          <div class="new"><div class="ph">💉</div><div class="t"><b>Journée vaccins à Nabeul</b><small>3 octobre · 14 animaux vaccinés, merci !</small></div></div>
+        </div>
+        <div class="foot"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="44" height="44" style="margin:0 auto 8px"><b>AAAS</b> · Cap Bon (Nabeul)<br>Suivez-nous sur Facebook et Instagram</div>
+      </div></div>
+      <p class="cap">Téléphone — trois portes, actualités dessous</p>
+    </div>
+    <div>
+      <div class="deskwrap db"><div class="desk">
+        <div class="paws"><span style="top:200px;left:60px;font-size:90px">🐾</span><span style="top:520px;right:80px;font-size:90px">🐾</span></div>
+        <div class="nav" style="padding:14px 40px">
+          <div class="brand" style="font-size:24px"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="56" height="56">A.A.A.S</div>
+          <div style="display:flex;gap:26px;font-weight:800;font-size:17px;color:#0F5A2A"><span>Accueil</span><span>Adopter</span><span>Actualités</span><span>Nous aider</span><span>Contact</span><span>Connexion</span></div>
+        </div>
+        <div class="hello" style="padding:34px 40px 10px"><h1 style="font-size:40px">Un compagnon vous attend <em>au Cap Bon</em> !</h1><p class="muted" style="font-size:18px">Chats et chiens sauvés à Nabeul, prêts à rejoindre une famille.</p></div>
+        <div class="tt" style="margin:24px 200px 18px;font-size:24px">Adopter</div>
+        <div class="doors" style="grid-template-columns:repeat(3,1fr);padding:0 120px;gap:28px">
+          <div class="door"><div class="ph" style="height:220px;font-size:90px">🐱</div><div class="lab"><b>Chats</b><span class="pill" style="background:#FF7A00;color:#111">Miaou !</span></div></div>
+          <div class="door"><div class="ph" style="height:220px;font-size:90px;background:linear-gradient(135deg,#A9D9B8,#FFC48A)">🐶</div><div class="lab"><b>Chiens</b><span class="pill" style="background:#0F5A2A;color:#fff">Wouf !</span></div></div>
+          <div class="door"><div class="ph" style="height:220px;background:#fff"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="170" height="170"></div><div class="lab"><b>L'association</b><span class="pill" style="background:#F1F3F2;color:#0F5A2A">Découvrir →</span></div></div>
+        </div>
+      </div></div>
+      <p class="cap">Ordinateur (réduit 50 %) — trois tuiles côte à côte, comme l'inspiration</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ C -->
+<section class="dir">
+  <h2>C · Catalogue d'abord</h2>
+  <p class="why">L'accueil EST le catalogue : une barre de recherche et des filtres rapides (espèce, taille, âge, ententes) tout en haut, et la liste des animaux juste dessous. Pour le visiteur qui sait déjà ce qu'il cherche, zéro détour. Petit corps de texte, lignes horizontales denses avec tags ; l'association et ses réseaux ne viennent qu'en bas de page.</p>
+  <span class="state">État montré : filtre <b>Chats</b> actif (2 résultats) · aperçu ordinateur : <b>aucun résultat</b> pour une combinaison de filtres</span>
+  <div class="row">
+    <div>
+      <div class="phone dc"><div class="scr">
+        <div class="notch"></div>
+        <div class="nav">
+          <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="28" height="28">AAAS · Adopter au Cap Bon</div>
+          <div class="burger" style="color:#0B0F0C" aria-label="Menu"><i></i><i></i><i></i></div>
+        </div>
+        <div class="search">🔍 <span>Un nom, une couleur, « câlin »…</span></div>
+        <div class="chips">
+          <span class="chip on">🐱 Chats ✕</span><span class="chip">🐶 Chiens</span><span class="chip">Petit</span><span class="chip">Moins d'1 an</span><span class="chip">OK enfants</span><span class="chip more">+ Filtres</span>
+        </div>
+        <div class="count"><span>2 chats à adopter</span><span>Trier : plus récents ▾</span></div>
+        <div class="list">
+          <div class="item"><div class="ph">🐱<span class="badge b-dispo">Disponible</span></div><div class="t"><b>Caramel</b><div class="muted">Chatte · 2 ans · Nabeul</div><div class="tags"><span>Vaccinée</span><span>Stérilisée</span><span>OK enfants</span></div></div><div class="heart">♡</div></div>
+          <div class="item"><div class="ph">🐈<span class="badge b-dispo">Disponible</span></div><div class="t"><b>Mimi</b><div class="muted">Chat · 6 mois · Nabeul</div><div class="tags"><span>Vacciné</span><span>Pucé</span><span>OK chats</span></div></div><div class="heart">♡</div></div>
+        </div>
+        <div class="count" style="margin-top:12px"><span>Sans filtre : 3 animaux, dont Rex</span></div>
+        <div class="list">
+          <div class="item" style="opacity:.85"><div class="ph" style="filter:saturate(.6)">🐶<span class="badge b-resa">Réservé</span></div><div class="t"><b>Rex</b><div class="muted">Chien · 4 ans · mâle</div><div class="tags"><span>Vacciné</span><span>Pucé</span></div><div style="font-size:12px;margin-top:4px;color:#B54708;font-weight:600">Déjà réservé — repassez bientôt !</div></div></div>
+        </div>
+        <div class="asso"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="52" height="52"><div><b>L'association AAAS</b><br><span class="muted">Amitié et action sociale, au Cap Bon (Nabeul). Dons, bénévolat, famille d'accueil →</span></div></div>
+        <div class="foot"><span>📍 Cap Bon, Nabeul</span><span class="soc"><span style="background:#0F5A2A;color:#fff">f</span><span class="ig" style="background:#0F5A2A;color:#fff"><b></b></span></span></div>
+      </div></div>
+      <p class="cap">Téléphone — recherche + filtres d'abord, liste dense</p>
+    </div>
+    <div>
+      <div class="deskwrap dc"><div class="desk">
+        <div class="nav" style="padding:14px 40px">
+          <div class="brand" style="font-size:18px"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="40" height="40">AAAS · Adopter au Cap Bon</div>
+          <div style="display:flex;gap:24px;font-weight:600;font-size:15px"><span>Accueil</span><span style="color:#0F5A2A;border-bottom:2px solid #0F5A2A">Adopter</span><span>Actualités</span><span>Nous aider</span><span>Contact</span><span>Connexion</span></div>
+        </div>
+        <div style="display:flex;gap:24px;padding:20px 40px">
+          <div style="width:260px;flex:none;border:1px solid #E2E5E3;border-radius:12px;padding:16px;font-size:15px;line-height:2">
+            <b>Filtres</b><br>Espèce : <b>Chiens</b><br>Taille : <b>Petit</b><br>Âge : <b>Moins d'1 an</b><br>Ententes : enfants ☐ · animaux ☐
+          </div>
+          <div style="flex:1">
+            <div class="search" style="margin:0 0 14px;font-size:17px">🔍 <span>Un nom, une couleur, « câlin »…</span></div>
+            <div style="border:2px dashed #C9CEC9;border-radius:16px;padding:50px;text-align:center">
+              <div style="font-size:60px">🐾</div>
+              <div style="font-size:22px;font-weight:700;margin:8px 0">Aucun chiot de petite taille pour le moment</div>
+              <div class="muted" style="font-size:16px">Élargissez les filtres ou revenez bientôt : de nouveaux pensionnaires arrivent souvent.</div>
+              <div style="display:inline-block;margin-top:16px;padding:10px 20px;border-radius:10px;background:#0F5A2A;color:#fff;font-weight:700">Effacer les filtres</div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <p class="cap">Ordinateur (réduit 50 %) — filtres en colonne, état « aucun résultat »</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ D -->
+<section class="dir">
+  <h2>D · Histoire et confiance</h2>
+  <p class="why">On commence par prouver que ça marche : une accroche, un compteur d'adoptions bien visible, puis un carrousel horizontal « Ils ont trouvé une famille » avec de petits témoignages. Les animaux à adopter arrivent ensuite, en grandes cartes. Titres en serif (Georgia), ton posé et rassurant, pour un visiteur qui hésite encore.</p>
+  <span class="state">État montré : carrousel « Ils ont trouvé une famille » (1/4) · bouton de réservation <b>désactivé</b> sur Rex (Réservé)</span>
+  <div class="row">
+    <div>
+      <div class="phone dd"><div class="scr">
+        <div class="notch"></div>
+        <div class="nav">
+          <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="38" height="38">AAAS</div>
+          <div class="burger" style="color:#0F5A2A" aria-label="Menu"><i></i><i></i><i></i></div>
+        </div>
+        <div class="intro">
+          <h1>Chaque adoption au Cap Bon est une belle histoire</h1>
+          <p class="muted">L'association d'amitié et d'action sociale recueille chats et chiens à Nabeul et les aide à trouver une famille.</p>
+        </div>
+        <div class="counter"><div class="n">87</div><span><b>animaux adoptés</b><br>grâce à vous depuis le début. Le prochain, c'est peut-être le vôtre !</span></div>
+        <div class="tt">Ils ont trouvé une famille <a>Tout voir →</a></div>
+        <div class="carousel">
+          <div class="story"><div class="ph">😺</div><div class="t"><b>Pistache</b>, adoptée à Hammamet<br><q>Elle dort sur mon oreiller depuis le premier soir.</q></div></div>
+          <div class="story"><div class="ph" style="background:linear-gradient(135deg,#A9D9B8,#FFC48A)">🐕</div><div class="t"><b>Simba</b>, adopté à Kélibia<br><q>Nos enfants ne le quittent plus !</q></div></div>
+          <div class="story"><div class="ph">🐈‍⬛</div><div class="t"><b>Nour</b>, adoptée à Nabeul</div></div>
+        </div>
+        <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+        <div class="tt">Ils vous attendent</div>
+        <div class="adopt">
+          <div class="big"><div class="ph">🐱<span class="badge b-dispo">Disponible</span></div><div class="t"><div><b>Caramel</b><br><span class="muted" style="font-size:13px">Chatte · 2 ans</span></div><span class="btn">Miaou !</span></div></div>
+          <div class="big"><div class="ph" style="filter:saturate(.6)">🐶<span class="badge b-resa">Réservé</span></div><div class="t"><div><b>Rex</b><br><span class="muted" style="font-size:13px">Chien · 4 ans · mâle</span></div><span class="btn off">Déjà réservé</span></div></div>
+          <div class="big"><div class="ph">🐈<span class="badge b-dispo">Disponible</span></div><div class="t"><div><b>Mimi</b><br><span class="muted" style="font-size:13px">Chat · 6 mois</span></div><span class="btn">Miaou !</span></div></div>
+        </div>
+        <div class="foot"><b>AAAS</b> · Cap Bon (Nabeul)<br><span class="soc" style="margin-top:8px"><span style="background:#0F5A2A;color:#fff">f</span><span class="ig" style="background:#FF7A00;color:#111"><b></b></span></span></div>
+      </div></div>
+      <p class="cap">Téléphone — preuve d'abord (compteur + histoires), animaux ensuite</p>
+    </div>
+    <div>
+      <div class="deskwrap dd"><div class="desk">
+        <div class="nav" style="padding:16px 40px">
+          <div class="brand" style="font-size:22px"><img class="logo" src="../imports/logo-aaas.jpg" alt="" width="52" height="52">AAAS · Cap Bon</div>
+          <div style="display:flex;gap:26px;font-weight:600;font-size:16px"><span>Accueil</span><span>Adopter</span><span>Actualités</span><span>Nous aider</span><span>Contact</span><span style="border:2px solid #0F5A2A;color:#0F5A2A;padding:3px 14px;border-radius:999px">Connexion</span></div>
+        </div>
+        <div style="display:flex;gap:30px;align-items:center;padding:20px 40px">
+          <div class="intro" style="flex:1;padding:0"><h1 style="font-size:42px">Chaque adoption au Cap Bon est une belle histoire</h1><p class="muted" style="font-size:18px">Chats et chiens recueillis à Nabeul, prêts à rejoindre une famille.</p></div>
+          <div class="counter" style="margin:0;width:340px"><div class="n" style="font-size:64px">87</div><span><b>animaux adoptés</b><br>grâce à vous</span></div>
+        </div>
+        <div class="tt" style="margin:18px 40px 12px;font-size:26px">Ils ont trouvé une famille <a>Tout voir →</a></div>
+        <div class="carousel" style="padding:0 40px">
+          <div class="story" style="width:250px"><div class="ph">😺</div><div class="t"><b>Pistache</b>, Hammamet</div></div>
+          <div class="story" style="width:250px"><div class="ph" style="background:linear-gradient(135deg,#A9D9B8,#FFC48A)">🐕</div><div class="t"><b>Simba</b>, Kélibia</div></div>
+          <div class="story" style="width:250px"><div class="ph">🐈‍⬛</div><div class="t"><b>Nour</b>, Nabeul</div></div>
+          <div class="story" style="width:250px"><div class="ph" style="background:linear-gradient(135deg,#A9D9B8,#FFC48A)">🐩</div><div class="t"><b>Loulou</b>, Korba</div></div>
+        </div>
+      </div></div>
+      <p class="cap">Ordinateur (réduit 50 %) — accroche et compteur côte à côte, carrousel sur une ligne</p>
+    </div>
+  </div>
+</section>
+</body>
+</html>

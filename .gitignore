@@ -1,0 +1,36 @@
+# Projets antérieurs hors périmètre AAAS
+/server/
+/gym-app/
+
+# .NET
+bin/
+obj/
+.vs/
+*.user
+TestResults/
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+coverage/
+out-tsc/
+
+# Éditeurs et systèmes
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Journaux et secrets locaux
+*.log
+.env
+.env.*
+appsettings.*.local.json
+
+# Rendu temporaire de BMad (régénéré à chaque exécution)
+/_bmad/render/

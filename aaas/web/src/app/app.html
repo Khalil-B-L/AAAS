@@ -1,0 +1,17 @@
+<app-en-tete />
+
+<main class="principal">
+  @if (pattesVisibles()) {
+    <div class="pattes" aria-hidden="true">
+      <span class="patte patte-1">🐾</span>
+      <span class="patte patte-2">🐾</span>
+      <span class="patte patte-3">🐾</span>
+      <span class="patte patte-4">🐾</span>
+    </div>
+  }
+  <div class="contenu">
+    <router-outlet />
+  </div>
+</main>
+
+<app-pied-de-page />

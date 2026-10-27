@@ -1,0 +1,63 @@
+<section class="page-formulaire">
+  <h1 class="titre-message">Connexion</h1>
+  <p class="intro-formulaire">Connectez-vous pour réserver un animal et garder vos favoris.</p>
+
+  <form class="formulaire" [formGroup]="formulaire" (ngSubmit)="envoyer()" novalidate>
+    <div class="champ">
+      <label class="champ-libelle" for="connexion-email">Email</label>
+      <input
+        id="connexion-email"
+        class="champ-saisie"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        formControlName="email"
+        [attr.aria-invalid]="erreurs().email ? true : null"
+        [attr.aria-describedby]="erreurs().email ? 'connexion-email-erreur' : null"
+      />
+      @if (erreurs().email; as message) {
+        <p id="connexion-email-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label class="champ-libelle" for="connexion-mot-de-passe">Mot de passe</label>
+      <input
+        id="connexion-mot-de-passe"
+        class="champ-saisie"
+        type="password"
+        autocomplete="current-password"
+        formControlName="motDePasse"
+        [attr.aria-invalid]="erreurs().motDePasse ? true : null"
+        [attr.aria-describedby]="erreurs().motDePasse ? 'connexion-mot-de-passe-erreur' : null"
+      />
+      @if (erreurs().motDePasse; as message) {
+        <p id="connexion-mot-de-passe-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    @if (alerte(); as message) {
+      <div class="alerte alerte-erreur" role="alert">
+        <p>{{ message }}</p>
+      </div>
+    }
+
+    <button
+      type="submit"
+      class="bouton-pilule bouton-primaire bouton-gros bouton-envoi"
+      [disabled]="envoi()"
+    >
+      {{ envoi() ? 'Envoi…' : 'Connexion' }}
+    </button>
+  </form>
+
+  <div class="bascule-compte">
+    <p>Pas encore de compte ? Un compte membre suffit, c'est gratuit et rapide.</p>
+    <a
+      class="bouton-pilule bouton-contour"
+      routerLink="/inscription"
+      [queryParams]="parametresInscription()"
+      >Créer mon compte</a
+    >
+  </div>
+</section>

@@ -1,0 +1,165 @@
+.pied {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-7);
+  padding: var(--spacing-6) var(--gutter) var(--spacing-7);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body);
+  text-align: center;
+}
+
+.pied a {
+  color: var(--color-on-primary);
+}
+
+.pied :focus-visible {
+  outline-color: var(--color-on-primary);
+}
+
+.identite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.pied-logo {
+  width: var(--size-logo-footer);
+  height: var(--size-logo-footer);
+}
+
+.nom {
+  margin: 0;
+  font-size: var(--font-size-nav-link);
+  font-weight: var(--font-weight-nav-link);
+}
+
+.lien-telephone {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-weight: var(--font-weight-label);
+}
+
+.reseaux,
+.pilules {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pilules {
+  gap: var(--spacing-2);
+}
+
+.pied .reseau {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-social);
+  height: var(--size-social);
+  border-radius: var(--rounded-full);
+  background: var(--color-on-primary);
+  color: var(--color-primary);
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+  text-decoration: none;
+}
+
+.glyphe-instagram {
+  position: relative;
+  display: block;
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+  border: var(--width-rule) solid currentColor;
+  border-radius: var(--rounded-glyph);
+}
+
+.glyphe-instagram::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: var(--spacing-2);
+  height: var(--spacing-2);
+  margin: auto;
+  border: var(--width-rule) solid currentColor;
+  border-radius: var(--rounded-full);
+}
+
+.aide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.pied .bouton-accent {
+  color: var(--color-on-accent);
+}
+
+.contour-blanc {
+  border-color: var(--color-on-primary);
+  background: transparent;
+}
+
+.lien-adoptes {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-weight: var(--font-weight-label);
+}
+
+.mention {
+  margin: 0;
+  font-size: var(--font-size-caption);
+}
+
+@media (min-width: 1024px) {
+  .pied {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-6);
+    margin-top: var(--spacing-gutter-desktop);
+    padding: var(--spacing-7) var(--gutter);
+    font-size: var(--font-size-body);
+    text-align: left;
+  }
+
+  .identite {
+    flex-direction: row;
+    gap: var(--spacing-4);
+  }
+
+  .pied-logo {
+    width: var(--size-logo-footer-desktop);
+    height: var(--size-logo-footer-desktop);
+  }
+
+  .nom {
+    font-size: var(--font-size-card-title);
+  }
+
+  .aide {
+    align-items: flex-end;
+  }
+
+  .pilules {
+    justify-content: flex-end;
+  }
+
+  .mention {
+    flex-basis: 100%;
+    text-align: center;
+  }
+}

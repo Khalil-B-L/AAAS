@@ -1,0 +1,395 @@
+/*
+ * Jetons de DESIGN.md (frontmatter), déclarés une seule fois ici.
+ * Les composants n'utilisent que ces variables : aucune couleur, aucun espacement,
+ * aucun rayon codé en dur ailleurs. Mode clair uniquement.
+ */
+:root {
+  /* Couleurs */
+  --color-primary: #0f5a2a;
+  --color-on-primary: #ffffff;
+  --color-accent: #ff7a00;
+  --color-on-accent: #111111;
+  --color-accent-text: #b45100;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f1f3f2;
+  --color-text: #0b0f0c;
+  --color-text-muted: #4a524c;
+  --color-border: #e2e5e3;
+  --color-border-control: #848b86;
+  --color-success: #127a3a;
+  --color-success-soft: #e8f4ec;
+  --color-warning: #b54708;
+  --color-warning-soft: #fff1e5;
+  --color-danger: #c4231a;
+  --color-danger-soft: #fcebea;
+  --color-info: #475467;
+  --color-neutral-expired: #646b66;
+  --color-paw: #0f5a2a;
+  --color-photo-overlay: #0b0f0ca6;
+  --color-photo-placeholder-start: #ffc48a;
+  --color-photo-placeholder-end: #a9d9b8;
+  --color-logo-green: #3fa535;
+  --color-logo-orange: #f08a1c;
+
+  /* Élévation (DESIGN.md § Elevation & Depth) */
+  --shadow: 0 8px 20px rgba(15, 90, 42, 0.16);
+  --shadow-favori: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --opacity-paw: 0.07;
+
+  /* Typographie : pile système, le caractère vient du poids */
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-display: 25px;
+  --font-size-display-desktop: 44px;
+  --font-weight-display: 800;
+  --line-height-display: 1.12;
+  --font-size-title-animal: 32px;
+  --font-weight-title-animal: 800;
+  --line-height-title-animal: 1.15;
+  --font-size-title-message: 27px;
+  --font-weight-title-message: 800;
+  --line-height-title-message: 1.15;
+  --font-size-section-title: 17px;
+  --font-size-section-title-desktop: 24px;
+  --font-weight-section-title: 800;
+  --letter-spacing-section-title: 1px;
+  --font-size-card-title: 19px;
+  --font-weight-card-title: 800;
+  --font-size-button-lg: 19px;
+  --font-weight-button-lg: 800;
+  --font-size-button-sub: 12px;
+  --font-weight-button-sub: 600;
+  --font-size-nav-link: 17px;
+  --font-weight-nav-link: 800;
+  --font-size-label: 15px;
+  --font-weight-label: 800;
+  --font-size-body: 15px;
+  --font-weight-body: 400;
+  --line-height-body: 1.55;
+  --font-size-body-sm: 14px;
+  --font-weight-body-sm: 400;
+  --line-height-body-sm: 1.45;
+  --font-size-caption: 12.5px;
+  --font-weight-caption: 400;
+  --line-height-caption: 1.35;
+  --font-size-badge: 11px;
+  --font-weight-badge: 800;
+  --font-size-countdown: 54px;
+  --font-weight-countdown: 900;
+  --line-height-countdown: 1;
+  --letter-spacing-countdown: 1px;
+
+  /* Rayons */
+  --rounded-sm: 14px;
+  --rounded-md: 16px;
+  --rounded-lg: 18px;
+  --rounded-xl: 22px;
+  --rounded-2xl: 24px;
+  --rounded-full: 9999px;
+  --rounded-glyph: 5px; /* glyphe Instagram du pied de page (maquette) */
+
+  /* Espacements */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 44px;
+  --spacing-gutter-mobile: 20px;
+  --spacing-gutter-desktop: 56px;
+  --spacing-grid-gap-mobile: 14px;
+  --spacing-grid-gap-desktop: 26px;
+  --tap-min: 48px;
+
+  /* Tailles du logo et des pattes (DESIGN.md § Brand & Style, § Elevation & Depth) */
+  --size-logo-header: 40px;
+  --size-logo-header-desktop: 60px;
+  --size-logo-band: 70px;
+  --size-logo-band-desktop: 120px;
+  --size-logo-footer: 52px;
+  --size-logo-footer-desktop: 70px;
+  --size-paw: 52px;
+  --size-paw-desktop: 100px;
+  --size-social: var(--tap-min);
+  --width-band-buttons: 440px;
+  --width-rule: 2px;
+  --width-nav-rule: 4px;
+  --width-active-link: 3px;
+
+  /* Alias responsives (bascule ordinateur à 1024 px) */
+  --gutter: var(--spacing-gutter-mobile);
+  --grid-gap: var(--spacing-grid-gap-mobile);
+  --section-space: var(--spacing-7);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: var(--spacing-gutter-desktop);
+    --grid-gap: var(--spacing-grid-gap-desktop);
+    --section-space: var(--spacing-8);
+  }
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+/* Focus visible sur tous les contrôles (EXPERIENCE.md § Accessibility Floor) */
+:focus-visible {
+  outline: var(--width-active-link) solid var(--color-primary);
+  outline-offset: var(--width-rule);
+}
+
+/* ---------- Utilitaires ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Logo officiel : tel quel, sur fond blanc, recadré en cercle */
+.logo {
+  display: block;
+  flex: none;
+  object-fit: contain;
+  background: var(--color-surface);
+  border-radius: var(--rounded-full);
+}
+
+/* Titre de section à filets : majuscules, centré, filets de part et d'autre */
+.titre-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin: var(--section-space) var(--gutter) var(--spacing-4);
+  color: var(--color-primary);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-section-title);
+  letter-spacing: var(--letter-spacing-section-title);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.titre-section::before,
+.titre-section::after {
+  content: '';
+  flex: 1;
+  min-width: 18px;
+  height: var(--width-rule);
+  background: var(--color-primary);
+}
+
+@media (min-width: 1024px) {
+  .titre-section {
+    font-size: var(--font-size-section-title-desktop);
+    margin-bottom: var(--spacing-6);
+  }
+}
+
+/* Boutons pilule */
+.bouton-pilule {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-height: var(--tap-min);
+  padding: var(--spacing-2) var(--spacing-5);
+  border: var(--width-rule) solid transparent;
+  border-radius: var(--rounded-full);
+  font: inherit;
+  font-weight: var(--font-weight-label);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bouton-accent {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.bouton-primaire {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.bouton-contour {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Gros bouton (Miaou ! / Wouf ! / appel) : libellé + sous-libellé, ombre standard */
+.bouton-gros {
+  flex-direction: column;
+  gap: 0;
+  padding: var(--spacing-3) var(--spacing-2);
+  font-size: var(--font-size-button-lg);
+  font-weight: var(--font-weight-button-lg);
+  line-height: var(--line-height-display);
+  box-shadow: var(--shadow);
+}
+
+.bouton-gros small {
+  display: block;
+  margin-top: var(--spacing-1);
+  font-size: var(--font-size-button-sub);
+  font-weight: var(--font-weight-button-sub);
+}
+
+.bouton-pilule:disabled {
+  background: var(--color-surface-soft);
+  border-color: transparent;
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Message plein écran (connexion, accès refusé…) */
+.titre-message {
+  color: var(--color-primary);
+  font-size: var(--font-size-title-message);
+  font-weight: var(--font-weight-title-message);
+  line-height: var(--line-height-title-message);
+}
+
+/* ---------- Formulaires (DESIGN.md § Components : Champs, Alerte) ---------- */
+/* Une colonne ; colonne centrée de 720 px au plus sur ordinateur. */
+.page-formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  max-width: 720px;
+  margin: var(--spacing-7) auto var(--section-space);
+  padding: 0 var(--gutter);
+}
+
+.page-formulaire > .bouton-pilule {
+  align-self: flex-start;
+}
+
+.intro-formulaire,
+.page-formulaire p {
+  margin: 0;
+}
+
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.champ-libelle {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+}
+
+.champ-aide {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body-sm);
+}
+
+.champ-saisie {
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--spacing-2) var(--spacing-4);
+  border: var(--width-rule) solid var(--color-border-control);
+  border-radius: var(--rounded-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.champ-saisie::placeholder {
+  color: var(--color-neutral-expired);
+  opacity: 1;
+}
+
+.champ-saisie:focus {
+  border-color: var(--color-primary);
+}
+
+.champ-saisie[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.champ-erreur {
+  color: var(--color-danger);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-body-sm);
+}
+
+.alerte {
+  padding: var(--spacing-3) var(--spacing-4);
+  border: var(--width-rule) solid var(--color-warning);
+  border-radius: var(--rounded-lg);
+  background: var(--color-warning-soft);
+}
+
+.alerte-erreur {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-weight: var(--font-weight-label);
+}
+
+.bouton-envoi {
+  width: 100%;
+}
+
+.bascule-compte {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-5);
+  border-top: var(--width-rule) solid var(--color-border);
+}

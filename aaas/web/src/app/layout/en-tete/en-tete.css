@@ -1,0 +1,207 @@
+.en-tete {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-background);
+  border-bottom: var(--width-nav-rule) solid var(--color-primary);
+}
+
+.identite {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.pastille-admin {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--rounded-full);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--font-size-badge);
+  font-weight: var(--font-weight-badge);
+}
+
+.marque {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: var(--tap-min);
+  color: var(--color-primary);
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+  letter-spacing: var(--letter-spacing-section-title);
+  text-decoration: none;
+}
+
+.marque-logo {
+  width: var(--size-logo-header);
+  height: var(--size-logo-header);
+}
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-1);
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: 0 var(--spacing-3);
+  border: 0;
+  border-radius: var(--rounded-sm);
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.burger-trait {
+  display: block;
+  height: var(--width-active-link);
+  border-radius: var(--rounded-full);
+  background: currentColor;
+}
+
+.menu {
+  display: none;
+  flex-basis: 100%;
+}
+
+.menu-ouvert {
+  display: block;
+}
+
+.liens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  margin: 0;
+  padding: var(--spacing-2) 0 var(--spacing-3);
+  list-style: none;
+}
+
+.lien {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  color: var(--color-primary);
+  font-size: var(--font-size-nav-link);
+  font-weight: var(--font-weight-nav-link);
+  text-decoration: none;
+}
+
+.lien-actif {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-text);
+  text-decoration-thickness: var(--width-active-link);
+  text-underline-offset: var(--spacing-1);
+}
+
+.connexion,
+.compte {
+  margin-top: var(--spacing-2);
+}
+
+.compte {
+  position: relative;
+}
+
+.chevron {
+  font-size: var(--font-size-caption);
+}
+
+.menu-membre,
+.liens-admin {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-membre {
+  display: none;
+  padding: var(--spacing-2) 0 0 var(--spacing-4);
+}
+
+.menu-membre-ouvert {
+  display: block;
+}
+
+.lien-membre {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 0 var(--spacing-2);
+  border: 0;
+  background: none;
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: var(--font-weight-label);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.titre-groupe-admin {
+  display: block;
+  margin-top: var(--spacing-2);
+  padding: 0 var(--spacing-2);
+  border-top: var(--width-rule) solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+}
+
+.deconnexion {
+  border-top: var(--width-rule) solid var(--color-border);
+}
+
+@media (min-width: 1024px) {
+  .en-tete {
+    flex-wrap: nowrap;
+    padding: var(--spacing-4) var(--gutter);
+  }
+
+  .marque {
+    gap: var(--spacing-3);
+    font-size: var(--font-size-section-title-desktop);
+  }
+
+  .marque-logo {
+    width: var(--size-logo-header-desktop);
+    height: var(--size-logo-header-desktop);
+  }
+
+  .burger {
+    display: none;
+  }
+
+  .menu {
+    display: block;
+    flex-basis: auto;
+  }
+
+  .liens {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-7);
+    padding: 0;
+  }
+
+  .connexion,
+  .compte {
+    margin-top: 0;
+  }
+
+  .menu-membre {
+    position: absolute;
+    top: calc(100% + var(--spacing-2));
+    right: 0;
+    padding: var(--spacing-2);
+    border-radius: var(--rounded-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow);
+  }
+}

@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAAS — Écrans clés</title>
+<style>
+/* Écrans clés AAAS — téléphone 375px, MODE CLAIR uniquement (mode sombre retiré, cf. .memlog).
+   Style repris de .working/accueil-mix-1.html (validé) : header logo + A.A.A.S + burger, filet vert 4px,
+   pattes en filigrane, titres à filets, cartes arrondies ombrées, boutons pilule ludiques.
+   Spine à vérifier : CAP-3 (fiche), CAP-4 (réservation + questionnaire, 15 min, max 2 actives/membre,
+   1 active/animal), CAP-6 (admin réservations : confirmer = Adopté, annuler = Disponible), CAP-7 (CRUD animaux),
+   state-machines.md (Disponible/Réservé/Adopté ; En attente/Confirmée/Annulée/Expirée).
+   Palette variation 4 « Contrasté moderne » :
+   primary    #0F5A2A  on-primary #FFFFFF
+   accent     #FF7A00  on-accent  #111111
+   background #FFFFFF  surface    #FFFFFF  soft #F1F3F2
+   text       #0B0F0C  text-muted #4A524C  border #E2E5E3
+   success    #127A3A  warning    #B54708  info #475467  danger #C4231A
+   warning-bg #FFF1E5  (fond doux orange)   success-bg #E8F4EC (fond doux vert)
+   photos simulées #FFC48A → #A9D9B8 */
+:root{--primary:#0F5A2A;--on-primary:#FFFFFF;--accent:#FF7A00;--on-accent:#111111;--bg:#FFFFFF;--surface:#FFFFFF;--text:#0B0F0C;--muted:#4A524C;--border:#E2E5E3;--success:#127A3A;--warning:#B54708;--info:#475467;--danger:#C4231A;--paw:#0F5A2A;--ph1:#FFC48A;--ph2:#A9D9B8;
+  --shadow:0 8px 20px rgba(15,90,42,.16);--soft:#F1F3F2;--warn-bg:#FFF1E5;--ok-bg:#E8F4EC;}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#ECEDEA;color:#1B1D1A}
+header.top{max-width:1700px;margin:0 auto;padding:28px 20px 8px}
+header.top h1{margin:0 0 6px;font-size:26px}
+header.top p{margin:0;color:#4A4D47;max-width:980px;line-height:1.5}
+.row{max-width:1700px;margin:20px auto 40px;padding:0 20px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.cap{font-size:13px;color:#4A4D47;margin:10px 0 0;text-align:center;max-width:375px}
+.cap b{color:#1B1D1A}
+.note{margin:10px auto 0;max-width:375px;border:2px dashed #C9CEC9;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#4A524C;background:#F7F8F7;line-height:1.45}
+
+/* ---------- cadres ---------- */
+.phone{width:375px;max-width:100%;height:780px;border:10px solid #1B1D1A;border-radius:40px;overflow:hidden;background:var(--bg);position:relative;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.phone.mini{height:430px}
+.scr{height:100%;overflow-y:auto;overflow-x:hidden;position:relative;color:var(--text);background:var(--bg)}
+.notch{height:22px;background:#1B1D1A;width:120px;margin:0 auto;border-radius:0 0 14px 14px;position:sticky;top:0;z-index:5}
+
+/* ---------- partagés (accueil-mix-1) ---------- */
+.logo{display:block;object-fit:contain;background:#FFFFFF;border-radius:50%}
+.burger{width:42px;height:42px;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 10px;border-radius:12px;color:var(--primary)}
+.burger i{display:block;height:3px;border-radius:2px;background:currentColor}
+.ph{background:linear-gradient(135deg,var(--ph1),var(--ph2));display:flex;align-items:center;justify-content:center;position:relative}
+.badge{display:inline-block;font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;color:#FFFFFF}
+.ph .badge{position:absolute;top:10px;left:10px}
+.b-dispo{background:var(--success)}
+.b-resa{background:var(--warning)}
+.b-wait{background:var(--accent);color:var(--on-accent)}
+.b-exp{background:#8A918C}/* gris expiré #8A918C */
+.paws{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.paws span{position:absolute;opacity:.07;color:var(--paw);font-size:52px;transform:rotate(-20deg)}
+.z{position:relative;z-index:1}
+.muted{color:var(--muted)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg);border-bottom:4px solid var(--primary);position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--primary);font-size:19px;letter-spacing:.5px}
+.admtag{font-size:11px;font-weight:800;background:var(--accent);color:var(--on-accent);padding:3px 8px;border-radius:999px;letter-spacing:0}
+.tt{display:flex;align-items:center;gap:10px;margin:24px 20px 14px;color:var(--primary);font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:1px;text-align:center}
+.tt:before,.tt:after{content:"";flex:1;height:2px;background:var(--primary);min-width:18px}
+.big{display:block;text-align:center;padding:16px 10px;border-radius:999px;font-weight:800;font-size:19px;box-shadow:var(--shadow);text-decoration:none}
+.big small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:2px}
+.big.cat{background:var(--accent);color:var(--on-accent)}
+.big.dog{background:var(--primary);color:var(--on-primary)}
+.big.ghost{background:var(--surface);color:var(--primary);border:2px solid var(--primary);box-shadow:none}
+.pad{padding:0 20px}
+.back{padding:12px 20px 0;font-weight:800;color:var(--primary);font-size:14px}
+
+/* ---------- fiche animal ---------- */
+.gal{margin:12px 20px 0;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+.gal .ph{height:270px;font-size:110px}
+.gal .count{position:absolute;bottom:12px;right:12px;background:rgba(11,15,12,.65);color:#FFFFFF;font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px}
+.gal .heart{position:absolute;top:10px;right:10px;width:46px;height:46px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.dots{display:flex;justify-content:center;gap:7px;padding:10px 0 2px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.dots i.on{background:var(--primary);width:22px;border-radius:999px}
+.thumbs{display:flex;gap:8px;padding:8px 20px 0}
+.thumbs .ph{width:58px;height:58px;border-radius:14px;font-size:26px;flex:none}
+.thumbs .ph.on{outline:3px solid var(--accent);outline-offset:1px}
+.head{padding:14px 20px 0}
+.head h2{margin:0;font-size:32px;font-weight:800;display:flex;align-items:center;gap:10px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.facts span{background:var(--soft);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:700}
+.desc{font-size:15px;line-height:1.55;margin:0}
+.chk{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.chk div{border-radius:16px;background:var(--ok-bg);text-align:center;padding:12px 4px;font-weight:800;font-size:13px;color:var(--success)}
+.chk div b{display:block;font-size:22px}
+.ent{display:flex;flex-direction:column;gap:8px}
+.ent div{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--border);border-radius:16px;padding:10px 14px;font-size:15px;font-weight:700}
+.ent em{font-style:normal;font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px}
+.yes{background:var(--ok-bg);color:var(--success)}
+.maybe{background:var(--warn-bg);color:var(--warning)}
+.no{background:#FCEBEA;color:var(--danger)}/* fond danger doux #FCEBEA */
+.sticky{position:sticky;bottom:0;padding:12px 20px 16px;background:linear-gradient(rgba(255,255,255,0),#FFFFFF 30%);z-index:4}
+
+/* ---------- formulaires ---------- */
+.form{padding:0 20px;display:flex;flex-direction:column;gap:18px}
+.lbl{font-weight:800;font-size:15px;margin-bottom:8px;display:block}
+.lbl small{font-weight:600;color:var(--muted);font-size:12.5px}
+.seg{display:flex;gap:8px}
+.seg span{flex:1;text-align:center;padding:13px 6px;border-radius:16px;border:2px solid var(--border);font-weight:800;font-size:15px;background:var(--surface)}
+.seg span.on{border-color:var(--primary);background:var(--ok-bg);color:var(--primary)}
+.inp{border:2px solid var(--border);border-radius:16px;padding:13px 14px;font-size:15px;background:var(--surface);min-height:48px}
+.inp.area{min-height:96px;line-height:1.45}
+.inp.ph-txt{color:#8A918C}
+.inp.sel{display:flex;justify-content:space-between}
+.mini-animal{display:flex;gap:12px;align-items:center;margin:14px 20px 0;padding:10px;border-radius:18px;box-shadow:var(--shadow)}
+.mini-animal .ph{width:62px;height:62px;border-radius:14px;font-size:30px;flex:none}
+.mini-animal b{font-size:18px;display:block}
+.boxes{display:flex;flex-direction:column;gap:8px}
+.box{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;border:2px solid var(--border);border-radius:16px;padding:11px 14px}
+.box i{width:24px;height:24px;border-radius:7px;border:2px solid var(--border);flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;color:#FFFFFF;font-size:15px}
+.box.on{border-color:var(--primary)}
+.box.on i{background:var(--primary);border-color:var(--primary)}
+.hint{font-size:13px;color:var(--muted);line-height:1.45;margin:0}
+
+/* ---------- confirmation / refus ---------- */
+.hero{text-align:center;padding:22px 20px 0}
+.hero .emo{font-size:62px;line-height:1}
+.hero h2{font-size:27px;font-weight:800;margin:10px 0 6px;line-height:1.15}
+.hero h2 em{font-style:normal;color:var(--accent)}
+.hero p{margin:0;font-size:15px;line-height:1.5}
+.timer{margin:20px 20px 0;border-radius:24px;background:var(--warn-bg);border:3px solid var(--accent);text-align:center;padding:16px 12px}
+.timer .t{font-size:54px;font-weight:900;color:var(--warning);font-variant-numeric:tabular-nums;letter-spacing:1px;line-height:1}
+.timer .u{font-weight:800;font-size:16px;color:var(--warning);margin-top:4px}
+.bar{height:10px;border-radius:999px;background:#FFFFFF;margin:12px 6px 0;overflow:hidden}
+.bar i{display:block;height:100%;width:97%;background:var(--accent);border-radius:999px}
+.call{margin:18px 20px 0}
+.call .big{font-size:21px;padding:18px 10px}
+.steps{margin:20px 20px 0;padding:14px 16px;border-radius:18px;background:var(--soft);font-size:14px;line-height:1.5}
+.steps ol{margin:6px 0 0;padding-left:20px}
+.steps li{margin-bottom:4px}
+.alert{margin:20px 20px 0;border-radius:20px;padding:16px;border:2px solid var(--warning);background:var(--warn-bg);font-size:15px;line-height:1.5}
+.alert b{display:block;font-size:17px;color:var(--warning);margin-bottom:4px}
+.myres{display:flex;flex-direction:column;gap:10px;padding:0 20px}
+.myres .r{display:flex;gap:12px;align-items:center;border-radius:18px;box-shadow:var(--shadow);padding:10px}
+.myres .ph{width:54px;height:54px;border-radius:14px;font-size:26px;flex:none}
+.myres b{display:block;font-size:16px}
+.myres small{font-size:12.5px;color:var(--muted)}
+
+/* ---------- admin réservations ---------- */
+.filters{display:flex;gap:8px;padding:14px 20px 0;overflow:hidden}
+.filters span{padding:8px 14px;border-radius:999px;border:2px solid var(--border);font-weight:800;font-size:13.5px;white-space:nowrap}
+.filters span.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.rcards{display:flex;flex-direction:column;gap:16px;padding:16px 20px 0}
+.rc{border-radius:22px;box-shadow:var(--shadow);background:var(--surface);overflow:hidden;border:2px solid transparent}
+.rc.urgent{border-color:var(--accent)}
+.rc .top{display:flex;gap:12px;align-items:center;padding:12px}
+.rc .top .ph{width:64px;height:64px;border-radius:16px;font-size:32px;flex:none}
+.rc .top b{font-size:19px;display:block}
+.rc .top small{font-size:12.5px;color:var(--muted)}
+.rc .left{margin-left:auto;text-align:right;font-weight:900;font-size:14px;color:var(--success)}
+.rc.urgent .left{color:var(--warning)}
+.rc .who{margin:0 12px;padding:10px 12px;border-radius:14px;background:var(--soft);font-size:14px;line-height:1.5}
+.rc .who a{color:var(--primary);font-weight:800;text-decoration:none}
+details{margin:10px 12px 0;border:2px solid var(--border);border-radius:14px;padding:10px 12px;font-size:14px}
+summary{font-weight:800;color:var(--primary);cursor:pointer}
+details ul{margin:8px 0 0;padding-left:18px;line-height:1.55}
+.acts{display:flex;gap:10px;padding:12px}
+.acts span{flex:1;text-align:center;padding:15px 6px;border-radius:999px;font-weight:800;font-size:17px}
+.acts .ok{background:var(--success);color:#FFFFFF;box-shadow:var(--shadow)}
+.acts .ko{background:var(--surface);color:var(--danger);border:2px solid var(--danger)}
+.rc.exp{opacity:.55;filter:grayscale(1);box-shadow:none;border:2px dashed var(--border)}
+.sep{font-size:12.5px;color:var(--muted);text-align:center;font-weight:700;margin:4px 0 -4px}
+
+/* ---------- admin ajout animal ---------- */
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.photos .ph{height:88px;border-radius:14px;font-size:34px}
+.photos .ph .x{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:#FFFFFF;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;color:var(--danger)}
+.photos .ph .main{position:absolute;bottom:5px;left:5px;font-size:10px;font-weight:800;background:var(--primary);color:#FFFFFF;padding:2px 7px;border-radius:999px}
+.addph{border:3px dashed var(--accent);border-radius:18px;padding:14px;text-align:center;font-weight:800;color:var(--warning);background:var(--warn-bg);font-size:16px}
+.addph small{display:block;font-weight:600;font-size:12px;color:var(--muted);margin-top:3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trio{display:flex;flex-direction:column;gap:8px}
+.trio .l{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14.5px;font-weight:700}
+.trio .seg span{padding:8px 8px;font-size:13px;border-radius:12px}
+.trio .seg{flex:none;width:200px;gap:5px}
+.stat .seg span.on.d{border-color:var(--success);background:var(--ok-bg);color:var(--success)}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>AAAS — Les écrans clés (téléphone, mode clair)</h1>
+  <p>Le parcours d'adoption de Caramel, de sa fiche jusqu'à l'appel à l'association, puis les deux écrans que l'admin utilise au doigt depuis son téléphone. Même habillage que l'accueil validé : logo, filet vert, pattes en filigrane, titres à filets, cartes rondes et ombrées. Faites défiler dans chaque cadre.</p>
+</header>
+
+<div class="row">
+
+<!-- ================================================================ 1 · FICHE ANIMAL -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="paws"><span style="top:420px;right:10px">🐾</span><span style="top:760px;left:6px">🐾</span><span style="top:1050px;right:24px">🐾</span></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="back">← Les chats</div>
+      <div class="gal">
+        <div class="ph">🐱<span class="badge b-dispo">Disponible</span></div>
+        <span class="heart" aria-label="Ajouter aux favoris">♡</span>
+        <span class="count">1 / 4</span>
+      </div>
+      <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="thumbs">
+        <div class="ph on">🐱</div>
+        <div class="ph" style="background:linear-gradient(135deg,var(--ph2),var(--ph1))">😺</div>
+        <div class="ph">🐈</div>
+        <div class="ph" style="background:linear-gradient(135deg,var(--ph2),var(--ph1))">😸</div>
+      </div>
+      <div class="head">
+        <h2>Caramel</h2>
+        <div class="facts"><span>🐱 Chatte</span><span>2 ans</span><span>Femelle</span><span>Taille moyenne</span></div>
+      </div>
+      <div class="tt">Son caractère</div>
+      <div class="pad"><p class="desc">Caramel a été trouvée près du port de Nabeul. Douce et curieuse, elle adore les siestes au soleil et vient réclamer ses câlins dès qu'on s'assoit. Elle cherche un foyer calme où ronronner tranquille.</p></div>
+      <div class="tt">Santé</div>
+      <div class="pad chk">
+        <div><b>✓</b>Vaccinée</div>
+        <div><b>✓</b>Stérilisée</div>
+        <div><b>✓</b>Pucée</div>
+      </div>
+      <div class="tt">Elle s'entend avec</div>
+      <div class="pad ent">
+        <div>👧 Les enfants <em class="yes">Oui</em></div>
+        <div>🐶 Les chiens <em class="maybe">À voir</em></div>
+        <div>🐱 Les chats <em class="yes">Oui</em></div>
+      </div>
+      <div style="height:22px"></div>
+    </div>
+    <div class="sticky"><a class="big cat" href="#">🐾 Miaou ! Je veux l'adopter</a></div>
+  </div></div>
+  <p class="cap"><b>1 · Fiche animal — Caramel, Disponible</b> : galerie 4 photos (points + vignettes), cœur favori, santé ✓✓✓, ententes, gros bouton orange collé en bas.</p>
+</div>
+
+<!-- ================================================================ 2 · QUESTIONNAIRE -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="paws"><span style="top:300px;right:10px">🐾</span><span style="top:640px;left:8px">🐾</span></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="back">← Retour à Caramel</div>
+      <div class="mini-animal">
+        <div class="ph">🐱</div>
+        <div><b>Réserver Caramel</b><small class="muted">3 petites questions, 1 minute chrono</small></div>
+      </div>
+      <div class="tt">Parlez-nous de vous</div>
+      <div class="form">
+        <div><span class="lbl">Vous habitez…</span>
+          <div class="seg"><span class="on">🏢 Un appartement</span><span>🏡 Une maison</span></div></div>
+        <div><span class="lbl">Avez-vous un jardin ?</span>
+          <div class="seg"><span>Oui</span><span class="on">Non</span></div></div>
+        <div><span class="lbl">Votre expérience avec les animaux <small>(facultatif mais utile)</small></span>
+          <div class="inp area">J'ai eu un chat pendant 10 ans chez mes parents, et je garde souvent celui de ma voisine.</div></div>
+        <p class="hint">En envoyant, Caramel est réservée pour vous pendant <b>15 minutes</b> : il vous suffira d'appeler l'association pour finaliser.</p>
+      </div>
+      <div style="padding:18px 20px 24px"><a class="big dog" href="#">Envoyer ma réservation</a></div>
+    </div>
+  </div></div>
+  <p class="cap"><b>2 · Questionnaire de pré-adoption</b> : une colonne, logement / jardin en gros boutons à choix, expérience en texte libre.</p>
+
+  <div class="phone mini" style="margin-top:22px"><div class="scr">
+    <div class="notch"></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="hero" style="padding-top:18px">
+      <div class="emo">🔑</div>
+      <h2 style="font-size:22px">Connectez-vous pour réserver <em>Caramel</em></h2>
+      <p class="muted">Un compte membre suffit, c'est gratuit et rapide.</p>
+    </div>
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:10px">
+      <a class="big dog" href="#">Connexion</a>
+      <a class="big ghost" href="#">Créer mon compte</a>
+    </div>
+  </div></div>
+  <p class="cap"><b>2b · Variante non connecté</b> : le formulaire est remplacé par un renvoi vers Connexion (retour sur Caramel ensuite).</p>
+</div>
+
+<!-- ================================================================ 3 · CONFIRMATION -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="paws"><span style="top:200px;left:8px">🐾</span><span style="top:560px;right:12px">🐾</span></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="hero">
+        <div class="emo">😻</div>
+        <h2>Caramel vous attend <em>déjà</em> !</h2>
+        <p class="muted">Votre réservation est bien partie. Dernière étape : un petit coup de fil à l'association.</p>
+      </div>
+      <div class="timer" role="timer">
+        <div class="t">14:32</div>
+        <div class="u">restantes pour appeler</div>
+        <div class="bar"><i></i></div>
+      </div>
+      <div class="call"><a class="big cat" href="tel:+216XXXXXXXX">📞 Appeler l'association<small>+216 XX XXX XXX</small></a></div>
+      <div class="steps">
+        <b>Comment ça marche ?</b>
+        <ol>
+          <li>Appelez dans les <b>15 minutes</b> : l'association confirme l'adoption pendant l'appel.</li>
+          <li>Sans appel à temps, <b>Caramel redevient disponible</b> pour d'autres familles.</li>
+        </ol>
+      </div>
+      <div style="padding:16px 20px 24px;text-align:center"><span style="font-weight:800;color:var(--primary);font-size:15px">Voir mes réservations →</span></div>
+    </div>
+  </div></div>
+  <p class="cap"><b>3 · Réservation envoyée</b> : compte à rebours géant 14:32, gros bouton d'appel (lien tel:), règle des 15 minutes expliquée simplement.</p>
+</div>
+
+<!-- ================================================================ 4 · REFUS LIMITE -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="paws"><span style="top:260px;right:10px">🐾</span><span style="top:600px;left:8px">🐾</span></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S</div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="back">← Retour à Caramel</div>
+      <div class="hero">
+        <div class="emo">🙀</div>
+        <h2>Oups, vos deux paniers sont <em>déjà pris</em></h2>
+      </div>
+      <div class="alert">
+        <b>Réservation impossible pour le moment</b>
+        Vous avez déjà <b>2 réservations en cours</b>, c'est le maximum. Appelez l'association pour les finaliser, ou attendez qu'une se libère, puis revenez réserver Caramel.
+      </div>
+      <div class="tt">En cours</div>
+      <div class="myres">
+        <div class="r"><div class="ph">🐶</div><div><b>Rex</b><small>En attente · 9 min restantes</small></div></div>
+        <div class="r"><div class="ph" style="background:linear-gradient(135deg,var(--ph2),var(--ph1))">🐈</div><div><b>Mimi</b><small>En attente · 12 min restantes</small></div></div>
+      </div>
+      <div style="padding:20px 20px 24px;display:flex;flex-direction:column;gap:10px">
+        <a class="big dog" href="#">Mes réservations</a>
+        <a class="big ghost" href="#">Retour à Caramel</a>
+      </div>
+    </div>
+  </div></div>
+  <p class="cap"><b>4 · Refus : limite de 2 réservations atteinte</b> : message clair et sans reproche, rappel des 2 réservations, lien « Mes réservations ».</p>
+</div>
+
+<!-- ================================================================ 5 · ADMIN RÉSERVATIONS -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S <span class="admtag">Admin</span></div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="tt" style="margin-bottom:0">Réservations</div>
+      <div class="filters"><span class="on">En attente (2)</span><span>Confirmées</span><span>Annulées</span><span>Expirées</span></div>
+      <div class="rcards">
+
+        <div class="rc urgent">
+          <div class="top"><div class="ph">🐶</div><div><b>Rex</b><small>Chien · 4 ans · mâle</small></div><div class="left">⏱ 3 min<br>restantes</div></div>
+          <div class="who">👤 <b>Sana B.</b><br>📞 <a href="tel:+21698000111">+216 98 000 111</a></div>
+          <details><summary>Questionnaire</summary><ul><li>Logement : maison</li><li>Jardin : oui</li><li>Expérience : « Deux chiens dans la famille depuis toujours. »</li></ul></details>
+          <div class="acts"><span class="ok">✓ Confirmer</span><span class="ko">Annuler</span></div>
+        </div>
+
+        <div class="rc">
+          <div class="top"><div class="ph">🐱</div><div><b>Caramel</b><small>Chatte · 2 ans</small></div><div class="left">⏱ 14 min<br>restantes</div></div>
+          <div class="who">👤 <b>Youssef M.</b><br>📞 <a href="tel:+21622000333">+216 22 000 333</a></div>
+          <details open><summary>Questionnaire</summary><ul><li>Logement : appartement</li><li>Jardin : non</li><li>Expérience : « J'ai eu un chat pendant 10 ans chez mes parents. »</li></ul></details>
+          <div class="acts"><span class="ok">✓ Confirmer</span><span class="ko">Annuler</span></div>
+        </div>
+
+        <div class="sep">Terminées récemment</div>
+        <div class="rc exp">
+          <div class="top"><div class="ph">🐕</div><div><b>Filou</b><small>Chien · 1 an · mâle</small></div><div class="left"><span class="badge b-exp">Expirée</span></div></div>
+          <div class="who">👤 <b>Amira K.</b> · aucun appel en 15 min<br>Filou est redevenu Disponible.</div>
+          <div style="height:12px"></div>
+        </div>
+      </div>
+      <p class="hint" style="padding:14px 20px 24px">Confirmer = adoption actée (l'animal passe Adopté). Annuler = l'animal redevient Disponible.</p>
+    </div>
+  </div></div>
+  <p class="cap"><b>5 · Admin — Réservations</b> : cartes au doigt, téléphone du membre cliquable, Rex en orange (3 min), questionnaire repliable, Confirmer vert / Annuler, Expirée grisée en bas.</p>
+</div>
+
+<!-- ================================================================ 6 · ADMIN AJOUT ANIMAL -->
+<div>
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+    <div class="nav">
+      <div class="brand"><img class="logo" src="../imports/logo-aaas.jpg" alt="Logo AAAS" width="40" height="40">A.A.A.S <span class="admtag">Admin</span></div>
+      <div class="burger" aria-label="Menu"><i></i><i></i><i></i></div>
+    </div>
+    <div class="z">
+      <div class="back">← Animaux</div>
+      <div class="tt">Ajouter un animal</div>
+      <div class="form">
+        <div><span class="lbl">Photos <small>(la 1re est la photo principale)</small></span>
+          <div class="photos">
+            <div class="ph">🐶<span class="x">×</span><span class="main">Principale</span></div>
+            <div class="ph" style="background:linear-gradient(135deg,var(--ph2),var(--ph1))">🐕<span class="x">×</span></div>
+            <div class="ph">🐾<span class="x">×</span></div>
+          </div>
+          <div class="addph" style="margin-top:10px">📷 Prendre / choisir des photos<small>Appareil photo ou galerie du téléphone</small></div></div>
+        <div><span class="lbl">Espèce</span><div class="seg"><span>🐱 Chat</span><span class="on">🐶 Chien</span></div></div>
+        <div><span class="lbl">Nom</span><div class="inp">Luna</div></div>
+        <div class="two">
+          <div><span class="lbl">Âge</span><div class="inp sel">8 mois <span>▾</span></div></div>
+          <div><span class="lbl">Taille</span><div class="inp sel">Moyenne <span>▾</span></div></div>
+        </div>
+        <div><span class="lbl">Sexe</span><div class="seg"><span>Mâle</span><span class="on">Femelle</span></div></div>
+        <div><span class="lbl">Santé</span>
+          <div class="boxes">
+            <div class="box on"><i>✓</i>Vacciné(e)</div>
+            <div class="box"><i></i>Stérilisé(e)</div>
+            <div class="box on"><i>✓</i>Pucé(e)</div>
+          </div></div>
+        <div><span class="lbl">Ententes</span>
+          <div class="trio">
+            <div class="l">👧 Enfants<div class="seg"><span class="on">Oui</span><span>À voir</span><span>Non</span></div></div>
+            <div class="l">🐶 Chiens<div class="seg"><span class="on">Oui</span><span>À voir</span><span>Non</span></div></div>
+            <div class="l">🐱 Chats<div class="seg"><span>Oui</span><span class="on">À voir</span><span>Non</span></div></div>
+          </div></div>
+        <div><span class="lbl">Description</span><div class="inp area">Petite boule d'énergie trouvée à Kélibia. Adore courir sur la plage et apprend vite. Idéale pour une famille active.</div></div>
+        <div class="stat"><span class="lbl">Statut</span><div class="seg"><span class="on d">Disponible</span><span>Réservé</span><span>Adopté</span></div></div>
+      </div>
+      <div style="padding:20px 20px 26px"><a class="big dog" href="#">Enregistrer l'animal</a></div>
+    </div>
+  </div></div>
+  <p class="cap"><b>6 · Admin — Ajouter un animal</b> : une colonne au doigt, gros bouton photos (appareil ou galerie), choix en boutons segmentés, cases santé, statut Disponible par défaut.</p>
+</div>
+
+</div>
+</body>
+</html>

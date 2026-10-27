@@ -1,0 +1,117 @@
+<section class="page-formulaire">
+  <h1 class="titre-message">Créer mon compte</h1>
+  <p class="intro-formulaire">Un compte membre suffit, c'est gratuit et rapide.</p>
+
+  <form class="formulaire" [formGroup]="formulaire" (ngSubmit)="envoyer()" novalidate>
+    <div class="champ">
+      <label class="champ-libelle" for="inscription-prenom">Prénom</label>
+      <input
+        id="inscription-prenom"
+        class="champ-saisie"
+        type="text"
+        autocomplete="given-name"
+        formControlName="prenom"
+        [attr.aria-invalid]="erreurs().prenom ? true : null"
+        [attr.aria-describedby]="decritPar('prenom')"
+      />
+      @if (erreurs().prenom; as message) {
+        <p id="inscription-prenom-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label class="champ-libelle" for="inscription-nom">Nom</label>
+      <input
+        id="inscription-nom"
+        class="champ-saisie"
+        type="text"
+        autocomplete="family-name"
+        formControlName="nom"
+        [attr.aria-invalid]="erreurs().nom ? true : null"
+        [attr.aria-describedby]="decritPar('nom')"
+      />
+      @if (erreurs().nom; as message) {
+        <p id="inscription-nom-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label class="champ-libelle" for="inscription-email">Email</label>
+      <input
+        id="inscription-email"
+        class="champ-saisie"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        formControlName="email"
+        [attr.aria-invalid]="erreurs().email ? true : null"
+        [attr.aria-describedby]="decritPar('email')"
+      />
+      @if (erreurs().email; as message) {
+        <p id="inscription-email-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label class="champ-libelle" for="inscription-telephone">Téléphone</label>
+      <p id="inscription-telephone-aide" class="champ-aide">
+        Votre numéro permet à l'association de vous rappeler.
+      </p>
+      <input
+        id="inscription-telephone"
+        class="champ-saisie"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="72 000 000"
+        formControlName="telephone"
+        [attr.aria-invalid]="erreurs().telephone ? true : null"
+        [attr.aria-describedby]="decritPar('telephone', 'inscription-telephone-aide')"
+      />
+      @if (erreurs().telephone; as message) {
+        <p id="inscription-telephone-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label class="champ-libelle" for="inscription-mot-de-passe">Mot de passe</label>
+      <p id="inscription-mot-de-passe-aide" class="champ-aide">8 caractères minimum.</p>
+      <input
+        id="inscription-mot-de-passe"
+        class="champ-saisie"
+        type="password"
+        autocomplete="new-password"
+        formControlName="motDePasse"
+        [attr.aria-invalid]="erreurs().motDePasse ? true : null"
+        [attr.aria-describedby]="decritPar('motDePasse', 'inscription-mot-de-passe-aide')"
+      />
+      @if (erreurs().motDePasse; as message) {
+        <p id="inscription-motDePasse-erreur" class="champ-erreur">{{ message }}</p>
+      }
+    </div>
+
+    @if (alerte(); as message) {
+      <div class="alerte alerte-erreur" role="alert">
+        <p>{{ message }}</p>
+      </div>
+    }
+
+    <button
+      type="submit"
+      class="bouton-pilule bouton-primaire bouton-gros bouton-envoi"
+      [disabled]="envoi()"
+    >
+      {{ envoi() ? 'Envoi…' : 'Créer mon compte' }}
+    </button>
+  </form>
+
+  <div class="bascule-compte">
+    <p>Déjà membre ?</p>
+    <a
+      class="bouton-pilule bouton-contour"
+      routerLink="/connexion"
+      [queryParams]="parametresConnexion()"
+      >Connexion</a
+    >
+  </div>
+</section>

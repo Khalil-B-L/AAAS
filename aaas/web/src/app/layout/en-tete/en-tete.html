@@ -1,0 +1,101 @@
+<header class="en-tete">
+  <div class="identite">
+    <a class="marque" routerLink="/" aria-label="A.A.A.S, accueil">
+      <img class="logo marque-logo" src="logo-aaas.jpg" alt="" width="60" height="60" />
+      <span aria-hidden="true">A.A.A.S</span>
+    </a>
+    @if (espaceAdmin()) {
+      <span class="pastille-admin">Admin</span>
+    }
+  </div>
+
+  <button
+    #boutonMenu
+    type="button"
+    class="burger"
+    aria-label="Menu"
+    aria-controls="menu-principal"
+    [attr.aria-expanded]="ouvert()"
+    (click)="basculer()"
+  >
+    <span class="burger-trait" aria-hidden="true"></span>
+    <span class="burger-trait" aria-hidden="true"></span>
+    <span class="burger-trait" aria-hidden="true"></span>
+  </button>
+
+  <nav
+    id="menu-principal"
+    class="menu"
+    [class.menu-ouvert]="ouvert()"
+    aria-label="Navigation principale"
+  >
+    <ul class="liens" (click)="fermerSurLien($event)">
+      @for (lien of liens; track lien.lien) {
+        <li>
+          <a
+            class="lien"
+            [class.lien-actif]="lienActif() === lien"
+            [routerLink]="lien.lien"
+            [attr.aria-current]="lienActif() === lien ? 'page' : null"
+            >{{ lien.libelle }}</a
+          >
+        </li>
+      }
+      @if (utilisateur(); as moi) {
+        <li #zoneCompte class="compte">
+          <button
+            #boutonCompte
+            type="button"
+            class="bouton-pilule bouton-accent bouton-compte"
+            aria-controls="menu-membre"
+            [attr.aria-expanded]="compteOuvert()"
+            (click)="basculerCompte()"
+          >
+            <span class="visually-hidden">Menu du compte de </span>{{ moi.prenom }}
+            <span class="chevron" aria-hidden="true">▾</span>
+          </button>
+          <ul id="menu-membre" class="menu-membre" [class.menu-membre-ouvert]="compteOuvert()">
+            @for (lien of liensMembre; track lien.lien) {
+              <li>
+                <a
+                  class="lien-membre"
+                  [routerLink]="lien.lien"
+                  routerLinkActive="lien-actif"
+                  ariaCurrentWhenActive="page"
+                  >{{ lien.libelle }}</a
+                >
+              </li>
+            }
+            @if (estAdmin()) {
+              <li class="groupe-admin">
+                <span id="titre-groupe-admin" class="titre-groupe-admin">Association</span>
+                <ul class="liens-admin" aria-labelledby="titre-groupe-admin">
+                  @for (lien of liensAdmin; track lien.lien) {
+                    <li>
+                      <a
+                        class="lien-membre"
+                        [routerLink]="lien.lien"
+                        routerLinkActive="lien-actif"
+                        ariaCurrentWhenActive="page"
+                        >{{ lien.libelle }}</a
+                      >
+                    </li>
+                  }
+                </ul>
+              </li>
+            }
+            <li>
+              <button type="button" class="lien-membre deconnexion" (click)="deconnecter()">
+                Déconnexion
+              </button>
+            </li>
+          </ul>
+        </li>
+      } @else {
+        <li>
+          <a class="bouton-pilule bouton-accent connexion" routerLink="/connexion">Connexion</a>
+        </li>
+      }
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,11 @@
+@if (site()?.telephone; as telephone) {
+  <a
+    class="bouton-pilule bouton-accent bouton-gros bouton-appel"
+    [href]="'tel:' + telephone"
+    aria-label="Appeler l'association"
+    [attr.aria-describedby]="idNumero"
+  >
+    <span><span aria-hidden="true">📞 </span>Appeler l'association</span>
+    <small [id]="idNumero">{{ telephone | telephone }}</small>
+  </a>
+}
