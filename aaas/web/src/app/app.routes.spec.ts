@@ -25,8 +25,10 @@ describe('routes (contrats-api.md §7)', () => {
   });
 
   afterEach(() => {
-    // L'accueil charge ses derniers pensionnaires : réponse vide pour toute navigation qui y mène.
-    http.match('/api/animaux?limite=4').forEach((requete) => requete.flush(collection([])));
+    // L'accueil (derniers pensionnaires) et Adopter (catalogue) chargent des animaux : réponse vide.
+    http
+      .match((requete) => requete.url === '/api/animaux')
+      .forEach((requete) => requete.flush(collection([])));
     http.verify();
     localStorage.clear();
   });

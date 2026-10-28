@@ -18,14 +18,20 @@ public static class Animaux
 
     private static CancellationToken Ct => TestContext.Current.CancellationToken;
 
-    /// <summary>Animal Disponible, valide pour la base ; <paramref name="creeLe"/> fixe sa date de création.</summary>
+    /// <summary>
+    /// Animal Disponible, valide pour la base ; <paramref name="creeLe"/> fixe sa date de création.
+    /// Ententes par défaut : enfants Oui, chiens À voir, chats Non.
+    /// </summary>
     public static Animal Nouveau(
         string nom = "Caramel",
         DateTimeOffset? creeLe = null,
         Espece espece = Espece.Chat,
         Sexe sexe = Sexe.Femelle,
         TrancheAge age = TrancheAge.Jeune,
-        Taille taille = Taille.Moyenne) =>
+        Taille taille = Taille.Moyenne,
+        Entente enfants = Entente.Oui,
+        Entente chiens = Entente.AVoir,
+        Entente chats = Entente.Non) =>
         new(new FakeTimeProvider(creeLe ?? CreeLeParDefaut))
         {
             Nom = nom,
@@ -37,9 +43,9 @@ public static class Animaux
             Vaccine = true,
             Sterilise = false,
             Puce = true,
-            EntenteEnfants = Entente.Oui,
-            EntenteChiens = Entente.AVoir,
-            EntenteChats = Entente.Non,
+            EntenteEnfants = enfants,
+            EntenteChiens = chiens,
+            EntenteChats = chats,
         };
 
     /// <summary>Passe l'animal Réservé par <see cref="Animal.Reserver"/>.</summary>

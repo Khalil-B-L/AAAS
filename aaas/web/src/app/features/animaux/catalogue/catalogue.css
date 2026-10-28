@@ -1,0 +1,93 @@
+.titre-page {
+  margin: var(--spacing-7) var(--gutter) var(--spacing-4);
+  color: var(--color-primary);
+  font-size: var(--font-size-title-message);
+  font-weight: var(--font-weight-title-message);
+  line-height: var(--line-height-title-message);
+}
+
+/* Téléphone et tablette : une rangée défilante horizontalement ; ordinateur : plusieurs lignes. */
+.filtres {
+  display: flex;
+  gap: var(--spacing-5);
+  padding: var(--spacing-1) var(--gutter) var(--spacing-3);
+  overflow-x: auto;
+}
+
+.groupe {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.groupe-libelle {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  white-space: nowrap;
+}
+
+/* « (Oui ou À voir) » des ententes : visible de tous, discret (EXPERIENCE.md, filtres du catalogue). */
+.groupe-precision {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-caption);
+}
+
+.puce {
+  min-height: var(--tap-min);
+  padding: var(--spacing-2) var(--spacing-4);
+  border: var(--width-rule) solid var(--color-border-control);
+  border-radius: var(--rounded-full);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: var(--font-weight-label);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.puce[aria-pressed='true'] {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  min-height: var(--tap-min);
+  margin-bottom: var(--spacing-4);
+  padding: 0 var(--gutter);
+}
+
+.compteur,
+.aucun-resultat {
+  margin: 0;
+}
+
+.compteur {
+  font-weight: var(--font-weight-label);
+}
+
+.aucun-resultat {
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+.adoptes {
+  margin: var(--section-space) var(--gutter);
+  font-weight: var(--font-weight-label);
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .filtres {
+    flex-wrap: wrap;
+    gap: var(--spacing-3) var(--spacing-6);
+    overflow-x: visible;
+  }
+}

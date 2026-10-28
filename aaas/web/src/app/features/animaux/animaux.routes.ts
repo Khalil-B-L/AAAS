@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
 import { RACINE_VERS_ACCUEIL, routePageVide } from '../../shared/page-vide/page-vide';
+import { Catalogue } from './catalogue/catalogue';
 
-/** Monté sur `/adopter`. */
-export const CATALOGUE_ROUTES: Routes = [routePageVide('', 'Adopter')];
+/** Monté sur `/adopter` : catalogue filtré, filtres en query params (contrats-api.md §7). */
+export const CATALOGUE_ROUTES: Routes = [
+  { path: '', component: Catalogue, title: 'Adopter · AAAS' },
+];
 
 /** Monté sur `/animaux`. */
 export const FICHE_ROUTES: Routes = [RACINE_VERS_ACCUEIL, routePageVide(':id', 'Fiche animal')];

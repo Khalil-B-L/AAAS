@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { RouterLink } from '@angular/router';
 import { AnimalCarteDto } from '../../core/api/animal.dto';
 import { AnimauxService } from '../../core/animaux.service';
-import { CarteAnimal } from '../../shared/carte-animal/carte-animal';
+import { CatalogueVide } from '../../shared/grille-animaux/catalogue-vide';
+import { GrilleAnimaux } from '../../shared/grille-animaux/grille-animaux';
 
 /** Nombre de cartes de « Nos derniers pensionnaires ». */
 export const NOMBRE_PENSIONNAIRES = 4;
@@ -13,7 +14,7 @@ export const NOMBRE_PENSIONNAIRES = 4;
  */
 @Component({
   selector: 'app-accueil',
-  imports: [RouterLink, CarteAnimal],
+  imports: [RouterLink, GrilleAnimaux, CatalogueVide],
   templateUrl: './accueil.html',
   styleUrl: './accueil.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +34,7 @@ export class Accueil {
 
   private async chargerPensionnaires(): Promise<void> {
     try {
-      const reponse = await this.animaux.lister(NOMBRE_PENSIONNAIRES);
+      const reponse = await this.animaux.lister({ limite: NOMBRE_PENSIONNAIRES });
       this.pensionnaires.set(reponse.items);
     } catch (erreur) {
       console.error('Impossible de charger les derniers pensionnaires (/api/animaux).', erreur);

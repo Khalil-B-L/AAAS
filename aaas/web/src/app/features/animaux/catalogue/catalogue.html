@@ -1,0 +1,56 @@
+<h1 class="titre-page">Adopter</h1>
+
+<div class="filtres" role="region" aria-label="Filtres">
+  @for (groupe of groupes; track groupe.id) {
+    <div class="groupe" role="group" [attr.aria-labelledby]="'filtre-' + groupe.id">
+      <span class="groupe-libelle" [id]="'filtre-' + groupe.id">
+        {{ groupe.libelle }}
+        @if (groupe.precision; as precision) {
+          <span class="groupe-precision">({{ precision }})</span>
+        }
+      </span>
+      @for (puce of groupe.puces; track puce.parametre + puce.valeur) {
+        <button
+          type="button"
+          class="puce"
+          [attr.aria-pressed]="estActive(puce)"
+          [attr.data-filtre]="puce.parametre + '=' + puce.valeur"
+          (click)="basculer(puce)"
+        >
+          {{ puce.libelle }}
+        </button>
+      }
+    </div>
+  }
+</div>
+
+<div class="barre">
+  <p class="compteur" role="status">
+    @if (resultat(); as resultat) {
+      @if (!resultat.echec) {
+        {{ compteur() }}
+      }
+    }
+  </p>
+  @if (filtresActifs().length > 0) {
+    <button type="button" class="bouton-pilule bouton-contour effacer" (click)="effacer()">
+      Effacer les filtres
+    </button>
+  }
+</div>
+
+@if (resultat(); as resultat) {
+  @if (resultat.animaux.length > 0) {
+    <app-grille-animaux [animaux]="resultat.animaux" />
+  } @else if (resultat.echec || filtresActifs().length === 0) {
+    <app-catalogue-vide />
+  } @else {
+    <p class="aucun-resultat">
+      Aucun animal ne correspond à vos filtres : {{ filtresActifs().join(', ') }}.
+    </p>
+  }
+}
+
+<p class="adoptes">
+  <a routerLink="/ils-ont-trouve-une-famille">Ils ont trouvé une famille →</a>
+</p>

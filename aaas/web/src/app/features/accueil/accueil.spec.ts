@@ -1,15 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { AnimalCarteDto, CollectionDto } from '../../core/api/animal.dto';
+import { AnimalCarteDto, CollectionDto, FiltresCatalogue } from '../../core/api/animal.dto';
 import { AnimauxService } from '../../core/animaux.service';
 import { collection, derniersPensionnaires } from '../../testing/animaux';
 import { Accueil } from './accueil';
 
 describe('Accueil', () => {
-  let lister: ReturnType<typeof vi.fn<(limite?: number) => Promise<CollectionDto<AnimalCarteDto>>>>;
+  let lister: ReturnType<
+    typeof vi.fn<(filtres?: FiltresCatalogue) => Promise<CollectionDto<AnimalCarteDto>>>
+  >;
 
   beforeEach(() => {
-    lister = vi.fn<(limite?: number) => Promise<CollectionDto<AnimalCarteDto>>>();
+    lister = vi.fn<(filtres?: FiltresCatalogue) => Promise<CollectionDto<AnimalCarteDto>>>();
     lister.mockResolvedValue(collection(derniersPensionnaires));
   });
 
@@ -57,7 +59,7 @@ describe('Accueil', () => {
   it('charge les 4 derniers pensionnaires et affiche une carte par animal, dans l’ordre', async () => {
     const accueil = await rendre();
 
-    expect(lister).toHaveBeenCalledExactlyOnceWith(4);
+    expect(lister).toHaveBeenCalledExactlyOnceWith({ limite: 4 });
     const cartes = Array.from(accueil.querySelectorAll('.grille-animaux app-carte-animal'));
     expect(cartes.map((carte) => carte.querySelector('h3')?.textContent?.trim())).toEqual([
       'Caramel',

@@ -33,16 +33,9 @@
   <h2 class="titre-section" id="titre-pensionnaires">Nos derniers pensionnaires</h2>
   @if (pensionnaires(); as pensionnaires) {
     @if (pensionnaires.length > 0) {
-      <ul class="grille-animaux">
-        @for (animal of pensionnaires; track animal.id) {
-          <li><app-carte-animal [animal]="animal" /></li>
-        }
-      </ul>
+      <app-grille-animaux [animaux]="pensionnaires" />
     } @else {
-      <p class="etat-vide">
-        Tous nos protégés ont trouvé une famille pour l'instant !
-        <a routerLink="/ils-ont-trouve-une-famille">Ils ont trouvé une famille</a>
-      </p>
+      <app-catalogue-vide />
     }
   }
   <div class="voir-tous">
