@@ -38,6 +38,8 @@ public class AnimauxTests(AaasFactory factory) : IAsyncLifetime
         var animal = Animaux.Nouveau("Rex", espece: Features.Animaux.Espece.Chien, sexe: Features.Animaux.Sexe.Male,
             age: Features.Animaux.TrancheAge.Senior, taille: Features.Animaux.Taille.Grande).Reserve();
         await factory.InsererAsync(animal);
+        // Réservé effectif seulement avec une réservation active (AD-5).
+        await factory.InsererAsync(Reservations.Active(animal.Id, await factory.CreerMembreAsync(), factory.Time.GetUtcNow()));
 
         using var doc = await GetAsync("/api/animaux");
 

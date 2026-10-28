@@ -38,10 +38,4 @@ public enum Entente
     Non,
 }
 
-/// <summary>Statut stocké d'un animal ; ne change que par les transitions de <see cref="Animal"/> (AD-4).</summary>
-public enum StatutAnimal
-{
-    Disponible,
-    Reserve,
-    Adopte,
-}
+// StatutAnimal vit dans Common/Disponibilite : les prédicats du statut effectif (AD-5) le partagent sans dépendre d'une slice.

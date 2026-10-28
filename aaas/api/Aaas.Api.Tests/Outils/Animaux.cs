@@ -1,3 +1,4 @@
+using Aaas.Api.Common.Disponibilite;
 using Aaas.Api.Data;
 using Aaas.Api.Features.Animaux;
 using Microsoft.EntityFrameworkCore;
@@ -73,9 +74,13 @@ public static class Animaux
         await db.SaveChangesAsync(Ct);
     }
 
-    /// <summary>Vide la table des animaux (la base est partagée par toute la collection de tests).</summary>
+    /// <summary>
+    /// Vide la table des animaux (la base est partagée par toute la collection de tests), après leurs réservations
+    /// qui en bloquent la suppression (<c>Restrict</c>, AD-7).
+    /// </summary>
     public static async Task ViderAnimauxAsync(this AaasFactory factory)
     {
+        await factory.ViderReservationsAsync();
         using var scope = factory.Services.CreateScope();
         await scope.ServiceProvider.GetRequiredService<AppDbContext>().Set<Animal>().ExecuteDeleteAsync(Ct);
     }

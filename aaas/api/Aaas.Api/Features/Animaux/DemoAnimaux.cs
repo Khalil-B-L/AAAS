@@ -1,3 +1,4 @@
+using Aaas.Api.Common.Disponibilite;
 using Aaas.Api.Data;
 using Microsoft.EntityFrameworkCore;
 

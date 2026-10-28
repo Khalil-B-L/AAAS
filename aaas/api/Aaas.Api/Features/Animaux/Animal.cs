@@ -1,3 +1,5 @@
+using Aaas.Api.Common.Disponibilite;
+
 namespace Aaas.Api.Features.Animaux;
 
 /// <summary>
@@ -5,7 +7,7 @@ namespace Aaas.Api.Features.Animaux;
 /// <see cref="Statut"/> ne change que par <see cref="Reserver"/>, <see cref="Liberer"/>, <see cref="MarquerAdopte"/>
 /// et <see cref="ForcerStatut"/> (AD-4) ; l'heure vient toujours de <see cref="TimeProvider"/> (AD-11).
 /// </summary>
-public class Animal
+public class Animal : IAnimalStatut
 {
     public const int NomMax = 50;
     public const int DescriptionMax = 2000;

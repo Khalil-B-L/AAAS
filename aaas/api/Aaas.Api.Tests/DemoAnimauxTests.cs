@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using Aaas.Api.Common.Disponibilite;
 using Aaas.Api.Data;
 using Aaas.Api.Features.Animaux;
 using Aaas.Api.Tests.Outils;

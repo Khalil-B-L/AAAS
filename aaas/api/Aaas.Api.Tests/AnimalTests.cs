@@ -1,3 +1,4 @@
+using Aaas.Api.Common.Disponibilite;
 using Aaas.Api.Features.Animaux;
 using Aaas.Api.Tests.Outils;
 using Microsoft.Extensions.Time.Testing;
