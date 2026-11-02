@@ -52,6 +52,9 @@ await SeedAdmin.ExecuterAsync(app.Services);
 // Animaux de démonstration : Development seulement, et seulement si aucun animal n'existe.
 await DemoAnimaux.ExecuterAsync(app.Services);
 
+// Photos de démonstration : Development seulement, aux animaux de démonstration qui n'ont aucune photo.
+await DemoPhotos.ExecuterAsync(app.Services);
+
 // Format d'erreur unique (AD-10) : en tête du pipeline.
 app.UseApiErrors();
 

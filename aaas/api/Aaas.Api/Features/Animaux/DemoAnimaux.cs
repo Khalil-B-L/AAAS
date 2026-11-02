@@ -7,7 +7,7 @@ namespace Aaas.Api.Features.Animaux;
 /// <summary>
 /// Jeu de démonstration (décision 2026-10-15) : 4 chats et 4 chiens créés au démarrage en environnement
 /// <c>Development</c> seulement, et uniquement si aucun animal n'existe (un animal supprimé par l'admin n'est pas
-/// recréé). Jamais en <c>Testing</c>. Sans photo (ajoutées par l'entrée 7) ; aucun Réservé (epic réservations).
+/// recréé). Jamais en <c>Testing</c>. Photos rattachées ensuite par <see cref="DemoPhotos"/> ; aucun Réservé (epic réservations).
 /// </summary>
 public static class DemoAnimaux
 {
@@ -40,6 +40,12 @@ public static class DemoAnimaux
 
     /// <summary>Nombre d'animaux du jeu de démonstration.</summary>
     public static int Nombre => Modeles.Length;
+
+    /// <summary>Noms des animaux du jeu de démonstration (identifient aussi leurs illustrations, voir <see cref="DemoPhotos"/>).</summary>
+    public static IReadOnlyList<string> Noms { get; } = Array.ConvertAll(Modeles, m => m.Nom);
+
+    /// <summary>Nom et espèce de chaque animal de démonstration : un animal de l'admin portant le même nom mais d'une autre espèce n'en fait pas partie.</summary>
+    public static IReadOnlyList<(string Nom, Espece Espece)> Identites { get; } = Array.ConvertAll(Modeles, m => (m.Nom, m.Espece));
 
     public static async Task ExecuterAsync(IServiceProvider services, CancellationToken cancellationToken = default)
     {

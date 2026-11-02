@@ -23,4 +23,9 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Illustrations des animaux de démonstration (Demo/generer-illustrations.mjs), lues depuis la sortie de build. -->
+    <None Update="Demo\Photos\*.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
