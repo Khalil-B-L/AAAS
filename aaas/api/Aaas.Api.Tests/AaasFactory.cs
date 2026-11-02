@@ -29,6 +29,9 @@ public class AaasFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
     public string DatabaseName { get; } = $"AaasTests_{Guid.NewGuid():N}";
 
+    /// <summary>Dossier des photos (Storage:PhotosPath) propre à cette exécution, supprimé en fin de run.</summary>
+    public string PhotosPath { get; } = Path.Combine(Path.GetTempPath(), $"AaasTests_photos_{Guid.NewGuid():N}");
+
     public string ConnectionString =>
         $@"Server=(localdb)\MSSQLLocalDB;Database={DatabaseName};Trusted_Connection=True;TrustServerCertificate=True";
 
@@ -51,6 +54,7 @@ public class AaasFactory : WebApplicationFactory<Program>, IAsyncLifetime
             ["Admin:Email"] = AdminEmail,
             ["Admin:Password"] = AdminPassword,
             ["Admin:NotificationEmail"] = NotificationEmail,
+            ["Storage:PhotosPath"] = PhotosPath,
         }));
         builder.ConfigureLogging(logging => logging.AddProvider(Journal));
         builder.ConfigureTestServices(services =>
@@ -75,6 +79,8 @@ public class AaasFactory : WebApplicationFactory<Program>, IAsyncLifetime
         {
             // L'hôte est arrêté même si la suppression de la base échoue.
             await base.DisposeAsync();
+            if (Directory.Exists(PhotosPath))
+                Directory.Delete(PhotosPath, recursive: true);
             GC.SuppressFinalize(this);
         }
     }

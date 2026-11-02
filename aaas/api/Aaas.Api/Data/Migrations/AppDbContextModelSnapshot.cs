@@ -108,6 +108,33 @@ namespace Aaas.Api.Data.Migrations
                     b.ToTable("Animaux", (string)null);
                 });
 
+            modelBuilder.Entity("Aaas.Api.Features.Animaux.PhotoAnimal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnimalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cle")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<int>("Ordre")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId", "Ordre")
+                        .IsUnique();
+
+                    b.ToTable("PhotosAnimaux", (string)null);
+                });
+
             modelBuilder.Entity("Aaas.Api.Features.Auth.User", b =>
                 {
                     b.Property<int>("Id")
@@ -213,6 +240,15 @@ namespace Aaas.Api.Data.Migrations
                     b.ToTable("Reservations", (string)null);
                 });
 
+            modelBuilder.Entity("Aaas.Api.Features.Animaux.PhotoAnimal", b =>
+                {
+                    b.HasOne("Aaas.Api.Features.Animaux.Animal", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Aaas.Api.Features.Reservations.Reservation", b =>
                 {
                     b.HasOne("Aaas.Api.Features.Animaux.Animal", null)
@@ -226,6 +262,11 @@ namespace Aaas.Api.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Aaas.Api.Features.Animaux.Animal", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

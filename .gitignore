@@ -32,5 +32,8 @@ Thumbs.db
 .env.*
 appsettings.*.local.json
 
+# Photos envoyées en local (Storage:PhotosPath par défaut)
+aaas/api/Aaas.Api/App_Data/
+
 # Rendu temporaire de BMad (régénéré à chaque exécution)
 /_bmad/render/

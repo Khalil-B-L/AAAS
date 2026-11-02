@@ -59,6 +59,9 @@ public class Animal : IAnimalStatut
     /// <summary>Jeton de concurrence des transitions (AD-18).</summary>
     public byte[] RowVersion { get; private set; } = [];
 
+    /// <summary>Photos de l'animal (AD-12) ; la principale est celle d'<see cref="PhotoAnimal.Ordre"/> minimal.</summary>
+    public ICollection<PhotoAnimal> Photos { get; private set; } = [];
+
     /// <summary>Disponible → Réservé.</summary>
     public void Reserver()
     {

@@ -1,6 +1,7 @@
 using System.Globalization;
 using Aaas.Api.Common;
 using Aaas.Api.Common.Disponibilite;
+using Aaas.Api.Common.Fichiers;
 using Aaas.Api.Data;
 using Aaas.Api.Features.Animaux.Contrats;
 using Aaas.Api.Features.Reservations;
@@ -25,7 +26,7 @@ public sealed record ListerAnimauxQuery(
     string? Chiens = null,
     string? Chats = null);
 
-public sealed class ListerAnimauxHandler(AppDbContext db, TimeProvider temps)
+public sealed class ListerAnimauxHandler(AppDbContext db, TimeProvider temps, IFileStorage stockage)
     : IQueryHandler<ListerAnimauxQuery, CollectionDto<AnimalCarteDto>>
 {
     public const int LimiteMax = 50;
@@ -85,15 +86,17 @@ public sealed class ListerAnimauxHandler(AppDbContext db, TimeProvider temps)
         if (chats)
             animaux = animaux.Where(a => a.EntenteChats == Entente.Oui || a.EntenteChats == Entente.AVoir);
 
-        var requete = animaux
+        IQueryable<Animal> tries = animaux
             .OrderByDescending(a => a.CreeLe)
-            .ThenByDescending(a => a.Id)
-            .Select(AnimalCarteDto.Projection(reservations, now));
+            .ThenByDescending(a => a.Id);
 
+        // Limite avant la projection : l'URL de la photo principale est construite côté client, en fin de requête.
         if (limite is { } n)
-            requete = requete.Take(n);
+            tries = tries.Take(n);
 
-        var items = await requete.ToListAsync(cancellationToken);
+        var items = await tries
+            .Select(AnimalCarteDto.Projection(reservations, now, stockage))
+            .ToListAsync(cancellationToken);
         return Result.Ok(new CollectionDto<AnimalCarteDto>(items, now));
     }
 

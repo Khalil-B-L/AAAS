@@ -1,6 +1,7 @@
 using Aaas.Api.Common;
 using Aaas.Api.Common.Data;
 using Aaas.Api.Common.Email;
+using Aaas.Api.Common.Fichiers;
 using Aaas.Api.Common.Json;
 using Aaas.Api.Data;
 using Aaas.Api.Features.Animaux;
@@ -25,6 +26,9 @@ builder.Services.AddJsonConventions();
 
 builder.Services.AddSiteOptions();
 
+// Photos (AD-12) : un seul IFileStorage sur le dossier Storage:PhotosPath, validé au démarrage.
+builder.Services.AddStockageFichiers();
+
 // Comptes (AD-8) : JWT, policy Admin, hachage des mots de passe.
 builder.Services.AddAuth();
 
@@ -33,7 +37,7 @@ builder.Services.AddEmail();
 
 var app = builder.Build();
 
-// Gardes de démarrage déclarées par les slices (Site, Jwt, Admin, Email, dans cet ordre) :
+// Gardes de démarrage déclarées par les slices (Site, Storage, Jwt, Admin, Email, dans cet ordre) :
 // configuration invalide => OptionsValidationException avant de toucher la base.
 app.Services.VerifierConfiguration();
 
@@ -58,6 +62,7 @@ app.UseAuthorization();
 app.MapSiteEndpoints();
 app.MapAuthEndpoints();
 app.MapAnimauxEndpoints();
+app.MapFichiersEndpoints();
 
 // En dernier : toute autre route sous /api → 404 { error }.
 app.MapApiFallback();

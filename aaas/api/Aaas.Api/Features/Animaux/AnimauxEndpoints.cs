@@ -1,10 +1,12 @@
 using Aaas.Api.Common;
+using Aaas.Api.Common.Fichiers;
+using Aaas.Api.Features.Animaux.Commands;
 using Aaas.Api.Features.Animaux.Contrats;
 using Aaas.Api.Features.Animaux.Queries;
 
 namespace Aaas.Api.Features.Animaux;
 
-/// <summary>Routes publiques <c>/api/animaux</c> de <c>contrats-api.md</c> §4.</summary>
+/// <summary>Routes <c>/api/animaux</c> et <c>/api/admin/animaux</c> de <c>contrats-api.md</c> §4.</summary>
 public static class AnimauxEndpoints
 {
     public static IEndpointRouteBuilder MapAnimauxEndpoints(this IEndpointRouteBuilder app)
@@ -27,6 +29,41 @@ public static class AnimauxEndpoints
             (await handler.HandleAsync(
                 new ListerAnimauxQuery(limite, espece, sexe, age, taille, enfants, chiens, chats),
                 cancellationToken)).ToHttpResult());
+
+        var admin = app.MapGroupeAdmin("/api/admin/animaux");
+
+        // Upload multipart, un unique champ « fichier » par requête (AD-12). Le formulaire est lu ici (et non lié en
+        // IFormFile) pour qu'un champ absent, répété ou un corps non multipart donne 400 errors.fichier.
+        // API en JWT Bearer : pas d'antiforgery sur ces routes.
+        admin.MapPost("/{id:int}/photos", async (
+            int id,
+            HttpRequest requete,
+            ICommandHandler<AjouterPhotoCommand, PhotoDto> handler,
+            CancellationToken cancellationToken) =>
+        {
+            IReadOnlyList<IFormFile> fichiers;
+            try
+            {
+                fichiers = requete.HasFormContentType
+                    ? (await requete.ReadFormAsync(cancellationToken)).Files.GetFiles(RegleFichier.Champ)
+                    : [];
+            }
+            // Multipart mal formé (sans boundary, tronqué, corrompu) → 400 errors.fichier, pas 500.
+            // BadHttpRequestException (ex. 413 corps trop gros de Kestrel) garde son propre statut.
+            catch (Exception ex) when (ex is InvalidDataException or IOException && ex is not BadHttpRequestException)
+            {
+                return ((Result)RegleFichier.Refus(RegleFichier.MessageIllisible)).ToHttpResult();
+            }
+            return (await handler.HandleAsync(new AjouterPhotoCommand(id, fichiers), cancellationToken))
+                .ToHttpResult(StatusCodes.Status201Created);
+        }).DisableAntiforgery();
+
+        admin.MapDelete("/{id:int}/photos/{photoId:int}", async (
+            int id,
+            int photoId,
+            ICommandHandler<SupprimerPhotoCommand> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new SupprimerPhotoCommand(id, photoId), cancellationToken)).ToHttpResult());
 
         return app;
     }
