@@ -1,0 +1,97 @@
+@switch (etat().type) {
+  @case ('fiche') {
+    @if (animal(); as animal) {
+      <a class="retour" routerLink="/adopter" [queryParams]="{ espece: animal.espece }">
+        <span aria-hidden="true">←</span> {{ libellesRetour[animal.espece] }}
+      </a>
+
+      <div class="fiche">
+        <app-galerie
+          class="colonne-galerie"
+          [photos]="animal.photos"
+          [nom]="animal.nom"
+          [statut]="animal.statut"
+        >
+          <!-- Emplacement du cœur favori (epic contenus). -->
+        </app-galerie>
+
+        <div class="infos">
+          <h1 class="nom">{{ animal.nom }}</h1>
+          <ul class="faits" aria-label="Caractéristiques">
+            @for (fait of faits(); track $index) {
+              <li class="fait">{{ fait }}</li>
+            }
+          </ul>
+
+          @if (animal.description) {
+            <h2 class="titre-section">Son caractère</h2>
+            <p class="description">{{ animal.description }}</p>
+          }
+
+          <h2 class="titre-section" id="titre-sante">Santé</h2>
+          <ul class="sante" aria-labelledby="titre-sante">
+            @for (indicateur of sante(); track indicateur.libelle) {
+              <li class="case-sante" [class.absent]="!indicateur.present">
+                <span class="marque-sante" aria-hidden="true">{{
+                  indicateur.present ? '✓' : '—'
+                }}</span>
+                {{ indicateur.libelle }}
+              </li>
+            }
+          </ul>
+
+          <h2 class="titre-section" id="titre-ententes">{{ titreEntentes() }}</h2>
+          <ul class="ententes" aria-labelledby="titre-ententes">
+            @for (ligne of ententes(); track ligne.libelle) {
+              <li class="entente">
+                <span
+                  ><span aria-hidden="true">{{ ligne.icone }}</span> {{ ligne.libelle }}</span
+                >
+                <span class="valeur-entente" [attr.data-entente]="ligne.entente">{{
+                  ligne.valeur
+                }}</span>
+              </li>
+            }
+          </ul>
+
+          <div class="action" [attr.data-statut]="animal.statut">
+            @switch (animal.statut) {
+              @case ('Reserve') {
+                <button type="button" class="bouton-pilule bouton-gros bouton-action" disabled>
+                  Déjà réservé
+                </button>
+              }
+              @case ('Adopte') {
+                <p class="mention-adopte">
+                  A trouvé une famille
+                  @if (animal.adopteLe; as adopteLe) {
+                    <span class="date-adoption">le {{ adopteLe | dateFr }}</span>
+                  }
+                </p>
+              }
+              @default {
+                <!-- Emplacement du bouton « Je veux l'adopter » (epic réservations). -->
+              }
+            }
+          </div>
+        </div>
+      </div>
+    }
+  }
+  @case ('introuvable') {
+    <div class="message">
+      <h1 class="titre-message">Animal introuvable</h1>
+      <p>Cet animal n'existe pas ou n'est plus présenté sur le site.</p>
+      <a class="bouton-pilule bouton-contour" routerLink="/adopter">Voir les animaux à adopter</a>
+    </div>
+  }
+  @case ('erreur') {
+    <div class="message">
+      <h1 class="titre-message">Fiche indisponible</h1>
+      <p class="alerte alerte-erreur" role="alert">
+        La fiche n'a pas pu être chargée. Vérifiez votre connexion et réessayez.
+      </p>
+      <a class="bouton-pilule bouton-contour" routerLink="/adopter">Voir les animaux à adopter</a>
+    </div>
+  }
+}

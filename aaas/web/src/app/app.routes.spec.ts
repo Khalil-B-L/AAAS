@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Router, provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { routes } from './app.routes';
-import { collection } from './testing/animaux';
+import { collection, ficheCaramel } from './testing/animaux';
 import { connecterEnTantQue } from './testing/session';
 
 describe('routes (contrats-api.md §7)', () => {
@@ -35,7 +35,6 @@ describe('routes (contrats-api.md §7)', () => {
 
   const pages: readonly (readonly [string, string])[] = [
     ['/adopter', 'Adopter'],
-    ['/animaux/7', 'Fiche animal'],
     ['/animaux/7/reserver', 'Réserver'],
     ['/reservations/7/envoyee', 'Réservation envoyée'],
     ['/ils-ont-trouve-une-famille', 'Ils ont trouvé une famille'],
@@ -64,6 +63,17 @@ describe('routes (contrats-api.md §7)', () => {
     expect(TestBed.inject(Router).url).toBe(url);
     expect(harnais.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe(titre);
     expect(TestBed.inject(Title).getTitle()).toBe(`${titre} · AAAS`);
+  });
+
+  it('/animaux/7 affiche la fiche publique, titre « [Nom] · AAAS »', async () => {
+    await harnais.navigateByUrl('/animaux/7');
+    http.expectOne('/api/animaux/7').flush(ficheCaramel);
+    await new Promise((resolve) => setTimeout(resolve));
+    harnais.detectChanges();
+
+    expect(TestBed.inject(Router).url).toBe('/animaux/7');
+    expect(harnais.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe('Caramel');
+    expect(TestBed.inject(Title).getTitle()).toBe('Caramel · AAAS');
   });
 
   it("/ affiche l'accueil", async () => {

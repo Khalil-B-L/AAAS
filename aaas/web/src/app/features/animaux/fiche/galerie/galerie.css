@@ -1,0 +1,121 @@
+:host {
+  display: block;
+}
+
+/* Grande photo ; dégradé de remplacement tant qu'elle charge ou manque (jamais décoratif). */
+.cadre {
+  position: relative;
+  height: var(--size-gallery-photo);
+  overflow: hidden;
+  border-radius: var(--rounded-2xl);
+  background: linear-gradient(
+    135deg,
+    var(--color-photo-placeholder-start),
+    var(--color-photo-placeholder-end)
+  );
+  box-shadow: var(--shadow);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galerie-pastille {
+  position: absolute;
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+}
+
+.favori {
+  position: absolute;
+  top: var(--spacing-2);
+  right: var(--spacing-2);
+}
+
+.compteur {
+  position: absolute;
+  right: var(--spacing-3);
+  bottom: var(--spacing-3);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--rounded-full);
+  background: var(--color-photo-overlay);
+  color: var(--color-on-primary);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-label);
+}
+
+/* Points : marque de 8 px (active allongée), cible tactile de 48 px. */
+.points {
+  display: flex;
+  justify-content: center;
+}
+
+.point {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.marque {
+  width: var(--size-dot);
+  height: var(--size-dot);
+  border-radius: var(--rounded-full);
+  background: var(--color-border-control);
+}
+
+.point[aria-current='true'] .marque {
+  width: var(--size-dot-active);
+  background: var(--color-primary);
+}
+
+.vignettes {
+  display: flex;
+  gap: var(--spacing-2);
+  /* Assez de marge pour que le contour de focus (3 px + 2 px de décalage) ne soit pas rogné. */
+  padding: var(--spacing-2);
+  overflow-x: auto;
+}
+
+.vignette {
+  flex: none;
+  width: var(--size-thumb);
+  height: var(--size-thumb);
+  padding: 0;
+  overflow: hidden;
+  border: var(--width-active-link) solid transparent;
+  border-radius: var(--rounded-sm);
+  background: linear-gradient(
+      135deg,
+      var(--color-photo-placeholder-start),
+      var(--color-photo-placeholder-end)
+    )
+    padding-box;
+  cursor: pointer;
+}
+
+/* Marque active en bordure : le contour de focus global (:focus-visible) reste visible par-dessus. */
+.vignette[aria-current='true'] {
+  border-color: var(--color-accent-text);
+}
+
+.vignette img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .cadre {
+    height: var(--size-gallery-photo-desktop);
+  }
+}

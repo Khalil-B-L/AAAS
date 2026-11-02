@@ -1,0 +1,37 @@
+<div class="cadre" (touchstart)="debuterBalayage($event)" (touchend)="terminerBalayage($event)">
+  @if (photo(); as photo) {
+    <img class="photo" [src]="photo.url" [alt]="texteAlternatif(index())" />
+    <span class="compteur" aria-live="polite">{{ index() + 1 }} / {{ photos().length }}</span>
+  }
+  <app-pastille-statut class="galerie-pastille" [statut]="statut()" />
+  <div class="favori"><ng-content /></div>
+</div>
+
+@if (photos().length > 1) {
+  <div class="points" role="group" aria-label="Choisir une photo">
+    @for (p of photos(); track p.id; let i = $index) {
+      <button
+        type="button"
+        class="point"
+        [attr.aria-label]="texteAlternatif(i)"
+        [attr.aria-current]="i === index() ? 'true' : null"
+        (click)="afficher(i)"
+      >
+        <span class="marque"></span>
+      </button>
+    }
+  </div>
+
+  <div class="vignettes" role="group" aria-label="Vignettes">
+    @for (p of photos(); track p.id; let i = $index) {
+      <button
+        type="button"
+        class="vignette"
+        [attr.aria-current]="i === index() ? 'true' : null"
+        (click)="afficher(i)"
+      >
+        <img [src]="p.url" [alt]="texteAlternatif(i)" loading="lazy" />
+      </button>
+    }
+  </div>
+}

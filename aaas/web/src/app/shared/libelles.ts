@@ -57,3 +57,39 @@ export const LIBELLES_ROLE: Readonly<Record<Role, string>> = {
   Membre: 'Membre',
   Admin: 'Admin',
 };
+
+/** « Taille moyenne » : puce de caractéristique de la fiche. */
+export const LIBELLES_PUCE_TAILLE: Readonly<Record<Taille, string>> = {
+  Petite: 'Petite taille',
+  Moyenne: 'Taille moyenne',
+  Grande: 'Grande taille',
+};
+
+/** Indicateurs de santé de la fiche, dans l'ordre d'affichage. */
+export const CRITERES_SANTE = ['vaccine', 'sterilise', 'puce'] as const;
+export type CritereSante = (typeof CRITERES_SANTE)[number];
+
+/** Libellés de santé accordés au sexe de l'animal (EXPERIENCE.md § Voice and Tone : « Vaccinée »). */
+export const LIBELLES_SANTE: Readonly<Record<CritereSante, Readonly<Record<Sexe, string>>>> = {
+  vaccine: { Male: 'Vacciné', Femelle: 'Vaccinée' },
+  sterilise: { Male: 'Stérilisé', Femelle: 'Stérilisée' },
+  puce: { Male: 'Pucé', Femelle: 'Pucée' },
+};
+
+/** « Vaccinée » si présent, « Non vaccinée » sinon, accordé au sexe. */
+export function libelleSante(critere: CritereSante, sexe: Sexe, present: boolean): string {
+  const libelle = LIBELLES_SANTE[critere][sexe];
+  return present ? libelle : `Non ${libelle.toLowerCase()}`;
+}
+
+/** Titre des ententes de la fiche, accordé au sexe. */
+export const LIBELLES_TITRE_ENTENTES: Readonly<Record<Sexe, string>> = {
+  Male: "Il s'entend avec",
+  Femelle: "Elle s'entend avec",
+};
+
+/** Lien de retour de la fiche vers Adopter filtré sur l'espèce (« ← Les chats »). */
+export const LIBELLES_RETOUR_ESPECE: Readonly<Record<Espece, string>> = {
+  Chat: 'Les chats',
+  Chien: 'Les chiens',
+};

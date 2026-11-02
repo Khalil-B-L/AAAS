@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { collection, derniersPensionnaires } from '../testing/animaux';
+import { collection, derniersPensionnaires, ficheCaramel } from '../testing/animaux';
 import { AnimauxService } from './animaux.service';
 
 describe('AnimauxService', () => {
@@ -61,6 +61,27 @@ describe('AnimauxService', () => {
     http.expectOne('/api/animaux?espece=Chat').flush(collection([]));
 
     await expect(appel).resolves.toEqual(collection([]));
+  });
+
+  it('obtenir(id) appelle GET /api/animaux/:id et renvoie la fiche', async () => {
+    const appel = service.obtenir(7);
+    const requete = http.expectOne('/api/animaux/7');
+    expect(requete.request.method).toBe('GET');
+    requete.flush(ficheCaramel);
+
+    await expect(appel).resolves.toEqual(ficheCaramel);
+  });
+
+  it('obtenir(id) rejette sur un 404 avec le statut de la réponse', async () => {
+    const appel = service.obtenir(999999);
+    http
+      .expectOne('/api/animaux/999999')
+      .flush(
+        { error: 'La ressource demandée est introuvable.' },
+        { status: 404, statusText: 'Not Found' },
+      );
+
+    await expect(appel).rejects.toMatchObject({ status: 404 });
   });
 
   it("propage un échec HTTP à l'appelant", async () => {

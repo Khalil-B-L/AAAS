@@ -1,14 +1,18 @@
 import { Routes } from '@angular/router';
 import { RACINE_VERS_ACCUEIL, routePageVide } from '../../shared/page-vide/page-vide';
 import { Catalogue } from './catalogue/catalogue';
+import { Fiche } from './fiche/fiche';
 
 /** Monté sur `/adopter` : catalogue filtré, filtres en query params (contrats-api.md §7). */
 export const CATALOGUE_ROUTES: Routes = [
   { path: '', component: Catalogue, title: 'Adopter · AAAS' },
 ];
 
-/** Monté sur `/animaux`. */
-export const FICHE_ROUTES: Routes = [RACINE_VERS_ACCUEIL, routePageVide(':id', 'Fiche animal')];
+/**
+ * Monté sur `/animaux` : fiche `/animaux/:id`. Sans `title` de route : la fiche pose elle-même « [Nom] · AAAS »
+ * une fois l'animal chargé.
+ */
+export const FICHE_ROUTES: Routes = [RACINE_VERS_ACCUEIL, { path: ':id', component: Fiche }];
 
 /** Monté sur `/ils-ont-trouve-une-famille`. */
 export const ADOPTES_ROUTES: Routes = [routePageVide('', 'Ils ont trouvé une famille')];

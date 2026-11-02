@@ -117,6 +117,17 @@
   --size-card-photo: 128px;
   --size-card-photo-desktop: 220px;
   --filter-photo-reserve: saturate(65%);
+  /* Fiche animal (DESIGN.md § Galerie photo, Bouton favori, Puces, Cases santé, Mention « A trouvé une famille ») */
+  --size-gallery-photo: 270px;
+  --size-gallery-photo-desktop: 440px;
+  --size-thumb: 58px;
+  --size-dot: 8px;
+  --size-dot-active: 22px;
+  --size-favori: 46px;
+  --font-size-fact: 13.5px;
+  --font-weight-fact: 700;
+  --font-size-health-mark: 22px;
+  --font-size-mention: 17px;
   --width-band-buttons: 440px;
   --width-rule: 2px;
   --width-nav-rule: 4px;

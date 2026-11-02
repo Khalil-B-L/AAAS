@@ -3,12 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
   AnimalCarteDto,
+  AnimalDetailDto,
   CollectionDto,
   FiltresCatalogue,
   PARAMETRES_CATALOGUE,
 } from './api/animal.dto';
 
-/** Client de `GET /api/animaux` (contrats-api.md §2, §4). L'appelant décide quoi faire d'un échec. */
+/** Client de `GET /api/animaux` et `GET /api/animaux/:id` (contrats-api.md §2, §4). L'appelant décide quoi faire d'un échec. */
 @Injectable({ providedIn: 'root' })
 export class AnimauxService {
   private readonly http = inject(HttpClient);
@@ -26,5 +27,10 @@ export class AnimauxService {
       }
     }
     return firstValueFrom(this.http.get<CollectionDto<AnimalCarteDto>>('/api/animaux', { params }));
+  }
+
+  /** Fiche d'un animal, quel que soit son statut ; un id inconnu rejette avec une `HttpErrorResponse` 404. */
+  obtenir(id: number): Promise<AnimalDetailDto> {
+    return firstValueFrom(this.http.get<AnimalDetailDto>(`/api/animaux/${id}`));
   }
 }

@@ -36,6 +36,34 @@ export interface AnimalCarteDto {
   photoPrincipaleUrl: string | null;
 }
 
+/** Photo d'un animal. */
+export interface PhotoDto {
+  id: number;
+  /** URL relative (`/fichiers/<clé>`). */
+  url: string;
+  ordre: number;
+}
+
+/**
+ * Fiche animal (`GET /api/animaux/:id`) : champs de la carte, santé, ententes, dates et photos.
+ * DTO plat ; seule imbrication, `PhotoDto`.
+ */
+export interface AnimalDetailDto extends AnimalCarteDto {
+  description: string;
+  vaccine: boolean;
+  sterilise: boolean;
+  puce: boolean;
+  ententeEnfants: Entente;
+  ententeChiens: Entente;
+  ententeChats: Entente;
+  /** Date UTC suffixée `Z` ; à lire par `parseUtc`. */
+  creeLe: string;
+  /** Date UTC suffixée `Z`, `null` sauf pour un animal Adopté. */
+  adopteLe: string | null;
+  /** Triées par `ordre` ; la première est la photo principale. */
+  photos: PhotoDto[];
+}
+
 /**
  * Filtres de `GET /api/animaux` (contrats-api.md §2), mêmes noms que les paramètres ; combinés en ET.
  * Une entente à `Oui` garde les animaux dont l'entente vaut Oui ou À voir.

@@ -30,6 +30,13 @@ public static class AnimauxEndpoints
                 new ListerAnimauxQuery(limite, espece, sexe, age, taille, enfants, chiens, chats),
                 cancellationToken)).ToHttpResult());
 
+        // Fiche publique, tout statut ; un id non entier ne correspond à aucune route (404 ApiErrors).
+        groupe.MapGet("/{id:int}", async (
+            int id,
+            IQueryHandler<ObtenirAnimalQuery, AnimalDetailDto> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new ObtenirAnimalQuery(id), cancellationToken)).ToHttpResult());
+
         var admin = app.MapGroupeAdmin("/api/admin/animaux");
 
         // Upload multipart, un unique champ « fichier » par requête (AD-12). Le formulaire est lu ici (et non lié en

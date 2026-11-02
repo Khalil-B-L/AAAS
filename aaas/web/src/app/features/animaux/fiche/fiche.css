@@ -1,0 +1,186 @@
+.retour {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  min-height: var(--tap-min);
+  padding: 0 var(--gutter);
+  font-weight: var(--font-weight-label);
+  text-decoration: none;
+}
+
+.colonne-galerie {
+  padding: 0 var(--gutter);
+}
+
+.infos {
+  padding: var(--spacing-4) var(--gutter) 0;
+}
+
+.infos .titre-section {
+  margin-inline: 0;
+}
+
+.nom {
+  font-size: var(--font-size-title-animal);
+  font-weight: var(--font-weight-title-animal);
+  line-height: var(--line-height-title-animal);
+}
+
+.faits,
+.sante,
+.ententes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.faits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-3);
+}
+
+.fait {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--rounded-full);
+  background: var(--color-surface-soft);
+  font-size: var(--font-size-fact);
+  font-weight: var(--font-weight-fact);
+}
+
+.description {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.sante {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2);
+}
+
+.case-sante {
+  padding: var(--spacing-3) var(--spacing-1);
+  border-radius: var(--rounded-md);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-label);
+  text-align: center;
+}
+
+.case-sante.absent {
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+}
+
+.marque-sante {
+  display: block;
+  font-size: var(--font-size-health-mark);
+}
+
+.ententes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.entente {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-4);
+  border: var(--width-rule) solid var(--color-border);
+  border-radius: var(--rounded-md);
+  font-weight: var(--font-weight-fact);
+}
+
+.valeur-entente {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--rounded-full);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-label);
+  white-space: nowrap;
+}
+
+.valeur-entente[data-entente='AVoir'] {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.valeur-entente[data-entente='Non'] {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+/* Téléphone : action collée en bas de l'écran, sur un fondu blanc. */
+.action {
+  position: sticky;
+  bottom: 0;
+  margin: var(--spacing-5) calc(-1 * var(--gutter)) 0;
+  padding: var(--spacing-3) var(--gutter) var(--spacing-4);
+  background: linear-gradient(transparent, var(--color-background) 30%);
+}
+
+.action[data-statut='Disponible'] {
+  padding: 0;
+}
+
+.bouton-action {
+  width: 100%;
+}
+
+.mention-adopte {
+  margin: 0;
+  padding: var(--spacing-4);
+  border-radius: var(--rounded-lg);
+  background: var(--color-success-soft);
+  color: var(--color-primary);
+  font-size: var(--font-size-mention);
+  font-weight: var(--font-weight-label);
+  text-align: center;
+}
+
+.date-adoption {
+  display: block;
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-body-sm);
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+  margin: var(--spacing-7) var(--gutter) var(--section-space);
+}
+
+.message p {
+  margin: 0;
+}
+
+/* Ordinateur : galerie à gauche, informations à droite ; l'action reste dans la colonne. */
+@media (min-width: 1024px) {
+  .fiche {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--grid-gap);
+    padding: 0 var(--gutter) var(--section-space);
+  }
+
+  .colonne-galerie,
+  .infos {
+    padding: 0;
+  }
+
+  .action {
+    position: static;
+    margin-inline: 0;
+    padding-inline: 0;
+    background: none;
+  }
+}
