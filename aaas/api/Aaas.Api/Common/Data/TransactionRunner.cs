@@ -76,6 +76,9 @@ public static class SqlErreurs
     /// <summary>Violation d'index ou de contrainte unique : erreurs SQL 2601 et 2627.</summary>
     public static bool EstViolationUnicite(Exception exception) => ContientErreur(exception, 2601, 2627);
 
+    /// <summary>Violation de contrainte (dont clé étrangère) : erreur SQL 547.</summary>
+    public static bool EstViolationCleEtrangere(Exception exception) => ContientErreur(exception, 547);
+
     private static bool ContientErreur(Exception? exception, params int[] numeros)
     {
         for (; exception is not null; exception = exception.InnerException)

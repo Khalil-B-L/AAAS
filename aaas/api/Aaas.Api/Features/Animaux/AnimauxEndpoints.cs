@@ -45,6 +45,40 @@ public static class AnimauxEndpoints
 
         var admin = app.MapGroupeAdmin("/api/admin/animaux");
 
+        // Liste admin : tous statuts, sans filtre ni pagination.
+        admin.MapGet("", async (
+            IQueryHandler<ListerAnimauxAdminQuery, CollectionDto<AnimalCarteDto>> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new ListerAnimauxAdminQuery(), cancellationToken)).ToHttpResult());
+
+        // Même fiche que la route publique, tout statut.
+        admin.MapGet("/{id:int}", async (
+            int id,
+            IQueryHandler<ObtenirAnimalQuery, AnimalDetailDto> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new ObtenirAnimalQuery(id), cancellationToken)).ToHttpResult());
+
+        // Corps à propriétés nullables, tout validé par le handler ; un champ « statut » envoyé est ignoré.
+        admin.MapPost("", async (
+            AnimalEcritureDto corps,
+            ICommandHandler<CreerAnimalCommand, AnimalDetailDto> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new CreerAnimalCommand(corps), cancellationToken))
+                .ToHttpResult(StatusCodes.Status201Created));
+
+        admin.MapPut("/{id:int}", async (
+            int id,
+            AnimalEcritureDto corps,
+            ICommandHandler<ModifierAnimalCommand, AnimalDetailDto> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new ModifierAnimalCommand(id, corps), cancellationToken)).ToHttpResult());
+
+        admin.MapDelete("/{id:int}", async (
+            int id,
+            ICommandHandler<SupprimerAnimalCommand> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new SupprimerAnimalCommand(id), cancellationToken)).ToHttpResult());
+
         // Upload multipart, un unique champ « fichier » par requête (AD-12). Le formulaire est lu ici (et non lié en
         // IFormFile) pour qu'un champ absent, répété ou un corps non multipart donne 400 errors.fichier.
         // API en JWT Bearer : pas d'antiforgery sur ces routes.
