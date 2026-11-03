@@ -1,0 +1,58 @@
+<div class="page">
+  <div class="en-tete-page">
+    <h1 class="titre-page">Animaux</h1>
+    <a class="bouton-pilule bouton-primaire" routerLink="/admin/animaux/nouveau"
+      >Ajouter un animal</a
+    >
+  </div>
+
+  @if (alerte(); as message) {
+    <p class="alerte alerte-erreur" role="alert">{{ message }}</p>
+  }
+
+  @if (animaux(); as animaux) {
+    @if (animaux.length > 0) {
+      <ul class="liste">
+        @for (animal of animaux; track animal.id) {
+          <li class="ligne">
+            <a class="ligne-lien" [routerLink]="['/admin/animaux', animal.id]">
+              <span class="vignette">
+                @if (animal.photoPrincipaleUrl; as url) {
+                  <img class="vignette-image" [src]="url" alt="" loading="lazy" />
+                }
+              </span>
+              <span class="infos">
+                <span class="nom">{{ animal.nom }}</span>
+                <span class="meta">{{ meta(animal) }}</span>
+                <app-pastille-statut [statut]="animal.statut" />
+              </span>
+            </a>
+            <button
+              type="button"
+              class="bouton-pilule bouton-contour-danger"
+              [attr.aria-label]="'Supprimer ' + animal.nom"
+              (click)="demanderSuppression(animal, $event)"
+            >
+              Supprimer
+            </button>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="etat-vide">
+        Aucun animal pour l'instant. Ajoutez le premier avec « Ajouter un animal ».
+      </p>
+    }
+  }
+</div>
+
+@if (suppression(); as suppression) {
+  <app-dialogue-confirmation
+    [phrase]="phrase(suppression.animal)"
+    action="Supprimer"
+    [occupe]="suppressionEnCours()"
+    [origine]="suppression.origine"
+    (confirme)="confirmerSuppression()"
+    (retour)="annulerSuppression()"
+  />
+}

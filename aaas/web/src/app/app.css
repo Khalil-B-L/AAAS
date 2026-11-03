@@ -47,9 +47,12 @@
   left: 35%;
 }
 
+/*
+ * Positionné sans `z-index` : peint au-dessus des pattes (ordre du document) sans créer de contexte d'empilement,
+ * pour que le voile du dialogue de confirmation passe au-dessus de l'en-tête et du pied de page.
+ */
 .contenu {
   position: relative;
-  z-index: 1;
 }
 
 @media (min-width: 1024px) {

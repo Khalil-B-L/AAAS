@@ -1,0 +1,35 @@
+<div class="voile" (mousedown)="retenirClicVoile($event)">
+  <!-- tabindex="-1" : un clic sur le texte du dialogue y garde le focus au lieu de l'envoyer sur <body>. -->
+  <div
+    #boiteDialogue
+    class="dialogue"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    [attr.aria-labelledby]="idTitre"
+    [attr.aria-describedby]="idPhrase"
+  >
+    <h2 class="titre" [id]="idTitre">Êtes-vous sûr ?</h2>
+    <p class="phrase" [id]="idPhrase">{{ phrase() }}</p>
+    <div class="actions" [attr.aria-busy]="occupe() || null">
+      <button
+        #boutonAction
+        type="button"
+        class="bouton-pilule bouton-danger"
+        [attr.aria-disabled]="occupe() || null"
+        (click)="confirmer()"
+      >
+        {{ action() }}
+      </button>
+      <button
+        #boutonRetour
+        type="button"
+        class="bouton-pilule bouton-contour"
+        [attr.aria-disabled]="occupe() || null"
+        (click)="revenir()"
+      >
+        Retour
+      </button>
+    </div>
+  </div>
+</div>

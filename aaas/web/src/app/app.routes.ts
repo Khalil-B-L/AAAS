@@ -86,7 +86,9 @@ export const routes: Routes = [
       {
         path: 'animaux',
         loadChildren: () =>
-          import('./features/animaux/animaux.routes').then((m) => m.ADMIN_ANIMAUX_ROUTES),
+          import('./features/animaux/admin/admin-animaux.routes').then(
+            (m) => m.ADMIN_ANIMAUX_ROUTES,
+          ),
       },
       {
         path: 'actualites',

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { RACINE_VERS_ACCUEIL, routePageVide } from '../../shared/page-vide/page-vide';
+import { RACINE_VERS_ACCUEIL } from '../../shared/page-vide/page-vide';
 import { Adoptes } from './adoptes/adoptes';
 import { Catalogue } from './catalogue/catalogue';
 import { Fiche } from './fiche/fiche';
@@ -18,11 +18,4 @@ export const FICHE_ROUTES: Routes = [RACINE_VERS_ACCUEIL, { path: ':id', compone
 /** Monté sur `/ils-ont-trouve-une-famille` : animaux adoptés. */
 export const ADOPTES_ROUTES: Routes = [
   { path: '', component: Adoptes, title: 'Ils ont trouvé une famille · AAAS' },
-];
-
-/** Monté sur `/admin/animaux`. */
-export const ADMIN_ANIMAUX_ROUTES: Routes = [
-  routePageVide('', 'Admin · Animaux'),
-  routePageVide('nouveau', 'Admin · Ajouter un animal'),
-  routePageVide(':id', 'Admin · Modifier un animal'),
 ];

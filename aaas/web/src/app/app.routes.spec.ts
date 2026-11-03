@@ -25,14 +25,19 @@ describe('routes (contrats-api.md §7)', () => {
   });
 
   afterEach(() => {
-    // L'accueil (derniers pensionnaires), Adopter (catalogue) et Ils ont trouvé une famille chargent des animaux :
-    // réponse vide.
+    // L'accueil (derniers pensionnaires), Adopter (catalogue), Ils ont trouvé une famille et Admin · Animaux chargent
+    // des animaux : réponse vide.
     http
-      .match((requete) => requete.url === '/api/animaux' || requete.url === '/api/animaux/adoptes')
+      .match((requete) =>
+        ['/api/animaux', '/api/animaux/adoptes', '/api/admin/animaux'].includes(requete.url),
+      )
       .forEach((requete) => requete.flush(collection([])));
     http.verify();
     localStorage.clear();
   });
+
+  /** Titre d'onglet (sans « · AAAS ») des pages dont il diffère du titre affiché. */
+  const onglets: Readonly<Record<string, string>> = { '/admin/animaux': 'Admin · Animaux' };
 
   const pages: readonly (readonly [string, string])[] = [
     ['/adopter', 'Adopter'],
@@ -49,7 +54,7 @@ describe('routes (contrats-api.md §7)', () => {
     ['/mes-reservations', 'Mes réservations'],
     ['/mes-favoris', 'Mes favoris'],
     ['/admin/reservations?statut=EnAttente', 'Admin · Réservations'],
-    ['/admin/animaux', 'Admin · Animaux'],
+    ['/admin/animaux', 'Animaux'],
     ['/admin/animaux/nouveau', 'Admin · Ajouter un animal'],
     ['/admin/animaux/7', 'Admin · Modifier un animal'],
     ['/admin/actualites', 'Admin · Actualités'],
@@ -63,7 +68,7 @@ describe('routes (contrats-api.md §7)', () => {
 
     expect(TestBed.inject(Router).url).toBe(url);
     expect(harnais.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe(titre);
-    expect(TestBed.inject(Title).getTitle()).toBe(`${titre} · AAAS`);
+    expect(TestBed.inject(Title).getTitle()).toBe(`${onglets[url] ?? titre} · AAAS`);
   });
 
   it('/animaux/7 affiche la fiche publique, titre « [Nom] · AAAS »', async () => {

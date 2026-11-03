@@ -1,0 +1,54 @@
+/* Voile au-dessus de l'en-tête et du pied de page (DESIGN.md § Dialogue de confirmation). */
+.voile {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  background: var(--color-photo-overlay);
+}
+
+.dialogue {
+  width: 100%;
+  max-width: var(--width-dialog);
+  padding: var(--spacing-6) var(--spacing-5) var(--spacing-5);
+  border-radius: var(--rounded-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+/* Focus reçu par un clic hors des boutons : pas de contour sur la boîte elle-même. */
+.dialogue:focus {
+  outline: none;
+}
+
+.titre {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+  line-height: var(--line-height-title-message);
+}
+
+.phrase {
+  margin: var(--spacing-2) 0 var(--spacing-5);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.actions .bouton-pilule {
+  width: 100%;
+}
+
+/* Action en cours : même apparence que le bouton désactivé (DESIGN.md § button-disabled). */
+.actions [aria-disabled='true'] {
+  background: var(--color-surface-soft);
+  border-color: transparent;
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: progress;
+}

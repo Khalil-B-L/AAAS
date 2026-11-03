@@ -132,6 +132,10 @@
   --width-rule: 2px;
   --width-nav-rule: 4px;
   --width-active-link: 3px;
+  /* Écrans admin (DESIGN.md § Layout & Spacing, § Dialogue de confirmation, § Shapes : vignette d'une liste) */
+  --width-column: 720px;
+  --width-dialog: 440px;
+  --size-thumb-list: 64px;
 
   /* Alias responsives (bascule ordinateur à 1024 px) */
   --gutter: var(--spacing-gutter-mobile);
@@ -292,6 +296,18 @@ h3 {
   font-weight: var(--font-weight-button-sub);
 }
 
+/* Action destructive pleine (button-danger) et son pendant en contour (Supprimer, Annuler) */
+.bouton-danger {
+  background: var(--color-danger);
+  color: var(--color-on-primary);
+}
+
+.bouton-contour-danger {
+  background: var(--color-surface);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
 .bouton-pilule:disabled {
   background: var(--color-surface-soft);
   border-color: transparent;
@@ -314,7 +330,7 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-5);
-  max-width: 720px;
+  max-width: var(--width-column);
   margin: var(--spacing-7) auto var(--section-space);
   padding: 0 var(--gutter);
 }
