@@ -79,6 +79,14 @@ public static class AnimauxEndpoints
             CancellationToken cancellationToken) =>
             (await handler.HandleAsync(new SupprimerAnimalCommand(id), cancellationToken)).ToHttpResult());
 
+        // Forçage Disponible / Adopté (AD-4) ; corps à propriétés nullables, tout validé par le handler.
+        admin.MapPost("/{id:int}/statut", async (
+            int id,
+            StatutAnimalDto corps,
+            ICommandHandler<ForcerStatutCommand, AnimalDetailDto> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new ForcerStatutCommand(id, corps), cancellationToken)).ToHttpResult());
+
         // Upload multipart, un unique champ « fichier » par requête (AD-12). Le formulaire est lu ici (et non lié en
         // IFormFile) pour qu'un champ absent, répété ou un corps non multipart donne 400 errors.fichier.
         // API en JWT Bearer : pas d'antiforgery sur ces routes.

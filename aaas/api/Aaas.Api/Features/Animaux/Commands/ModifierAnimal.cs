@@ -62,10 +62,16 @@ public static class RefusAnimal
     public const string MessageModifieAilleurs = "L'animal a été modifié entre-temps. Rechargez la fiche puis recommencez.";
     public const string CodeAReservations = "animal-a-des-reservations";
     public const string MessageAReservations = "Cet animal a des réservations : il ne peut pas être supprimé.";
+    public const string CodeReservationActive = "reservation-active";
+    public const string MessageReservationActive =
+        "Cet animal a une réservation en cours : traitez-la avant de changer son statut.";
 
     /// <summary>409 <c>modifie-ailleurs</c> : conflit <c>RowVersion</c> sur l'animal.</summary>
     public static Echec ModifieAilleurs() => Result.Conflict(CodeModifieAilleurs, MessageModifieAilleurs);
 
     /// <summary>409 <c>animal-a-des-reservations</c> : au moins une réservation, quel que soit son statut.</summary>
     public static Echec AReservations() => Result.Conflict(CodeAReservations, MessageAReservations);
+
+    /// <summary>409 <c>reservation-active</c> : forcer le statut d'un animal qui a une réservation active.</summary>
+    public static Echec ReservationActive() => Result.Conflict(CodeReservationActive, MessageReservationActive);
 }
