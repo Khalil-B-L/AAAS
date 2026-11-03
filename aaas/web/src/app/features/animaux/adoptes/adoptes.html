@@ -1,0 +1,12 @@
+<h1 class="titre-page">Ils ont trouvé une famille</h1>
+
+@if (adoptes(); as adoptes) {
+  @if (adoptes.length > 0) {
+    <app-grille-animaux [animaux]="adoptes" />
+  } @else {
+    <p class="etat-vide">
+      Aucune adoption à afficher pour le moment.
+      <a routerLink="/adopter">Voir les animaux à adopter</a>
+    </p>
+  }
+}

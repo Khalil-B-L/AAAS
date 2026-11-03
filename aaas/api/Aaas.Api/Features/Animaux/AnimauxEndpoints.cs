@@ -30,6 +30,12 @@ public static class AnimauxEndpoints
                 new ListerAnimauxQuery(limite, espece, sexe, age, taille, enfants, chiens, chats),
                 cancellationToken)).ToHttpResult());
 
+        // « Ils ont trouvé une famille » : segment littéral, que la contrainte entière de /{id:int} n'accepte pas.
+        groupe.MapGet("/adoptes", async (
+            IQueryHandler<ListerAdoptesQuery, CollectionDto<AnimalCarteDto>> handler,
+            CancellationToken cancellationToken) =>
+            (await handler.HandleAsync(new ListerAdoptesQuery(), cancellationToken)).ToHttpResult());
+
         // Fiche publique, tout statut ; un id non entier ne correspond à aucune route (404 ApiErrors).
         groupe.MapGet("/{id:int}", async (
             int id,

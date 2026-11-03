@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { collection, derniersPensionnaires, ficheCaramel } from '../testing/animaux';
+import { carteAnimal, collection, derniersPensionnaires, ficheCaramel } from '../testing/animaux';
 import { AnimauxService } from './animaux.service';
 
 describe('AnimauxService', () => {
@@ -61,6 +61,25 @@ describe('AnimauxService', () => {
     http.expectOne('/api/animaux?espece=Chat').flush(collection([]));
 
     await expect(appel).resolves.toEqual(collection([]));
+  });
+
+  it('listerAdoptes() appelle GET /api/animaux/adoptes sans paramètre et renvoie { items, serverNow }', async () => {
+    const reponse = collection([carteAnimal({ id: 21, nom: 'Simba', statut: 'Adopte' })]);
+
+    const appel = service.listerAdoptes();
+    const requete = http.expectOne('/api/animaux/adoptes');
+    expect(requete.request.method).toBe('GET');
+    expect(requete.request.params.keys()).toEqual([]);
+    requete.flush(reponse);
+
+    await expect(appel).resolves.toEqual(reponse);
+  });
+
+  it("listerAdoptes() propage un échec HTTP à l'appelant", async () => {
+    const appel = service.listerAdoptes();
+    http.expectOne('/api/animaux/adoptes').flush(null, { status: 500, statusText: 'Erreur' });
+
+    await expect(appel).rejects.toMatchObject({ status: 500 });
   });
 
   it('obtenir(id) appelle GET /api/animaux/:id et renvoie la fiche', async () => {

@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  padding-bottom: var(--section-space);
+}
+
+.titre-page {
+  margin: var(--spacing-7) var(--gutter) var(--spacing-4);
+  color: var(--color-primary);
+  font-size: var(--font-size-title-message);
+  font-weight: var(--font-weight-title-message);
+  line-height: var(--line-height-title-message);
+}
+
+.etat-vide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin: 0;
+  padding: 0 var(--gutter);
+  text-align: center;
+}

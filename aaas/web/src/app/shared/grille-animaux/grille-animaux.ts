@@ -4,7 +4,7 @@ import { CarteAnimal } from '../carte-animal/carte-animal';
 
 /**
  * Grille de cartes animal (DESIGN.md § Layout) : 2 colonnes sur téléphone, 3 sur tablette, 4 sur ordinateur.
- * Partagée par l'accueil et le catalogue ; l'appelant choisit l'état vide à afficher à la place d'une liste vide.
+ * Partagée par l'accueil, le catalogue et « Ils ont trouvé une famille » ; l'appelant choisit l'état vide à afficher à la place d'une liste vide.
  */
 @Component({
   selector: 'app-grille-animaux',

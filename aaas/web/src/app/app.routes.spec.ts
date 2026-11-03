@@ -25,9 +25,10 @@ describe('routes (contrats-api.md §7)', () => {
   });
 
   afterEach(() => {
-    // L'accueil (derniers pensionnaires) et Adopter (catalogue) chargent des animaux : réponse vide.
+    // L'accueil (derniers pensionnaires), Adopter (catalogue) et Ils ont trouvé une famille chargent des animaux :
+    // réponse vide.
     http
-      .match((requete) => requete.url === '/api/animaux')
+      .match((requete) => requete.url === '/api/animaux' || requete.url === '/api/animaux/adoptes')
       .forEach((requete) => requete.flush(collection([])));
     http.verify();
     localStorage.clear();

@@ -9,7 +9,7 @@ import {
   PARAMETRES_CATALOGUE,
 } from './api/animal.dto';
 
-/** Client de `GET /api/animaux` et `GET /api/animaux/:id` (contrats-api.md §2, §4). L'appelant décide quoi faire d'un échec. */
+/** Client de `GET /api/animaux`, `GET /api/animaux/adoptes` et `GET /api/animaux/:id` (contrats-api.md §2, §4). L'appelant décide quoi faire d'un échec. */
 @Injectable({ providedIn: 'root' })
 export class AnimauxService {
   private readonly http = inject(HttpClient);
@@ -27,6 +27,11 @@ export class AnimauxService {
       }
     }
     return firstValueFrom(this.http.get<CollectionDto<AnimalCarteDto>>('/api/animaux', { params }));
+  }
+
+  /** Animaux adoptés, les plus récemment adoptés en premier (`GET /api/animaux/adoptes`, §3), sans filtre. */
+  listerAdoptes(): Promise<CollectionDto<AnimalCarteDto>> {
+    return firstValueFrom(this.http.get<CollectionDto<AnimalCarteDto>>('/api/animaux/adoptes'));
   }
 
   /** Fiche d'un animal, quel que soit son statut ; un id inconnu rejette avec une `HttpErrorResponse` 404. */
