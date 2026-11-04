@@ -1,0 +1,167 @@
+/* Écran admin de travail : colonne de `.page-formulaire`, sans pattes en filigrane. */
+.retour {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-weight: var(--font-weight-label);
+  text-decoration: none;
+}
+
+.precision {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-caption);
+}
+
+/* Grille de 3 vignettes de 88 px (DESIGN.md § Zone d'ajout photo). */
+.photos {
+  display: grid;
+  grid-template-columns: repeat(3, 88px);
+  gap: var(--spacing-3);
+  margin: var(--spacing-1) 0 var(--spacing-2);
+  padding: 0;
+  list-style: none;
+}
+
+.photo {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: var(--rounded-sm);
+  background: linear-gradient(
+    135deg,
+    var(--color-photo-placeholder-start),
+    var(--color-photo-placeholder-end)
+  );
+}
+
+.photo-echec {
+  outline: var(--width-rule) solid var(--color-danger);
+}
+
+.photo-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* En bas à gauche, empilées : la croix occupe le haut à droite. */
+.pastilles {
+  position: absolute;
+  bottom: var(--spacing-1);
+  left: var(--spacing-1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.principale,
+.photo-etat {
+  padding: 2px var(--spacing-2);
+  border-radius: var(--rounded-full);
+  color: var(--color-on-primary);
+  font-size: var(--font-size-badge);
+  font-weight: var(--font-weight-badge);
+}
+
+.principale {
+  background: var(--color-primary);
+}
+
+.photo-etat {
+  background: var(--color-photo-overlay);
+}
+
+/* Cible de 48 px, croix blanche visible de 28 px en haut à droite. */
+.retirer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: var(--spacing-1);
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.croix {
+  display: grid;
+  place-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--rounded-full);
+  background: var(--color-surface);
+  color: var(--color-danger);
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-label);
+  line-height: 1;
+}
+
+.echecs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin: 0 0 var(--spacing-2);
+  padding: 0;
+  list-style: none;
+}
+
+.echec {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+}
+
+.zone-photo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: var(--spacing-4);
+  border: 3px dashed var(--color-accent);
+  border-radius: var(--rounded-lg);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  text-align: center;
+  cursor: pointer;
+}
+
+.zone-photo:has(:focus-visible) {
+  outline: var(--width-active-link) solid var(--color-primary);
+  outline-offset: var(--width-rule);
+}
+
+.zone-photo-titre {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-label);
+}
+
+/* Âge et taille partagent une ligne. */
+.deux-champs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-3);
+}
+
+.entente-libelle {
+  font-weight: var(--font-weight-label);
+}
+
+.alerte-succes {
+  border-color: var(--color-success);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-weight: var(--font-weight-label);
+}

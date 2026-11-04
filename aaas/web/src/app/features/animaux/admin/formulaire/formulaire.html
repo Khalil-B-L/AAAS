@@ -1,0 +1,328 @@
+<div class="page-formulaire">
+  <a class="retour" routerLink="/admin/animaux"><span aria-hidden="true">←</span> Animaux</a>
+
+  @switch (etat()) {
+    @case ('chargement') {
+      <p class="chargement" role="status">Chargement…</p>
+    }
+    @case ('introuvable') {
+      <h1 class="titre-message">Animal introuvable</h1>
+      <p>Cet animal n'existe pas ou a été supprimé.</p>
+      <a class="bouton-pilule bouton-contour" routerLink="/admin/animaux"
+        >Voir la liste des animaux</a
+      >
+    }
+    @case ('erreur') {
+      <h1 class="titre-message">Modifier un animal</h1>
+      <p class="alerte alerte-erreur" role="alert">
+        La fiche de l'animal n'a pas pu être chargée. Vérifiez votre connexion et rechargez la page.
+      </p>
+    }
+    @case ('formulaire') {
+      <h1 class="titre-message">
+        @if (animal(); as animal) {
+          Modifier {{ animal.nom }}
+        } @else {
+          Ajouter un animal
+        }
+      </h1>
+
+      <form class="formulaire" [formGroup]="formulaire" (ngSubmit)="envoyer()" novalidate>
+        <div class="champ">
+          <span class="champ-libelle" id="formulaire-animal-photos">
+            Photos <small class="precision">(la 1re est la photo principale)</small>
+          </span>
+          @if (vignettes().length > 0) {
+            <ul class="photos" aria-labelledby="formulaire-animal-photos">
+              @for (vignette of vignettes(); track vignette.cle; let index = $index) {
+                <li class="photo" [class.photo-echec]="vignette.etat === 'echec'">
+                  <img
+                    class="photo-image"
+                    [src]="vignette.url"
+                    [alt]="'Photo ' + (index + 1) + ' de ' + prenom()"
+                  />
+                  <!-- Pastilles empilées en bas à gauche : jamais sous la croix (en haut à droite). -->
+                  <span class="pastilles">
+                    @if (vignette.etat === 'attente' || vignette.etat === 'envoi') {
+                      <span class="photo-etat">{{
+                        vignette.etat === 'envoi' ? 'Envoi…' : 'En attente'
+                      }}</span>
+                    } @else if (vignette.etat === 'echec') {
+                      <span class="photo-etat">Échec</span>
+                    }
+                    @if (index === 0) {
+                      <span class="principale">Principale</span>
+                    }
+                  </span>
+                  @if (vignette.etat !== 'envoi') {
+                    <button
+                      type="button"
+                      class="retirer"
+                      [attr.aria-label]="'Retirer la ' + numeroPhoto(index + 1)"
+                      (click)="retirer(vignette, index + 1, $event)"
+                    >
+                      <span class="croix" aria-hidden="true">×</span>
+                    </button>
+                  }
+                </li>
+              }
+            </ul>
+          }
+
+          @if (echecs().length > 0) {
+            <ul class="echecs">
+              @for (echec of echecs(); track echec.vignette.cle) {
+                <li class="echec">
+                  <p class="champ-erreur">
+                    Photo {{ echec.numero }} de {{ prenom() }} : {{ echec.vignette.erreur }}
+                  </p>
+                  <button
+                    type="button"
+                    class="bouton-pilule bouton-contour"
+                    [attr.aria-label]="'Renvoyer la ' + numeroPhoto(echec.numero)"
+                    (click)="renvoyer(echec.vignette.cle)"
+                  >
+                    Renvoyer
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+
+          <label class="zone-photo">
+            <input
+              class="visually-hidden"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              (change)="choisirPhotos($event)"
+            />
+            <span class="zone-photo-titre"
+              ><span aria-hidden="true">📷</span> Prendre / choisir des photos</span
+            >
+            <small>Appareil photo ou galerie du téléphone</small>
+          </label>
+          @if (progression(); as progression) {
+            <p class="alerte envoi-photos" role="status">
+              Envoi des photos : {{ progression.numero }} sur {{ progression.total }}… Restez sur
+              cette page.
+            </p>
+          }
+          @if (animal() === null && photosEnAttente()) {
+            <p class="champ-aide">Les photos seront envoyées à l'enregistrement de l'animal.</p>
+          }
+          @if (alertePhotos(); as message) {
+            <p class="alerte alerte-erreur" role="alert">{{ message }}</p>
+          }
+        </div>
+
+        <fieldset class="groupe-champ">
+          <legend class="champ-libelle">Espèce</legend>
+          <div class="choix-segmente">
+            @for (espece of especes; track espece) {
+              <label class="segment">
+                <input
+                  class="visually-hidden"
+                  type="radio"
+                  name="espece"
+                  formControlName="espece"
+                  [value]="espece"
+                  [attr.aria-invalid]="erreurs().espece ? true : null"
+                  [attr.aria-describedby]="decritPar('espece')"
+                />
+                {{ libelles.espece[espece] }}
+              </label>
+            }
+          </div>
+          @if (erreurs().espece; as message) {
+            <p id="formulaire-animal-espece-erreur" class="champ-erreur">{{ message }}</p>
+          }
+        </fieldset>
+
+        <div class="champ">
+          <label class="champ-libelle" for="formulaire-animal-nom">Nom</label>
+          <input
+            id="formulaire-animal-nom"
+            class="champ-saisie"
+            type="text"
+            autocomplete="off"
+            formControlName="nom"
+            [attr.aria-invalid]="erreurs().nom ? true : null"
+            [attr.aria-describedby]="decritPar('nom')"
+          />
+          @if (erreurs().nom; as message) {
+            <p id="formulaire-animal-nom-erreur" class="champ-erreur">{{ message }}</p>
+          }
+        </div>
+
+        <div class="deux-champs">
+          <div class="champ">
+            <label class="champ-libelle" for="formulaire-animal-age">Âge</label>
+            <select
+              id="formulaire-animal-age"
+              class="champ-saisie"
+              formControlName="age"
+              [attr.aria-invalid]="erreurs().age ? true : null"
+              [attr.aria-describedby]="decritPar('age')"
+            >
+              <option [ngValue]="null" disabled>Choisir</option>
+              @for (age of tranchesAge; track age) {
+                <option [ngValue]="age">{{ libelles.age[age] }}</option>
+              }
+            </select>
+            @if (erreurs().age; as message) {
+              <p id="formulaire-animal-age-erreur" class="champ-erreur">{{ message }}</p>
+            }
+          </div>
+          <div class="champ">
+            <label class="champ-libelle" for="formulaire-animal-taille">Taille</label>
+            <select
+              id="formulaire-animal-taille"
+              class="champ-saisie"
+              formControlName="taille"
+              [attr.aria-invalid]="erreurs().taille ? true : null"
+              [attr.aria-describedby]="decritPar('taille')"
+            >
+              <option [ngValue]="null" disabled>Choisir</option>
+              @for (taille of tailles; track taille) {
+                <option [ngValue]="taille">{{ libelles.taille[taille] }}</option>
+              }
+            </select>
+            @if (erreurs().taille; as message) {
+              <p id="formulaire-animal-taille-erreur" class="champ-erreur">{{ message }}</p>
+            }
+          </div>
+        </div>
+
+        <fieldset class="groupe-champ">
+          <legend class="champ-libelle">Sexe</legend>
+          <div class="choix-segmente">
+            @for (sexe of sexes; track sexe) {
+              <label class="segment">
+                <input
+                  class="visually-hidden"
+                  type="radio"
+                  name="sexe"
+                  formControlName="sexe"
+                  [value]="sexe"
+                  [attr.aria-invalid]="erreurs().sexe ? true : null"
+                  [attr.aria-describedby]="decritPar('sexe')"
+                />
+                {{ libelles.sexe[sexe] }}
+              </label>
+            }
+          </div>
+          @if (erreurs().sexe; as message) {
+            <p id="formulaire-animal-sexe-erreur" class="champ-erreur">{{ message }}</p>
+          }
+        </fieldset>
+
+        <fieldset class="groupe-champ">
+          <legend class="champ-libelle">Santé</legend>
+          @for (critere of criteresSante; track critere) {
+            <label class="case">
+              <input type="checkbox" [formControlName]="critere" />
+              {{ libelleSante(critere) }}
+            </label>
+          }
+        </fieldset>
+
+        <fieldset class="groupe-champ">
+          <legend class="champ-libelle">Ententes</legend>
+          @for (ligne of lignesEntente; track ligne.champ) {
+            <fieldset class="groupe-champ entente">
+              <legend class="entente-libelle">
+                <span aria-hidden="true">{{ ligne.icone }}</span> {{ ligne.libelle }}
+              </legend>
+              <div class="choix-segmente">
+                @for (entente of ententesPossibles; track entente) {
+                  <label class="segment">
+                    <input
+                      class="visually-hidden"
+                      type="radio"
+                      [attr.name]="ligne.champ"
+                      [formControlName]="ligne.champ"
+                      [value]="entente"
+                      [attr.aria-invalid]="erreurs()[ligne.champ] ? true : null"
+                      [attr.aria-describedby]="decritPar(ligne.champ)"
+                    />
+                    {{ libelles.entente[entente] }}
+                  </label>
+                }
+              </div>
+              @if (erreurs()[ligne.champ]; as message) {
+                <p [id]="'formulaire-animal-' + ligne.champ + '-erreur'" class="champ-erreur">
+                  {{ message }}
+                </p>
+              }
+            </fieldset>
+          }
+        </fieldset>
+
+        <div class="champ">
+          <label class="champ-libelle" for="formulaire-animal-description">Description</label>
+          <textarea
+            id="formulaire-animal-description"
+            class="champ-saisie"
+            rows="5"
+            formControlName="description"
+            [attr.aria-invalid]="erreurs().description ? true : null"
+            [attr.aria-describedby]="decritPar('description')"
+          ></textarea>
+          @if (erreurs().description; as message) {
+            <p id="formulaire-animal-description-erreur" class="champ-erreur">{{ message }}</p>
+          }
+        </div>
+
+        @if (alerte(); as message) {
+          <div class="alerte alerte-erreur" role="alert">
+            <p>{{ message }}</p>
+          </div>
+        }
+        @if (message(); as message) {
+          <p class="alerte alerte-succes" role="status">{{ message }}</p>
+        }
+
+        <button
+          type="submit"
+          class="bouton-pilule bouton-primaire bouton-gros bouton-envoi"
+          [disabled]="envoi()"
+        >
+          {{ envoi() ? 'Envoi…' : "Enregistrer l'animal" }}
+        </button>
+      </form>
+
+      @if (animal()) {
+        <button
+          type="button"
+          class="bouton-pilule bouton-contour-danger"
+          (click)="demanderSuppression($event)"
+        >
+          Supprimer l'animal
+        </button>
+      }
+    }
+  }
+</div>
+
+@if (retrait(); as retrait) {
+  <app-dialogue-confirmation
+    [phrase]="phraseRetrait(retrait)"
+    action="Retirer"
+    [occupe]="retraitEnCours()"
+    [origine]="retrait.origine"
+    (confirme)="confirmerRetrait()"
+    (retour)="annulerRetrait()"
+  />
+}
+
+@if (suppression(); as suppression) {
+  <app-dialogue-confirmation
+    [phrase]="phraseSuppression()"
+    action="Supprimer"
+    [occupe]="suppressionEnCours()"
+    [origine]="suppression.origine"
+    (confirme)="confirmerSuppression()"
+    (retour)="annulerSuppression()"
+  />
+}

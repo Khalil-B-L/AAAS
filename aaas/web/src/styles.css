@@ -424,3 +424,101 @@ h3 {
   padding-top: var(--spacing-5);
   border-top: var(--width-rule) solid var(--color-border);
 }
+
+/* ---------- Choix segmenté et case à cocher en ligne (DESIGN.md § Components) ---------- */
+/* Groupe de contrôles avec libellé (fieldset + legend), sans le cadre natif. */
+.groupe-champ {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.groupe-champ > legend {
+  margin-bottom: var(--spacing-2);
+  padding: 0;
+}
+
+/* Boutons radio égaux côte à côte ; le bouton natif est masqué, l'étiquette porte le visuel. */
+.choix-segmente {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.segment {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: var(--spacing-2);
+  border: var(--width-rule) solid var(--color-border-control);
+  border-radius: var(--rounded-md);
+  background: var(--color-surface);
+  font-weight: var(--font-weight-label);
+  text-align: center;
+  cursor: pointer;
+}
+
+.segment:has(:checked) {
+  border-color: var(--color-primary);
+  background: var(--color-success-soft);
+  color: var(--color-primary);
+}
+
+.segment:has(:focus-visible) {
+  outline: var(--width-active-link) solid var(--color-primary);
+  outline-offset: var(--width-rule);
+}
+
+.segment:has([aria-invalid='true']) {
+  border-color: var(--color-danger);
+}
+
+.case {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  min-height: var(--tap-min);
+  padding: var(--spacing-2) var(--spacing-4);
+  border: var(--width-rule) solid var(--color-border-control);
+  border-radius: var(--rounded-md);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+}
+
+.case:has(:checked) {
+  border-color: var(--color-primary);
+}
+
+/* Carré 24 px arrondi 7 px ; coché : plein vert, coche blanche. */
+.case input {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  border: var(--width-rule) solid var(--color-border-control);
+  border-radius: 7px;
+  background: var(--color-surface);
+  appearance: none;
+  cursor: pointer;
+}
+
+.case input:checked {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.case input:checked::before {
+  content: '✓';
+  color: var(--color-on-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-label);
+  line-height: 1;
+}

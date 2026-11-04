@@ -1,11 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { AnimalCarteDto, CollectionDto } from './api/animal.dto';
+import {
+  AnimalCarteDto,
+  AnimalDetailDto,
+  AnimalEcritureDto,
+  CollectionDto,
+  PhotoDto,
+} from './api/animal.dto';
 
 /**
- * Client de la gestion des animaux côté admin (`/api/admin/animaux`, contrats-api.md §4). L'appelant décide quoi
- * faire d'un échec. Le formulaire (création, modification, photos) complètera ce service.
+ * Client de la gestion des animaux côté admin (`/api/admin/animaux`, contrats-api.md §4) : liste, fiche, création,
+ * modification, suppression et photos. L'appelant décide quoi faire d'un échec (`HttpErrorResponse`).
  */
 @Injectable({ providedIn: 'root' })
 export class AdminAnimauxService {
@@ -16,11 +22,44 @@ export class AdminAnimauxService {
     return firstValueFrom(this.http.get<CollectionDto<AnimalCarteDto>>('/api/admin/animaux'));
   }
 
+  /** Fiche complète d'un animal (`GET /api/admin/animaux/:id`) ; id inconnu → 404. */
+  obtenir(id: number): Promise<AnimalDetailDto> {
+    return firstValueFrom(this.http.get<AnimalDetailDto>(`/api/admin/animaux/${id}`));
+  }
+
+  /** Crée l'animal, statut Disponible (`POST /api/admin/animaux` → 201) ; champ invalide → 400 `errors`. */
+  creer(animal: AnimalEcritureDto): Promise<AnimalDetailDto> {
+    return firstValueFrom(this.http.post<AnimalDetailDto>('/api/admin/animaux', animal));
+  }
+
+  /**
+   * Remplace les 12 champs d'édition (`PUT /api/admin/animaux/:id` → 200) ; 400 `errors`, 404, 409
+   * `modifie-ailleurs` si l'animal a changé entre-temps.
+   */
+  modifier(id: number, animal: AnimalEcritureDto): Promise<AnimalDetailDto> {
+    return firstValueFrom(this.http.put<AnimalDetailDto>(`/api/admin/animaux/${id}`, animal));
+  }
+
   /**
    * Supprime l'animal, sa fiche et ses photos (`DELETE /api/admin/animaux/:id` → 204). Rejette avec une
    * `HttpErrorResponse` 409 `animal-a-des-reservations` s'il a des réservations, 404 s'il n'existe plus.
    */
   async supprimer(id: number): Promise<void> {
     await firstValueFrom(this.http.delete<void>(`/api/admin/animaux/${id}`));
+  }
+
+  /**
+   * Ajoute une photo en dernière position (`POST /api/admin/animaux/:id/photos`, multipart, champ `fichier` → 201).
+   * Type, taille et nombre sont vérifiés par l'API : refus → 400 `errors.fichier`.
+   */
+  ajouterPhoto(id: number, fichier: File): Promise<PhotoDto> {
+    const corps = new FormData();
+    corps.append('fichier', fichier);
+    return firstValueFrom(this.http.post<PhotoDto>(`/api/admin/animaux/${id}/photos`, corps));
+  }
+
+  /** Retire une photo (`DELETE /api/admin/animaux/:id/photos/:photoId` → 204). */
+  async supprimerPhoto(id: number, photoId: number): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`/api/admin/animaux/${id}/photos/${photoId}`));
   }
 }

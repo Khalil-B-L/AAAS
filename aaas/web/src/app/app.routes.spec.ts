@@ -37,7 +37,10 @@ describe('routes (contrats-api.md §7)', () => {
   });
 
   /** Titre d'onglet (sans « · AAAS ») des pages dont il diffère du titre affiché. */
-  const onglets: Readonly<Record<string, string>> = { '/admin/animaux': 'Admin · Animaux' };
+  const onglets: Readonly<Record<string, string>> = {
+    '/admin/animaux': 'Admin · Animaux',
+    '/admin/animaux/nouveau': 'Admin · Ajouter un animal',
+  };
 
   const pages: readonly (readonly [string, string])[] = [
     ['/adopter', 'Adopter'],
@@ -55,8 +58,7 @@ describe('routes (contrats-api.md §7)', () => {
     ['/mes-favoris', 'Mes favoris'],
     ['/admin/reservations?statut=EnAttente', 'Admin · Réservations'],
     ['/admin/animaux', 'Animaux'],
-    ['/admin/animaux/nouveau', 'Admin · Ajouter un animal'],
-    ['/admin/animaux/7', 'Admin · Modifier un animal'],
+    ['/admin/animaux/nouveau', 'Ajouter un animal'],
     ['/admin/actualites', 'Admin · Actualités'],
     ['/acces-refuse', "Cette page est réservée à l'association."],
   ];
@@ -80,6 +82,21 @@ describe('routes (contrats-api.md §7)', () => {
     expect(TestBed.inject(Router).url).toBe('/animaux/7');
     expect(harnais.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe('Caramel');
     expect(TestBed.inject(Title).getTitle()).toBe('Caramel · AAAS');
+  });
+
+  it('/admin/animaux/7 affiche le formulaire de modification, titre « Admin · Modifier [Nom] · AAAS »', async () => {
+    await connecterEnTantQue('Admin');
+
+    await harnais.navigateByUrl('/admin/animaux/7');
+    http.expectOne('/api/admin/animaux/7').flush(ficheCaramel);
+    await new Promise((resolve) => setTimeout(resolve));
+    harnais.detectChanges();
+
+    expect(TestBed.inject(Router).url).toBe('/admin/animaux/7');
+    expect(harnais.routeNativeElement?.querySelector('h1')?.textContent?.trim()).toBe(
+      'Modifier Caramel',
+    );
+    expect(TestBed.inject(Title).getTitle()).toBe('Admin · Modifier Caramel · AAAS');
   });
 
   it("/ affiche l'accueil", async () => {

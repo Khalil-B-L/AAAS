@@ -65,6 +65,25 @@ export interface AnimalDetailDto extends AnimalCarteDto {
 }
 
 /**
+ * Corps de `POST` et `PUT /api/admin/animaux` : exactement les 12 champs d'édition, jamais de statut
+ * (contrats-api.md §6). L'API trime `nom` et `description`.
+ */
+export interface AnimalEcritureDto {
+  nom: string;
+  espece: Espece;
+  sexe: Sexe;
+  age: TrancheAge;
+  taille: Taille;
+  description: string;
+  vaccine: boolean;
+  sterilise: boolean;
+  puce: boolean;
+  ententeEnfants: Entente;
+  ententeChiens: Entente;
+  ententeChats: Entente;
+}
+
+/**
  * Filtres de `GET /api/animaux` (contrats-api.md §2), mêmes noms que les paramètres ; combinés en ET.
  * Une entente à `Oui` garde les animaux dont l'entente vaut Oui ou À voir.
  */
