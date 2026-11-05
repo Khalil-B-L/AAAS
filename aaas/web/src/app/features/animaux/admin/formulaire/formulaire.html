@@ -27,6 +27,57 @@
         }
       </h1>
 
+      @if (animal(); as animal) {
+        <section class="statut formulaire" aria-label="Statut">
+          <fieldset class="groupe-champ">
+            <legend class="champ-libelle">
+              Statut <app-pastille-statut [statut]="animal.statut" />
+            </legend>
+            <div class="choix-segmente">
+              @for (statut of statutsAnimal; track statut) {
+                <label class="segment">
+                  <input
+                    class="visually-hidden"
+                    type="radio"
+                    name="statut"
+                    [value]="statut"
+                    [checked]="statutChoisi() === statut"
+                    [disabled]="statut === 'Reserve' || animal.statut === 'Reserve'"
+                    [attr.aria-describedby]="
+                      animal.statut === 'Reserve' ? 'formulaire-animal-statut-reserve' : null
+                    "
+                    (change)="statutChoisi.set(statut)"
+                  />
+                  {{ libelles.statut[statut] }}
+                </label>
+              }
+            </div>
+            @if (animal.statut === 'Reserve') {
+              <p id="formulaire-animal-statut-reserve" class="champ-aide">
+                Réservé : traitez d'abord sa réservation dans
+                <a routerLink="/admin/reservations">Admin · Réservations</a>.
+              </p>
+            }
+          </fieldset>
+          @if (alerteStatut(); as message) {
+            <p class="alerte alerte-erreur" role="alert">{{ message }}</p>
+          }
+          @if (messageStatut(); as message) {
+            <p class="alerte alerte-succes" role="status">{{ message }}</p>
+          }
+          <button
+            type="button"
+            class="bouton-pilule bouton-contour"
+            [disabled]="!statutChangeable() || statutEnCours() || envoi()"
+            (click)="changerStatut()"
+          >
+            {{ statutEnCours() ? 'Envoi…' : 'Changer le statut' }}
+          </button>
+        </section>
+      } @else {
+        <p>Statut : {{ libelles.statut.Disponible }}</p>
+      }
+
       <form class="formulaire" [formGroup]="formulaire" (ngSubmit)="envoyer()" novalidate>
         <div class="champ">
           <span class="champ-libelle" id="formulaire-animal-photos">
@@ -286,7 +337,7 @@
         <button
           type="submit"
           class="bouton-pilule bouton-primaire bouton-gros bouton-envoi"
-          [disabled]="envoi()"
+          [disabled]="envoi() || statutEnCours()"
         >
           {{ envoi() ? 'Envoi…' : "Enregistrer l'animal" }}
         </button>

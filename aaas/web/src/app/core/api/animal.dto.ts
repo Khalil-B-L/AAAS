@@ -84,6 +84,15 @@ export interface AnimalEcritureDto {
 }
 
 /**
+ * Corps de `POST /api/admin/animaux/:id/statut` (contrats-api.md §6) : statut forcé (jamais Réservé) et statut
+ * effectif lu par l'admin ; s'il a changé entre-temps → 409 `modifie-ailleurs`.
+ */
+export interface StatutAnimalDto {
+  statut: Exclude<StatutAnimal, 'Reserve'>;
+  statutAttendu: StatutAnimal;
+}
+
+/**
  * Filtres de `GET /api/animaux` (contrats-api.md §2), mêmes noms que les paramètres ; combinés en ET.
  * Une entente à `Oui` garde les animaux dont l'entente vaut Oui ou À voir.
  */

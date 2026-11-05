@@ -7,11 +7,13 @@ import {
   AnimalEcritureDto,
   CollectionDto,
   PhotoDto,
+  StatutAnimal,
+  StatutAnimalDto,
 } from './api/animal.dto';
 
 /**
  * Client de la gestion des animaux côté admin (`/api/admin/animaux`, contrats-api.md §4) : liste, fiche, création,
- * modification, suppression et photos. L'appelant décide quoi faire d'un échec (`HttpErrorResponse`).
+ * modification, statut forcé, suppression et photos. L'appelant décide quoi faire d'un échec (`HttpErrorResponse`).
  */
 @Injectable({ providedIn: 'root' })
 export class AdminAnimauxService {
@@ -38,6 +40,21 @@ export class AdminAnimauxService {
    */
   modifier(id: number, animal: AnimalEcritureDto): Promise<AnimalDetailDto> {
     return firstValueFrom(this.http.put<AnimalDetailDto>(`/api/admin/animaux/${id}`, animal));
+  }
+
+  /**
+   * Force le statut (`POST /api/admin/animaux/:id/statut` → 200 `AnimalDetailDto`) ; `statutAttendu` = statut effectif
+   * affiché. 404 ; 409 `reservation-active` (réservation en cours) ou `modifie-ailleurs` (statut changé entre-temps).
+   */
+  forcerStatut(
+    id: number,
+    statut: StatutAnimalDto['statut'],
+    statutAttendu: StatutAnimal,
+  ): Promise<AnimalDetailDto> {
+    const corps: StatutAnimalDto = { statut, statutAttendu };
+    return firstValueFrom(
+      this.http.post<AnimalDetailDto>(`/api/admin/animaux/${id}/statut`, corps),
+    );
   }
 
   /**

@@ -72,6 +72,7 @@ describe('Admin · formulaire animal (/admin/animaux/nouveau, /admin/animaux/:id
     supprimer: ReturnType<typeof vi.fn>;
     ajouterPhoto: ReturnType<typeof vi.fn>;
     supprimerPhoto: ReturnType<typeof vi.fn>;
+    forcerStatut: ReturnType<typeof vi.fn>;
   };
   let harnais: RouterTestingHarness;
   let page: HTMLElement;
@@ -87,6 +88,7 @@ describe('Admin · formulaire animal (/admin/animaux/nouveau, /admin/animaux/:id
       supprimer: vi.fn().mockResolvedValue(undefined),
       ajouterPhoto: vi.fn(),
       supprimerPhoto: vi.fn().mockResolvedValue(undefined),
+      forcerStatut: vi.fn(),
     };
     // jsdom n'implémente pas les URL `blob:` des aperçus.
     URL.createObjectURL = vi.fn((fichier: Blob) => `blob:${(fichier as File).name}`);
@@ -178,7 +180,7 @@ describe('Admin · formulaire animal (/admin/animaux/nouveau, /admin/animaux/:id
   }
 
   describe('ajout', () => {
-    it('titre « Ajouter un animal », onglet, lien « ← Animaux », champs sans statut', async () => {
+    it('titre « Ajouter un animal », onglet, lien « ← Animaux », « Statut : Disponible » sans choix', async () => {
       await ouvrir('/admin/animaux/nouveau');
 
       expect(h1()).toBe('Ajouter un animal');
@@ -203,7 +205,9 @@ describe('Admin · formulaire animal (/admin/animaux/nouveau, /admin/animaux/:id
         'Stérilisé(e)',
         'Pucé(e)',
       ]);
-      expect(page.textContent).not.toContain('Statut');
+      expect(page.textContent).toContain('Statut : Disponible');
+      expect(radios('statut')).toEqual([]);
+      expect(bouton('Changer le statut')).toBeUndefined();
       expect(bouton("Enregistrer l'animal")?.type).toBe('submit');
       expect(bouton("Supprimer l'animal")).toBeUndefined();
       expect(service.obtenir).not.toHaveBeenCalled();
@@ -575,6 +579,241 @@ describe('Admin · formulaire animal (/admin/animaux/nouveau, /admin/animaux/:id
       expect(dialogue()).toBeNull();
       expect(service.supprimerPhoto).not.toHaveBeenCalled();
       expect(images()).toHaveLength(3);
+    });
+  });
+
+  describe('statut forcé', () => {
+    const ficheAdoptee = ficheAnimal({ statut: 'Adopte', adopteLe: '2026-11-04T10:00:00Z' });
+    const coches = () => radios('statut').map((r) => r.checked);
+    const pastille = () => page.querySelector('app-pastille-statut')?.textContent?.trim();
+    const changer = () => bouton('Changer le statut')!;
+    const statut = () => page.querySelector('.statut [role="status"]')?.textContent?.trim();
+    const alerteStatut = () => page.querySelector('.statut [role="alert"]')?.textContent?.trim();
+
+    async function choisir(index: number): Promise<void> {
+      radios('statut')[index].click();
+      await stabiliser();
+    }
+
+    it('choix Disponible / Réservé / Adopté présélectionné, Réservé désactivé, bouton inactif', async () => {
+      await ouvrir('/admin/animaux/7');
+
+      expect(radios('statut').map((r) => r.parentElement?.textContent?.trim())).toEqual([
+        'Disponible',
+        'Réservé',
+        'Adopté',
+      ]);
+      expect(coches()).toEqual([true, false, false]);
+      expect(radios('statut').map((r) => r.disabled)).toEqual([false, true, false]);
+      expect(pastille()).toBe('Disponible');
+      expect(changer().type).toBe('button');
+      expect(changer().disabled).toBe(true);
+      changer().click();
+      await stabiliser();
+      expect(service.forcerStatut).not.toHaveBeenCalled();
+    });
+
+    it('adopter : POST { Adopte, Disponible }, statut et pastille à jour, champs saisis conservés', async () => {
+      service.forcerStatut.mockResolvedValue(ficheAdoptee);
+      await ouvrir('/admin/animaux/7');
+      saisir('nom', 'Caramelle');
+
+      await choisir(2);
+      expect(service.forcerStatut).not.toHaveBeenCalled();
+      expect(changer().disabled).toBe(false);
+      changer().click();
+      await stabiliser();
+
+      expect(service.forcerStatut).toHaveBeenCalledExactlyOnceWith(7, 'Adopte', 'Disponible');
+      expect(service.modifier).not.toHaveBeenCalled();
+      expect(statut()).toBe('Statut enregistré : Adopté.');
+      expect(pastille()).toBe('Adopté');
+      expect(coches()).toEqual([false, false, true]);
+      expect(changer().disabled).toBe(true);
+      expect(h1()).toBe('Modifier Caramel');
+      expect(titreOnglet()).toBe('Admin · Modifier Caramel · AAAS');
+      expect(champ('nom').value).toBe('Caramelle');
+    });
+
+    it('remettre disponible : POST { Disponible, Adopte }', async () => {
+      service.obtenir.mockResolvedValue(ficheAdoptee);
+      service.forcerStatut.mockResolvedValue(ficheCaramel);
+      await ouvrir('/admin/animaux/7');
+      expect(coches()).toEqual([false, false, true]);
+
+      await choisir(0);
+      changer().click();
+      await stabiliser();
+
+      expect(service.forcerStatut).toHaveBeenCalledExactlyOnceWith(7, 'Disponible', 'Adopte');
+      expect(pastille()).toBe('Disponible');
+      expect(statut()).toBe('Statut enregistré : Disponible.');
+    });
+
+    it('sélection revenue sur le statut chargé : bouton inactif, aucun appel', async () => {
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      await choisir(0);
+
+      expect(changer().disabled).toBe(true);
+      expect(service.forcerStatut).not.toHaveBeenCalled();
+    });
+
+    it('clavier : la flèche change la sélection sans rien appeler', async () => {
+      await ouvrir('/admin/animaux/7');
+
+      // Ce que fait le navigateur sur une flèche dans le groupe : coche l'option voisine et émet `change`.
+      const adopte = radios('statut')[2];
+      adopte.checked = true;
+      adopte.dispatchEvent(new Event('change'));
+      await stabiliser();
+
+      expect(coches()).toEqual([false, false, true]);
+      expect(changer().disabled).toBe(false);
+      expect(service.forcerStatut).not.toHaveBeenCalled();
+    });
+
+    it('animal Réservé : trois options désactivées, phrase vers Admin · Réservations, bouton inactif', async () => {
+      service.obtenir.mockResolvedValue(ficheAnimal({ statut: 'Reserve' }));
+      await ouvrir('/admin/animaux/7');
+
+      expect(coches()).toEqual([false, true, false]);
+      expect(radios('statut').every((r) => r.disabled)).toBe(true);
+      const phrase = page.querySelector('#formulaire-animal-statut-reserve')!;
+      expect(phrase.textContent?.replace(/\s+/g, ' ').trim()).toBe(
+        "Réservé : traitez d'abord sa réservation dans Admin · Réservations.",
+      );
+      expect(phrase.querySelector('a')?.getAttribute('href')).toBe('/admin/reservations');
+      expect(radios('statut')[0].getAttribute('aria-describedby')).toBe(
+        'formulaire-animal-statut-reserve',
+      );
+      expect(pastille()).toBe('Réservé');
+      expect(changer().disabled).toBe(true);
+    });
+
+    for (const code of ['reservation-active', 'modifie-ailleurs']) {
+      it(`409 ${code} : GET rejoué, formulaire rechargé, alerte avec le message de l’API`, async () => {
+        const message = `Message de l’API (${code}).`;
+        service.forcerStatut.mockRejectedValue(erreurHttp(409, { error: message, code }));
+        await ouvrir('/admin/animaux/7');
+        service.obtenir.mockResolvedValue(
+          ficheAnimal({ nom: 'Caramel la douce', statut: 'Reserve' }),
+        );
+        saisir('nom', 'Caramelle');
+
+        await choisir(2);
+        changer().click();
+        await stabiliser();
+
+        expect(service.obtenir).toHaveBeenCalledTimes(2);
+        expect(alerteStatut()).toBe(message);
+        expect(champ('nom').value).toBe('Caramel la douce');
+        expect(pastille()).toBe('Réservé');
+        expect(coches()).toEqual([false, true, false]);
+        expect(changer().disabled).toBe(true);
+      });
+    }
+
+    it('404 : « Animal introuvable »', async () => {
+      service.forcerStatut.mockRejectedValue(erreurHttp(404, { error: 'Introuvable.' }));
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      changer().click();
+      await stabiliser();
+
+      expect(h1()).toBe('Animal introuvable');
+    });
+
+    it('échec 500 : alerte générique, sélection remise sur le statut chargé, erreur journalisée', async () => {
+      const journal = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      service.forcerStatut.mockRejectedValue(erreurHttp(500, null));
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      changer().click();
+      await stabiliser();
+
+      expect(alerteStatut()).toBe(
+        "Le changement de statut n'a pas abouti. Vérifiez votre connexion et réessayez.",
+      );
+      expect(coches()).toEqual([true, false, false]);
+      expect(pastille()).toBe('Disponible');
+      expect(service.obtenir).toHaveBeenCalledTimes(1);
+      expect(journal).toHaveBeenCalled();
+    });
+
+    it('appel en cours : bouton « Envoi… » désactivé, pas de double envoi', async () => {
+      const reponse = differe<AnimalDetailDto>();
+      service.forcerStatut.mockReturnValue(reponse.promesse);
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      changer().click();
+      await stabiliser();
+      const occupe = bouton('Envoi…', page.querySelector('.statut')!)!;
+      expect(occupe.disabled).toBe(true);
+      occupe.click();
+      await stabiliser();
+      expect(service.forcerStatut).toHaveBeenCalledTimes(1);
+
+      reponse.resoudre(ficheAdoptee);
+      await stabiliser();
+      expect(changer().disabled).toBe(true);
+      expect(pastille()).toBe('Adopté');
+    });
+
+    it('statut en cours : « Enregistrer l’animal » désactivé, aucun PUT', async () => {
+      const reponse = differe<AnimalDetailDto>();
+      service.forcerStatut.mockReturnValue(reponse.promesse);
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      changer().click();
+      await stabiliser();
+      expect(bouton("Enregistrer l'animal")!.disabled).toBe(true);
+      await envoyer();
+      expect(service.modifier).not.toHaveBeenCalled();
+
+      reponse.resoudre(ficheAdoptee);
+      await stabiliser();
+      expect(bouton("Enregistrer l'animal")!.disabled).toBe(false);
+    });
+
+    it('PUT en cours : « Changer le statut » désactivé, aucun POST', async () => {
+      const reponse = differe<AnimalDetailDto>();
+      service.modifier.mockReturnValue(reponse.promesse);
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      await envoyer();
+      expect(service.modifier).toHaveBeenCalledTimes(1);
+      expect(changer().disabled).toBe(true);
+      changer().click();
+      await stabiliser();
+      expect(service.forcerStatut).not.toHaveBeenCalled();
+
+      reponse.resoudre(ficheCaramel);
+      await stabiliser();
+      expect(service.forcerStatut).not.toHaveBeenCalled();
+    });
+
+    it('PUT réussi après un statut : le message de statut disparaît', async () => {
+      service.forcerStatut.mockResolvedValue(ficheAdoptee);
+      service.modifier.mockResolvedValue(ficheAnimal({ statut: 'Adopte', nom: 'Caramelle' }));
+      await ouvrir('/admin/animaux/7');
+
+      await choisir(2);
+      changer().click();
+      await stabiliser();
+      expect(statut()).toBe('Statut enregistré : Adopté.');
+
+      saisir('nom', 'Caramelle');
+      await envoyer();
+
+      expect(statut()).toBeUndefined();
+      expect(alerteStatut()).toBeUndefined();
     });
   });
 

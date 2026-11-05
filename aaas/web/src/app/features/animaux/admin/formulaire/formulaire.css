@@ -165,3 +165,12 @@
   color: var(--color-success);
   font-weight: var(--font-weight-label);
 }
+
+/* Statut forcé : bouton à sa largeur, phrase « Réservé » sous le choix. */
+.statut > .bouton-pilule {
+  align-self: flex-start;
+}
+
+.statut .champ-aide {
+  margin-top: var(--spacing-2);
+}

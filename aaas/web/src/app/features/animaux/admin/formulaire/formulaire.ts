@@ -8,6 +8,7 @@ import {
   afterNextRender,
   computed,
   inject,
+  linkedSignal,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,6 +26,7 @@ import {
   PhotoDto,
   SEXES,
   Sexe,
+  StatutAnimal,
   TAILLES,
   TRANCHES_AGE,
   Taille,
@@ -39,9 +41,11 @@ import {
   LIBELLES_ESPECE,
   LIBELLES_SANTE,
   LIBELLES_SEXE,
+  LIBELLES_STATUT_ANIMAL,
   LIBELLES_TAILLE,
   LIBELLES_TRANCHE_AGE,
 } from '../../../../shared/libelles';
+import { PastilleStatut } from '../../../../shared/pastille-statut/pastille-statut';
 import { interpreterErreur } from '../../../auth/erreurs-formulaire';
 
 /** Les 12 champs d'`AnimalEcritureDto`, clés des erreurs `errors.<champ>` de l'API. */
@@ -87,6 +91,7 @@ const MESSAGES = {
 
 const CODE_MODIFIE_AILLEURS = 'modifie-ailleurs';
 const CODE_A_DES_RESERVATIONS = 'animal-a-des-reservations';
+const CODE_RESERVATION_ACTIVE = 'reservation-active';
 
 const MESSAGE_CREE = 'Animal enregistré.';
 const MESSAGE_MODIFIE = 'Modifications enregistrées.';
@@ -99,6 +104,8 @@ const MESSAGE_ENVOI_PHOTO =
 const MESSAGE_RETRAIT_PHOTO =
   "Le retrait de la photo n'a pas abouti. Vérifiez votre connexion et réessayez.";
 const MESSAGE_SUPPRESSION = "La suppression n'a pas abouti. Vérifiez votre connexion et réessayez.";
+const MESSAGE_STATUT =
+  "Le changement de statut n'a pas abouti. Vérifiez votre connexion et réessayez.";
 
 const TITRE_AJOUT = 'Admin · Ajouter un animal · AAAS';
 const TITRE_MODIFICATION = 'Admin · Modifier un animal · AAAS';
@@ -152,11 +159,12 @@ let prochaineCle = 0;
  * l'ordre (`POST …/photos`), chaque échec renvoyable seul. Création : `POST` puis envoi des photos en attente,
  * l'adresse devient `/admin/animaux/:id` sans quitter la page. Modification : `GET`, photos envoyées dès leur choix,
  * `PUT` ; 409 `modifie-ailleurs` → formulaire rechargé avec une alerte. Retrait d'une photo enregistrée et
- * suppression de l'animal après le dialogue de confirmation. Jamais de statut ici (forçage : liste admin).
+ * suppression de l'animal après le dialogue de confirmation. Le statut ne passe jamais par le `PUT` : en modification,
+ * section dédiée (`POST …/statut`, voir « Statut forcé »).
  */
 @Component({
   selector: 'app-admin-animal-formulaire',
-  imports: [ReactiveFormsModule, RouterLink, DialogueConfirmation],
+  imports: [ReactiveFormsModule, RouterLink, DialogueConfirmation, PastilleStatut],
   templateUrl: './formulaire.html',
   styleUrl: './formulaire.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -182,6 +190,7 @@ export class AdminAnimalFormulaire {
     age: LIBELLES_TRANCHE_AGE,
     taille: LIBELLES_TAILLE,
     entente: LIBELLES_ENTENTE,
+    statut: LIBELLES_STATUT_ANIMAL,
   };
   protected readonly lignesEntente = [
     { champ: 'ententeEnfants', icone: '👧', libelle: 'Enfants' },
@@ -224,6 +233,24 @@ export class AdminAnimalFormulaire {
   /** Suppression de l'animal en attente de confirmation : bouton d'origine du dialogue. */
   protected readonly suppression = signal<{ readonly origine: HTMLElement | null } | null>(null);
   protected readonly suppressionEnCours = signal(false);
+
+  // --- Statut forcé (modification seulement, `POST …/statut`) ---
+  protected readonly statutsAnimal: readonly StatutAnimal[] = ['Disponible', 'Reserve', 'Adopte'];
+  /** Option choisie ; revient au statut effectif chargé à chaque animal affiché (chargement, PUT, statut). */
+  protected readonly statutChoisi = linkedSignal<StatutAnimal>(
+    () => this.animal()?.statut ?? 'Disponible',
+  );
+  protected readonly statutEnCours = signal(false);
+  protected readonly alerteStatut = signal<string | null>(null);
+  protected readonly messageStatut = signal<string | null>(null);
+  /** « Changer le statut » actif : choix forçable, différent du statut chargé, animal non Réservé. */
+  protected readonly statutChangeable = computed(() => {
+    const statut = this.animal()?.statut;
+    const choisi = this.statutChoisi();
+    return (
+      statut !== undefined && statut !== 'Reserve' && choisi !== 'Reserve' && choisi !== statut
+    );
+  });
 
   /** Enregistrées par `ordre` puis locales : la première est la photo principale. */
   protected readonly vignettes = computed((): readonly Vignette[] => [
@@ -306,7 +333,7 @@ export class AdminAnimalFormulaire {
   }
 
   protected async envoyer(): Promise<void> {
-    if (this.envoi()) {
+    if (this.envoi() || this.statutEnCours()) {
       return;
     }
     this.message.set(null);
@@ -464,6 +491,64 @@ export class AdminAnimalFormulaire {
     await this.router.navigateByUrl('/admin/animaux');
   }
 
+  /**
+   * « Changer le statut » : `statut` = option choisie, `statutAttendu` = statut chargé. Succès → animal à jour (statut,
+   * pastille, titre) sans toucher aux champs saisis ; 409 `reservation-active` / `modifie-ailleurs` → formulaire
+   * rechargé puis message de l'API ; 404 → introuvable ; autre échec → choix remis sur le statut chargé.
+   */
+  protected async changerStatut(): Promise<void> {
+    const animal = this.animal();
+    const statut = this.statutChoisi();
+    if (
+      animal === null ||
+      this.statutEnCours() ||
+      this.envoi() ||
+      !this.statutChangeable() ||
+      statut === 'Reserve'
+    ) {
+      return;
+    }
+    this.statutEnCours.set(true);
+    this.alerteStatut.set(null);
+    this.messageStatut.set(null);
+    try {
+      const maj = await this.service.forcerStatut(animal.id, statut, animal.statut);
+      if (this.animal()?.id === maj.id) {
+        this.animal.set(maj);
+        this.titre.setTitle(`Admin · Modifier ${maj.nom} · AAAS`);
+        this.messageStatut.set(`Statut enregistré : ${LIBELLES_STATUT_ANIMAL[maj.statut]}.`);
+      }
+    } catch (erreur) {
+      const code = erreur instanceof HttpErrorResponse ? erreur.status : null;
+      const api = lireErreurApi(erreur);
+      if (this.animal()?.id !== animal.id) {
+        // Autre animal ouvert entre-temps : la réponse ne le concerne pas.
+        console.error(
+          'Changement de statut abandonné (POST /api/admin/animaux/:id/statut).',
+          erreur,
+        );
+      } else if (
+        code === 409 &&
+        api !== null &&
+        (api.code === CODE_RESERVATION_ACTIVE || api.code === CODE_MODIFIE_AILLEURS)
+      ) {
+        await this.charger(animal.id);
+        this.alerteStatut.set(api.error);
+      } else if (code === 404) {
+        this.introuvable();
+      } else {
+        console.error(
+          'Impossible de changer le statut (POST /api/admin/animaux/:id/statut).',
+          erreur,
+        );
+        this.statutChoisi.set(this.animal()?.statut ?? animal.statut);
+        this.alerteStatut.set(MESSAGE_STATUT);
+      }
+    } finally {
+      this.statutEnCours.set(false);
+    }
+  }
+
   private ouvrir(texte: string | null): void {
     if (texte === null) {
       this.reinitialiser();
@@ -514,6 +599,8 @@ export class AdminAnimalFormulaire {
 
   /** Affiche l'animal enregistré : champs, titre d'onglet et, si demandé, ses photos. */
   private afficher(animal: AnimalDetailDto, avecPhotos: boolean): void {
+    this.alerteStatut.set(null);
+    this.messageStatut.set(null);
     this.animal.set(animal);
     this.formulaire.setValue({
       nom: animal.nom,
@@ -677,6 +764,8 @@ export class AdminAnimalFormulaire {
     this.alerte.set(null);
     this.message.set(null);
     this.alertePhotos.set(null);
+    this.alerteStatut.set(null);
+    this.messageStatut.set(null);
     this.retrait.set(null);
     this.suppression.set(null);
   }

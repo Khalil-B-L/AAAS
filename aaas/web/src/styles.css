@@ -479,6 +479,13 @@ h3 {
   border-color: var(--color-danger);
 }
 
+/* Option non disponible (statut Réservé) : atténuée, l'option cochée reste lisible. */
+.segment:has(:disabled) {
+  border-style: dashed;
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
 .case {
   display: flex;
   align-items: center;

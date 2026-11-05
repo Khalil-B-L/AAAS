@@ -173,4 +173,34 @@ describe('AdminAnimauxService', () => {
 
     await expect(appel).resolves.toBeUndefined();
   });
+
+  it('forcerStatut(id, statut, statutAttendu) appelle POST /api/admin/animaux/:id/statut', async () => {
+    const adoptee = {
+      ...ficheCaramel,
+      statut: 'Adopte' as const,
+      adopteLe: '2026-11-04T10:00:00Z',
+    };
+    const appel = service.forcerStatut(7, 'Adopte', 'Disponible');
+    const requete = http.expectOne('/api/admin/animaux/7/statut');
+    expect(requete.request.method).toBe('POST');
+    expect(requete.request.body).toEqual({ statut: 'Adopte', statutAttendu: 'Disponible' });
+    requete.flush(adoptee);
+
+    await expect(appel).resolves.toEqual(adoptee);
+  });
+
+  it('forcerStatut rejette sur 409 reservation-active avec le corps de l’API', async () => {
+    const corps = {
+      error: 'Caramel a une réservation en cours : traitez-la d’abord.',
+      code: 'reservation-active',
+    };
+    const appel = service.forcerStatut(7, 'Adopte', 'Disponible');
+    http
+      .expectOne('/api/admin/animaux/7/statut')
+      .flush(corps, { status: 409, statusText: 'Conflict' });
+
+    const erreur: unknown = await appel.catch((e: unknown) => e);
+    expect(erreur).toMatchObject({ status: 409 });
+    expect(lireErreurApi(erreur)).toEqual(corps);
+  });
 });
